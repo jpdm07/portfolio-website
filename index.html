@@ -5,131 +5,152 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jane Chavez</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
     body {
       scroll-behavior: smooth;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    /* Hero section enhancements */
-    .hero-section {
       background-color: #f8f9fa;
-      padding-top: 6rem;
-      padding-bottom: 6rem;
     }
 
-    .hero-section h1 {
-      font-size: 2.5rem;
-      line-height: 1.2;
+    .hero-section {
+      padding: 6rem 0;
     }
 
-    .hero-section p.fs-5 {
-      color: #6c757d;
-      margin-bottom: 2rem;
+    .btn-custom {
+      background-color: #a5d8ff;
+      color: #1c2a39;
+      border-radius: 8px;
+      border: none;
     }
 
-    /* Button hover effects */
+    .btn-custom:hover {
+      background-color: #74c0fc;
+      color: #1c2a39;
+    }
+
     .btn:hover {
       transform: scale(1.05);
       transition: 0.2s;
     }
 
-    /* Project section enhancements */
-    #projects h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
+    #projects {
+      padding-top: 4rem;
     }
 
-    #projects .text-muted {
-      font-size: 1rem;
-      line-height: 1.6;
+    #projects .row {
+      margin-bottom: 3rem;
     }
 
-    #projects h3 {
-      margin-top: 2rem;
-      margin-bottom: 0.5rem;
+    .project-card {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.08);
+  transition: all 0.25s ease;
+  margin-bottom: 2rem;
     }
 
-    #projects p,
-    #projects ul {
-      line-height: 1.6;
+    .project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 1rem 2rem rgba(0,0,0,0.12);
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .project-screenshot {
+      width: 100%;
+      max-height: 500px;
+      object-fit: cover;
+      border-radius: 8px;
     }
 
     #projects h5 {
-  margin-top: 1.5rem;
+      margin-top: 1.5rem;
     }
 
-    /* Resize screenshots */
-    .project-screenshot {
-  width: 100%;
-  max-height: 500px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-    /* About section cards */
     #about .col-md-4 {
       padding: 1rem;
       border-radius: 0.5rem;
       background-color: #ffffff;
-      box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
-      transition: transform 0.2s;
+      box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.05);
     }
 
-    #about .col-md-4:hover {
-      transform: translateY(-5px);
+    .hero-section h1 {
+      letter-spacing: -0.5px;
+      padding-top: 7rem;
+      padding-bottom: 5rem;
+
+      
     }
+
+    .hero-section p.lead {
+      font-weight: 500;
+    }
+
+    .hero-section {
+      padding-top: 8rem;
+      padding-bottom: 6rem;
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+    }
+
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.fade-in.show {
+  opacity: 1;
+}
   </style>
 </head>
 
 <body>
 
-  <!-- NAVBAR START -->
-  <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#"><img src="Portfolio_Website_Icon.png" height="20" /></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-        </ul>
-      </div>
+<!-- NAVBAR START -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><img src="Portfolio_Website_Icon.png" height="20"></a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
     </div>
-  </nav>
-  <!-- NAVBAR END -->
+  </div>
+</nav>
+<!-- NAVBAR END -->
 
-  <!-- HERO SECTION START -->
-  <div class="hero-section text-center">
-    <section class="py-5 text-center container">
-      <div class="row py-lg-5">
-        <div class="col-lg-8 col-md-10 mx-auto">
-         <h1 class="display-4 fw-bold">Jane Chavez</h1>
-            <p class="lead mb-3">Front-end Developer | UI Focused Engineer</p>
-            <p class="text-muted mb-4">
-                Building responsive, accessible web interfaces with strong attention to user experience, visual hierarchy, and clean structure.
-            </p>
+<!-- HERO SECTION START-->
+<div class="hero-section text-center">
+  <section class="container">
+    
+    <h1 class="display-4 fw-bold mb-3">Jane Chavez</h1>
 
-          <div class="d-flex flex-column flex-md-row justify-content-center gap-3">
-              <a href="#projects" class="btn btn-dark btn-lg w-100 w-md-auto text-nowrap">View Projects</a>
-              <a href="https://jpdm07.github.io/portfolio-website/Jane_Chavez_Resume_Hybrid.pdf" class="btn btn-outline-dark w-100 w-md-auto text-nowrap" target="_blank">Download Resume</a>
-          </div>
-                    
-        </div>
-      </div>
+    <p class="lead mb-2">Front-end Developer | UI-Focused Engineer</p>
+
+    <p class="text-muted mb-4" style="max-width: 600px; margin: 0 auto;">
+      Building responsive, accessible web interfaces with strong attention to user experience, visual hierarchy, and clean structure.
+    </p>
+
+    <div class="d-flex flex-wrap justify-content-center gap-3 mt-3">
+      <a href="#projects" class="btn btn-dark btn-lg px-4">View Projects</a>
+      <a href="Jane_Chavez_Resume_Hybrid.pdf" class="btn btn-outline-dark btn-lg px-3" target="_blank">Download Resume</a>
+    </div>
+
     </section>
   </div>
-  <!-- HERO SECTION END -->
+<!-- HERO SECTION END-->
 
-  <!-- PROJECTS SECTION START -->
+ <!-- PROJECTS SECTION START -->
+
   <section id="projects" class="container py-5">
     <div class="text-center mb-5">
       <h2 class="fw-bold">Selected Projects</h2>
@@ -140,63 +161,71 @@
 <section id="project-wordpress" class="mb-5">
   <div class="row g-4">
     <div class="col-lg-8 mx-auto">
+    <<div class="project-card fade-in">
+
       <h3 class="fw-bold">Animal Rescue Website Redesign (WordPress)</h3>
       <hr class="mb-3">
+
       <p class="text-muted">
-        A UX-focused website redesign built in WordPress, inspired by my volunteer experience improving an animal rescue organization's Wix site.
+        A UX-driven redesign focused on improving usability, navigation clarity, and user engagement, based on real issues observed during my volunteer experience with an animal rescue organization.
+      </p>
+      <p class="text-muted"><strong>Role:</strong> UX Designer (Concept Redesign)</p>
+      <p class="text-muted"><strong>Focus:</strong> UX Design, Information Architecture, Responsive Design</p>
+
+      <h5>Context</h5>
+      <p>
+        While volunteering with an animal rescue organization, I observed usability challenges in their existing Wix website. I created a redesigned version in WordPress to explore improved solutions and demonstrate stronger UX practices.
       </p>
 
       <h5>Problem</h5>
-      <p>
-        The original website lacked clear navigation and structured content, making it difficult for users to find adoptable pets or take action such as donating or volunteering.
-      </p>
-
-      <h5>My Role</h5>
       <ul>
-        <li>Designed and developed a concept redesign using WordPress.</li>
-        <li>Applied UX improvements identified during real volunteer work on a Wix-based site.</li>
-        <li>Improved information architecture, layout clarity, and user flow.</li>
+        <li>Navigation lacked clarity, making it difficult for users to browse adoptable pets efficiently.</li>
+        <li>Key user actions (adopt, donate, volunteer) were not visually prioritized.</li>
+        <li>Content lacked structure, reducing readability and user engagement.</li>
       </ul>
 
-      <h5>Process</h5>
+      <h5>Approach</h5>
       <ul>
-        <li>Analyzed usability issues observed during volunteer work on the Wix site.</li>
-        <li>Restructured navigation and content hierarchy for better accessibility.</li>
-        <li>Applied UI/UX principles to improve layout, spacing, and readability.</li>
-        <li>Built responsive pages using WordPress to demonstrate improved design execution.</li>
+        <li>Evaluated usability issues based on observations from real user interactions during volunteer work.</li>
+        <li>Reorganized site structure to improve navigation and information hierarchy.</li>
+        <li>Applied UI/UX principles to improve layout clarity, spacing, and visual flow.</li>
+        <li>Built a responsive redesign using WordPress to validate improvements.</li>
       </ul>
 
-      <h5>Outcome</h5>
+      <h5>Solution</h5>
       <ul>
-        <li>Created a more intuitive and visually structured website experience.</li>
-        <li>Demonstrates ability to translate real-world UX insights into improved designs.</li>
-        <li>Showcases experience working across both Wix and WordPress platforms.</li>
+        <li>Redesigned navigation to reduce friction and improve content discoverability.</li>
+        <li>Highlighted key user actions (adopt, donate, volunteer).</li>
+        <li>Improved visual hierarchy to guide users through content more effectively.</li>
       </ul>
 
-      <h5>Key Improvements</h5>
-     <ul>
-        <li>Simplified navigation to reduce friction when browsing adoptable pets.</li>
-        <li>Improved content hierarchy to highlight key actions like adoption and donations.</li>
-        <li>Enhanced visual clarity to guide users through the site more intuitively.</li>
-     </ul>
+      <h5>Impact</h5>
+      <ul>
+        <li>Created a more intuitive and accessible user experience aligned with user goals.</li>
+        <li>Demonstrates ability to translate real-world UX observations into actionable design improvements.</li>
+        <li>Showcases adaptability across platforms (Wix → WordPress) and design systems.</li>
+        <li>This project reflects my ability to identify usability gaps and proactively design solutions that improve user engagement.</li>
+      </ul>
 
       <!-- Screenshot -->
       <div class="text-center mt-4">
-      <img src="animal-rescue-redesign.png" class="img-fluid rounded shadow project-screenshot" alt="Animal Rescue Website Redesign Screenshot">
+        <img src="animal-rescue-redesign.png" class="img-fluid rounded shadow project-screenshot" alt="Animal Rescue Website Redesign Screenshot">
       </div>
 
       <!-- Button -->
       <div class="text-center mt-4 d-flex flex-column flex-md-row justify-content-center gap-3">
-        <a href="https://janechavez5.wordpress.com" class="btn btn-primary px-4 py-2" target="_blank">View Live Site</a>
+        <a href="https://janechavez5.wordpress.com" class="btn btn-custom px-4 py-2" target="_blank">View Live Site</a>
       </div>
+
     </div>
-  </div>
+  </div></div>
 </section>
 
 <!-- Project 2: CaloriEat -->
     <section id="project-webapp" class="mb-5">
       <div class="row g-4">
         <div class="col-lg-8 mx-auto">
+        <div class="project-card fade-in">
           <h3 class="fw-bold">CaloriEat – Full-Stack Calorie Tracking Application</h3>
           <hr class="mb-3">
           <p class="text-muted">
@@ -249,17 +278,18 @@
 
           <!-- Buttons for CaloriEat -->
           <div class="text-center mt-4 d-flex flex-column flex-md-row justify-content-center gap-3">
-            <a href="https://jpdm07.github.io/CaloriEat/" class="btn btn-primary px-4 py-2" target="_blank">View Live App</a>
+            <a href="https://jpdm07.github.io/CaloriEat/" class="btn btn-custom px-4 py-2" target="_blank">View Live App</a>
             <a href="https://github.com/jpdm07/CaloriEat" class="btn btn-outline-secondary px-4 py-2" target="_blank">View Source Code</a>
           </div>
         </div>
-      </div>
+      </div></div>
     </section>
 
     <!-- Project 3: Figma Hero Design -->
     <section id="project-figma" class="mb-5">
       <div class="row g-4">
         <div class="col-lg-8 mx-auto">
+        <div class="project-card fade-in">
           <h3 class="fw-bold">Figma UI/UX Hero Section Design</h3>
           <hr class="mb-3">
           <p class="text-muted">
@@ -301,17 +331,18 @@
 
           <!-- Buttons for Figma -->
           <div class="text-center mt-4 d-flex flex-column flex-md-row justify-content-center gap-3">
-            <a href="https://www.figma.com/proto/qhk0PTd7kBe39rhb9lrMKr/Hero-Section?node-id=0-1&t=eog5D9QeQcq6Pt3I-1" class="btn btn-primary px-4 py-2" target="_blank">View Design</a>
+            <a href="https://www.figma.com/proto/qhk0PTd7kBe39rhb9lrMKr/Hero-Section?node-id=0-1&t=eog5D9QeQcq6Pt3I-1" class="btn btn-custom px-4 py-2" target="_blank">View Design</a>
             <a href="https://www.figma.com/proto/qhk0PTd7kBe39rhb9lrMKr/Hero-Section?node-id=7-666&t=WuJhF99nIzxijAJd-1&scaling=contain&content-scaling=fixed&page-id=0%3A1" class="btn btn-outline-secondary px-4 py-2" target="_blank">View Prototype</a>
           </div>
         </div>
-      </div>
+      </div></div>
     </section>
 
     <!-- Project 4: Portfolio Website -->
     <section id="project-portfolio" class="mb-5">
       <div class="row g-4">
         <div class="col-lg-8 mx-auto">
+        <div class="project-card fade-in">
           <h3 class="fw-bold">Portfolio Website</h3>
           <hr class="mb-3">
           <p class="text-muted">A personal website designed to showcase my UI/UX and front-end development skills professionally.</p>
@@ -345,12 +376,12 @@
 
           <!-- Buttons for Portfolio -->
           <div class="text-center mt-4 d-flex flex-column flex-md-row justify-content-center gap-3">
-            <a href="https://jpdm07.github.io/portfolio-website/" class="btn btn-primary px-4 py-2" target="_blank">View Live Portfolio</a>
+            <a href="https://jpdm07.github.io/portfolio-website/" class="btn btn-custom px-4 py-2" target="_blank">View Live Portfolio</a>
             <a href="https://github.com/jpdm07/portfolio-website" class="btn btn-outline-secondary px-4 py-2" target="_blank">View Source Code</a>
           </div>
           
         </div>
-      </div>
+      </div></div>
     </section>
 
     
@@ -359,6 +390,7 @@
     <section id="project-ux" class="mb-5">
       <div class="row g-4">
         <div class="col-lg-8 mx-auto">
+        <div class="project-card fade-in">
           <h3 class="fw-bold">WoofDog – Dog Dating App</h3>
           <hr class="mb-3">
           <p class="text-muted">A playful concept web app connecting dog owners with like-minded dog lovers and their pets.</p>
@@ -397,11 +429,11 @@
 
           <!-- Buttons for Woofdog -->
           <div class="text-center mt-4 d-flex flex-column flex-md-row justify-content-center gap-3">
-            <a href="https://jpdm07.github.io/woofdog/" class="btn btn-primary px-4 py-2" target="_blank">View Live App</a>
+            <a href="https://jpdm07.github.io/woofdog/" class="btn btn-custom px-4 py-2" target="_blank">View Live App</a>
             <a href="https://github.com/jpdm07/woofdog" class="btn btn-outline-secondary px-4 py-2" target="_blank">View Source Code</a>
           </div>
         </div>
-      </div>
+      </div></div>
     </section>
 
     
@@ -409,77 +441,84 @@
 
   <!-- PROJECTS SECTION END -->
 
-  <!-- ABOUT SECTION START -->
-  <section id="about" class="container py-5 bg-light">
-    <div class="text-center mb-5">
-      <h2 class="fw-bold">About Me</h2>
-      <p class="text-muted">
-        I am <span class="fw-bold">Jane Chavez</span>, a UI/UX Designer and Front-End Developer with an M.S. in Software Engineering
-        from the University of Houston–Clear Lake. I create intuitive, user-centered interfaces and seamless digital experiences
-        by combining design thinking with front-end engineering skills.
-      </p>
+<!-- ABOUT SECTION START -->
+<section id="about" class="container py-5 bg-light">
+  <div class="text-center mb-5">
+    <h2 class="fw-bold">About Me</h2>
+    <p class="text-muted">
+      I am <span class="fw-bold">Jane Chavez</span>, a UI/UX Designer and Front-End Developer with an M.S. in Software Engineering
+      from the University of Houston–Clear Lake.
+    </p>
+  </div>
+
+  <div class="row text-center">
+    <div class="col-md-4">
+      <h5 class="fw-bold">Design Philosophy</h5>
+      <p class="text-muted">User-focused, simple, intuitive design.</p>
     </div>
 
-    <div class="row text-center">
-      <div class="col-md-4 mb-4">
-        <h5 class="fw-bold">Design Philosophy</h5>
-        <p class="text-muted">I focus on user needs, simplicity, and clarity, crafting interfaces that feel natural and intuitive.</p>
-      </div>
-      <div class="col-md-4 mb-4">
-        <h5 class="fw-bold">Technical Skills</h5>
-        <p class="text-muted">HTML, CSS, JavaScript, Bootstrap 5, Figma, Responsive Design, Accessibility, Wireframing & Prototyping.</p>
-      </div>
-      <div class="col-md-4 mb-4">
-        <h5 class="fw-bold">Professional Goal</h5>
-        <p class="text-muted">To create interfaces that balance aesthetics and functionality, delivering memorable user experiences for web and mobile applications.</p>
-      </div>
-    </div>
-  </section>
-  <!-- ABOUT SECTION END -->
-
-  <!-- CONTACT SECTION START -->
-  <section id="contact" class="container py-5">
-    <div class="text-center mb-5">
-      <h2 class="fw-bold">Contact</h2>
-      <p class="text-muted">Feel free to reach out for creative collaboration, career opportunities, or just to chat about design and technology.</p>
+    <div class="col-md-4">
+      <h5 class="fw-bold">Technical Skills</h5>
+      <p class="text-muted">HTML, CSS, JavaScript, Bootstrap, Figma</p>
     </div>
 
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <!-- Updated Formsubmit.co Contact Form -->
-        <form action="https://formsubmit.co/jpdm07@yahoo.com" method="POST">
-          <div class="mb-3">
-            <label for="name" class="form-label fw-bold">Name</label>
-            <input type="text" class="form-control" name="name" placeholder="Your full name" required>
-          </div>
-          <div class="mb-3">
-            <label for="email" class="form-label fw-bold">Email</label>
-            <input type="email" class="form-control" name="email" placeholder="you@example.com" required>
-          </div>
-          <div class="mb-3">
-            <label for="message" class="form-label fw-bold">Message</label>
-            <textarea class="form-control" name="message" rows="5" placeholder="Write your message here" required></textarea>
-          </div>
-          <input type="hidden" name="_next" value="https://jpdm07.github.io/html-portfolio/">
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary btn-lg px-5">Send Message</button>
-          </div>
-        </form>
-
-        <div class="text-center mt-4">
-          <p class="text-muted mb-1">Or connect with me on:</p>
-          <a href="https://linkedin.com/in/jane-c-699a9241" class="btn btn-outline-secondary btn-sm mx-1" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <a href="https://jpdm07.github.io/portfolio-website/" class="btn btn-outline-secondary btn-sm mx-1" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="mailto:jpdm07@yahoo.com" class="btn btn-outline-secondary btn-sm mx-1" target="_blank" rel="noopener noreferrer">Email</a>
-        </div>
-      </div>
+    <div class="col-md-4">
+      <h5 class="fw-bold">Goal</h5>
+      <p class="text-muted">Build meaningful user experiences.</p>
     </div>
-  </section>
-  <!-- CONTACT SECTION END -->
+  </div>
+</section>
+<!-- ABOUT SECTION END -->
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-    crossorigin="anonymous"></script>
+<!-- CONTACT SECTION START-->
+
+<section id="contact" class="container py-5">
+  <div class="text-center mb-5">
+    <h2 class="fw-bold">Contact</h2>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+
+      <form action="https://formsubmit.co/jpdm07@yahoo.com" method="POST">
+        <input type="text" name="name" class="form-control mb-2" placeholder="Name" required>
+        <input type="email" name="email" class="form-control mb-2" placeholder="Email" required>
+        <textarea name="message" class="form-control mb-2" placeholder="Message" required></textarea>
+
+        <!-- FIXED BUTTON -->
+        <button class="btn btn-custom w-100">Send Message</button>
+      </form>
+
+      <div class="text-center mt-4">
+        <a href="https://linkedin.com" class="btn btn-outline-secondary btn-sm">LinkedIn</a>
+        <a href="https://github.com" class="btn btn-outline-secondary btn-sm">GitHub</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- CONTACT SECION END-->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  const elements = document.querySelectorAll('.fade-in');
+
+  function showOnScroll() {
+    const triggerBottom = window.innerHeight * 0.85;
+
+    elements.forEach(el => {
+      const boxTop = el.getBoundingClientRect().top;
+
+      if (boxTop < triggerBottom) {
+        el.classList.add('show');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', showOnScroll);
+  window.addEventListener('load', showOnScroll);
+</script>
+
 </body>
-
 </html>
