@@ -58,12 +58,17 @@
       line-height: 1.6;
     }
 
+    #projects h5 {
+  margin-top: 1.5rem;
+    }
+
     /* Resize screenshots */
     .project-screenshot {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-    }
+  width: 100%;
+  max-height: 500px;
+  object-fit: cover;
+  border-radius: 8px;
+}
 
     /* About section cards */
     #about .col-md-4 {
@@ -131,55 +136,69 @@
       <p class="text-muted">A snapshot of projects that highlight my design thinking and front-end development skills.</p>
     </div>
 
-    <!-- Project 1: Portfolio Website -->
-    <section id="project-portfolio" class="mb-5">
-      <div class="row g-4">
-        <div class="col-lg-8 mx-auto">
-          <h3 class="fw-bold">Portfolio Website</h3>
-          <p class="text-muted">A personal website designed to showcase my UI/UX and front-end development skills professionally.</p>
+<!-- Project 1: Animal Rescue Website Redesign -->
+<section id="project-wordpress" class="mb-5">
+  <div class="row g-4">
+    <div class="col-lg-8 mx-auto">
+      <h3 class="fw-bold">Animal Rescue Website Redesign (WordPress)</h3>
+      <hr class="mb-3">
+      <p class="text-muted">
+        A UX-focused website redesign built in WordPress, inspired by my volunteer experience improving an animal rescue organization's Wix site.
+      </p>
 
-          <h5>Problem</h5>
-          <p>
-            Needed a professional platform to present my UI/UX and front-end skills to potential employers, demonstrating both design thinking and technical implementation.
-          </p>
+      <h5>Problem</h5>
+      <p>
+        The original website lacked clear navigation and structured content, making it difficult for users to find adoptable pets or take action such as donating or volunteering.
+      </p>
 
-          <h5>My Role</h5>
-          <ul>
-            <li>Designed overall layout, typography, and visual hierarchy.</li>
-            <li>Built a responsive front-end using HTML, CSS, and Bootstrap 5.</li>
-            <li>Ensured accessibility, cross-browser compatibility, and performance best practices.</li>
-          </ul>
+      <h5>My Role</h5>
+      <ul>
+        <li>Designed and developed a concept redesign using WordPress.</li>
+        <li>Applied UX improvements identified during real volunteer work on a Wix-based site.</li>
+        <li>Improved information architecture, layout clarity, and user flow.</li>
+      </ul>
 
-          <h5>Process</h5>
-          <ul>
-            <li>Planned user journey and information hierarchy to emphasize key projects.</li>
-            <li>Created low- and high-fidelity wireframes and interactive prototypes in Figma.</li>
-            <li>Implemented responsive design and optimized typography, spacing, and visuals for readability.</li>
-            <li>Tested across multiple devices and browsers to ensure usability and accessibility.</li>
-          </ul>
+      <h5>Process</h5>
+      <ul>
+        <li>Analyzed usability issues observed during volunteer work on the Wix site.</li>
+        <li>Restructured navigation and content hierarchy for better accessibility.</li>
+        <li>Applied UI/UX principles to improve layout, spacing, and readability.</li>
+        <li>Built responsive pages using WordPress to demonstrate improved design execution.</li>
+      </ul>
 
-          <h5>Outcome</h5>
-          <ul>
-            <li>Launched a professional, responsive portfolio site highlighting both design and front-end skills.</li>
-            <li>Received positive feedback from peers and mentors on usability and visual clarity.</li>
-            <li>Demonstrates end-to-end UI/UX design and front-end development capabilities.</li>
-          </ul>
+      <h5>Outcome</h5>
+      <ul>
+        <li>Created a more intuitive and visually structured website experience.</li>
+        <li>Demonstrates ability to translate real-world UX insights into improved designs.</li>
+        <li>Showcases experience working across both Wix and WordPress platforms.</li>
+      </ul>
 
-          <!-- Buttons for Project -->
-          <div class="text-center mt-4 d-flex flex-column flex-md-row justify-content-center gap-3">
-            <a href="https://jpdm07.github.io/portfolio-website/" class="btn btn-primary px-4 py-2" target="_blank">View Live Portfolio</a>
-            <a href="https://github.com/jpdm07/portfolio-website" class="btn btn-outline-secondary px-4 py-2" target="_blank">View Source Code</a>
-          </div>
-          
-        </div>
+      <h5>Key Improvements</h5>
+     <ul>
+        <li>Simplified navigation to reduce friction when browsing adoptable pets.</li>
+        <li>Improved content hierarchy to highlight key actions like adoption and donations.</li>
+        <li>Enhanced visual clarity to guide users through the site more intuitively.</li>
+     </ul>
+
+      <!-- Screenshot -->
+      <div class="text-center mt-4">
+      <img src="animal-rescue-redesign.png" class="img-fluid rounded shadow project-screenshot" alt="Animal Rescue Website Redesign Screenshot">
       </div>
-    </section>
 
-    <!-- Project 2: CaloriEat -->
+      <!-- Button -->
+      <div class="text-center mt-4 d-flex flex-column flex-md-row justify-content-center gap-3">
+        <a href="https://janechavez5.wordpress.com" class="btn btn-primary px-4 py-2" target="_blank">View Live Site</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Project 2: CaloriEat -->
     <section id="project-webapp" class="mb-5">
       <div class="row g-4">
         <div class="col-lg-8 mx-auto">
           <h3 class="fw-bold">CaloriEat – Full-Stack Calorie Tracking Application</h3>
+          <hr class="mb-3">
           <p class="text-muted">
             A senior capstone project focused on requirements engineering, system modeling, and full-stack web application development.
           </p>
@@ -216,12 +235,19 @@
             <li>Showcased strengths in architecture design, documentation, and collaborative development.</li>
           </ul>
 
+          <h5>Key Features</h5>
+          <ul>
+            <li>Interactive dashboard for tracking calories and weight trends.</li>
+            <li>Goal-setting system with visual progress feedback.</li>
+            <li>Structured data flow supporting user input and analytics.</li>
+          </ul>
+
           <!-- Screenshot Image -->
           <div class="text-center mt-4">
             <img src="calorieat-screenshot.png" class="img-fluid rounded shadow project-screenshot" alt="CaloriEat Dashboard Preview">
           </div>
 
-          <!-- Buttons for Live App & Github -->
+          <!-- Buttons for CaloriEat -->
           <div class="text-center mt-4 d-flex flex-column flex-md-row justify-content-center gap-3">
             <a href="https://jpdm07.github.io/CaloriEat/" class="btn btn-primary px-4 py-2" target="_blank">View Live App</a>
             <a href="https://github.com/jpdm07/CaloriEat" class="btn btn-outline-secondary px-4 py-2" target="_blank">View Source Code</a>
@@ -230,59 +256,12 @@
       </div>
     </section>
 
-    <!-- Project 3: WoofDog -->
-    <section id="project-ux" class="mb-5">
-      <div class="row g-4">
-        <div class="col-lg-8 mx-auto">
-          <h3 class="fw-bold">WoofDog – Dog Dating App</h3>
-          <p class="text-muted">A playful concept web app connecting dog owners with like-minded dog lovers and their pets.</p>
-
-          <h5>Problem</h5>
-          <p>
-            Many dog owners want a fun, safe way to meet other dog owners for socializing, playdates, and community events.
-          </p>
-
-          <h5>My Role</h5>
-          <ul>
-            <li>Designed and implemented the front-end user interface for the web application.</li>
-            <li>Developed interactive elements to simulate user interactions.</li>
-            <li>Ensured responsive design and intuitive user experience across devices.</li>
-          </ul>
-
-          <h5>Process</h5>
-          <ul>
-            <li>Planned user journey and UI layout for optimal clarity and engagement.</li>
-            <li>Created mockups and high-fidelity prototypes to refine interactions.</li>
-            <li>Implemented HTML, CSS, and JavaScript to bring the design to life.</li>
-            <li>Tested across browsers and devices for consistency and usability.</li>
-          </ul>
-
-          <h5>Outcome</h5>
-          <ul>
-            <li>Delivered a fully functional front-end web app demonstrating design and coding skills.</li>
-            <li>Provides a fun, interactive interface for dog owners to explore potential meetups.</li>
-            <li>Highlights ability to build responsive and engaging web applications.</li>
-          </ul>
-
-          <!-- Screenshot image -->
-          <div class="text-center mt-4">
-            <img src="woofdog-screenshot.png" class="img-fluid rounded shadow project-screenshot" alt="WoofDog App Screenshot">
-          </div>
-
-          <!-- Buttons for Live App & GitHub -->
-          <div class="text-center mt-4 d-flex flex-column flex-md-row justify-content-center gap-3">
-            <a href="https://jpdm07.github.io/woofdog/" class="btn btn-primary px-4 py-2" target="_blank">View Live App</a>
-            <a href="https://github.com/jpdm07/woofdog" class="btn btn-outline-secondary px-4 py-2" target="_blank">View Source Code</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Project 4: Figma Hero Design -->
+    <!-- Project 3: Figma Hero Design -->
     <section id="project-figma" class="mb-5">
       <div class="row g-4">
         <div class="col-lg-8 mx-auto">
           <h3 class="fw-bold">Figma UI/UX Hero Section Design</h3>
+          <hr class="mb-3">
           <p class="text-muted">
             A high-fidelity hero section designed in Figma showcasing typography hierarchy, layout balance, and responsive UI principles.
           </p>
@@ -329,7 +308,105 @@
       </div>
     </section>
 
-  </section>
+    <!-- Project 4: Portfolio Website -->
+    <section id="project-portfolio" class="mb-5">
+      <div class="row g-4">
+        <div class="col-lg-8 mx-auto">
+          <h3 class="fw-bold">Portfolio Website</h3>
+          <hr class="mb-3">
+          <p class="text-muted">A personal website designed to showcase my UI/UX and front-end development skills professionally.</p>
+
+          <h5>Problem</h5>
+          <p>
+            Needed a professional platform to present my UI/UX and front-end skills to potential employers, demonstrating both design thinking and technical implementation.
+          </p>
+
+          <h5>My Role</h5>
+          <ul>
+            <li>Designed overall layout, typography, and visual hierarchy.</li>
+            <li>Built a responsive front-end using HTML, CSS, and Bootstrap 5.</li>
+            <li>Ensured accessibility, cross-browser compatibility, and performance best practices.</li>
+          </ul>
+
+          <h5>Process</h5>
+          <ul>
+            <li>Planned user journey and information hierarchy to emphasize key projects.</li>
+            <li>Created low- and high-fidelity wireframes and interactive prototypes in Figma.</li>
+            <li>Implemented responsive design and optimized typography, spacing, and visuals for readability.</li>
+            <li>Tested across multiple devices and browsers to ensure usability and accessibility.</li>
+          </ul>
+
+          <h5>Outcome</h5>
+          <ul>
+            <li>Launched a professional, responsive portfolio site highlighting both design and front-end skills.</li>
+            <li>Received positive feedback from peers and mentors on usability and visual clarity.</li>
+            <li>Demonstrates end-to-end UI/UX design and front-end development capabilities.</li>
+          </ul>
+
+          <!-- Buttons for Portfolio -->
+          <div class="text-center mt-4 d-flex flex-column flex-md-row justify-content-center gap-3">
+            <a href="https://jpdm07.github.io/portfolio-website/" class="btn btn-primary px-4 py-2" target="_blank">View Live Portfolio</a>
+            <a href="https://github.com/jpdm07/portfolio-website" class="btn btn-outline-secondary px-4 py-2" target="_blank">View Source Code</a>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    
+
+    <!-- Project 5: WoofDog -->
+    <section id="project-ux" class="mb-5">
+      <div class="row g-4">
+        <div class="col-lg-8 mx-auto">
+          <h3 class="fw-bold">WoofDog – Dog Dating App</h3>
+          <hr class="mb-3">
+          <p class="text-muted">A playful concept web app connecting dog owners with like-minded dog lovers and their pets.</p>
+
+          <h5>Problem</h5>
+          <p>
+            Many dog owners want a fun, safe way to meet other dog owners for socializing, playdates, and community events.
+          </p>
+
+          <h5>My Role</h5>
+          <ul>
+            <li>Designed and implemented the front-end user interface for the web application.</li>
+            <li>Developed interactive elements to simulate user interactions.</li>
+            <li>Ensured responsive design and intuitive user experience across devices.</li>
+          </ul>
+
+          <h5>Process</h5>
+          <ul>
+            <li>Planned user journey and UI layout for optimal clarity and engagement.</li>
+            <li>Created mockups and high-fidelity prototypes to refine interactions.</li>
+            <li>Implemented HTML, CSS, and JavaScript to bring the design to life.</li>
+            <li>Tested across browsers and devices for consistency and usability.</li>
+          </ul>
+
+          <h5>Outcome</h5>
+          <ul>
+            <li>Delivered a fully functional front-end web app demonstrating design and coding skills.</li>
+            <li>Provides a fun, interactive interface for dog owners to explore potential meetups.</li>
+            <li>Highlights ability to build responsive and engaging web applications.</li>
+          </ul>
+
+          <!-- Screenshot image -->
+          <div class="text-center mt-4">
+            <img src="woofdog-screenshot.png" class="img-fluid rounded shadow project-screenshot" alt="WoofDog App Screenshot">
+          </div>
+
+          <!-- Buttons for Woofdog -->
+          <div class="text-center mt-4 d-flex flex-column flex-md-row justify-content-center gap-3">
+            <a href="https://jpdm07.github.io/woofdog/" class="btn btn-primary px-4 py-2" target="_blank">View Live App</a>
+            <a href="https://github.com/jpdm07/woofdog" class="btn btn-outline-secondary px-4 py-2" target="_blank">View Source Code</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+</section>
+
   <!-- PROJECTS SECTION END -->
 
   <!-- ABOUT SECTION START -->
@@ -392,7 +469,7 @@
         <div class="text-center mt-4">
           <p class="text-muted mb-1">Or connect with me on:</p>
           <a href="https://linkedin.com/in/jane-c-699a9241" class="btn btn-outline-secondary btn-sm mx-1" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <a href="https://github.com/jpdm07/html-portfolio" class="btn btn-outline-secondary btn-sm mx-1" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://jpdm07.github.io/portfolio-website/" class="btn btn-outline-secondary btn-sm mx-1" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="mailto:jpdm07@yahoo.com" class="btn btn-outline-secondary btn-sm mx-1" target="_blank" rel="noopener noreferrer">Email</a>
         </div>
       </div>
