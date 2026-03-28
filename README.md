@@ -1,44 +1,75 @@
 # Portfolio Website – Jane Chavez
 
-This repository contains the source code for my personal portfolio website, designed and built to showcase my work as a **UI/UX-focused Frontend Developer and Software Engineering graduate**.
+This repository contains the source code for my personal portfolio website, built to showcase my work as a **Frontend Developer with a strong focus on UI/UX and user-centered design**.
 
-## ✨ Overview
+## Overview
 
-This portfolio highlights my passion for creating **clean, accessible, and responsive user interfaces**, along with my approach to thoughtful UX design and frontend development. The site presents selected projects, design work, and technical skills, with a focus on clarity, usability, and visual polish.
+This portfolio demonstrates my ability to build **responsive, accessible, and visually polished web interfaces** using modern frontend technologies. It highlights selected projects, technical skills, and my approach to combining design thinking with practical implementation.
 
-## 🎯 Goals
-
-- Present my professional identity as a frontend-focused software engineer  
-- Showcase UI/UX-driven projects and design decisions  
-- Demonstrate clean HTML/CSS structure and responsive layout techniques  
-- Provide recruiters with a clear view of my skills, experience, and interests  
-
-## 🛠 Tech Stack
-
-- **HTML5** – Semantic markup and accessibility-focused structure  
-- **CSS3** – Flexbox, Grid, responsive layouts, modern styling  
-- **JavaScript (ES6+)** – Interactive UI behavior  
-- **UI/UX Design Principles** – Layout, typography, visual hierarchy  
-- **Git & GitHub** – Version control and professional workflow  
-- **Figma** – Wireframing and design prototyping  
-- **React** – Learning in progress through hands-on projects  
-
-## 🌱 Areas of Focus
-
-- UI polish and visual consistency  
-- Clean layout organization  
-- Responsive design for mobile-first experiences  
-- Accessibility-aware frontend development  
-
-## 🚀 Live Site
+## Live Site
 
 https://jpdm07.github.io/portfolio-website/
 
-## 📄 Resume
+---
 
-My resume is included in this repository for reference:  
-**Jane_Chavez_Resume_Hybrid.pdf**
+## Key Features
+
+- Fully responsive, mobile-first layout  
+- Clean and maintainable HTML/CSS structure  
+- Interactive UI elements using JavaScript  
+- Consistent spacing, typography, and layout system  
+- Project case study format (Problem → Role → Process → Outcome)  
+- Accessibility-aware development using semantic HTML  
 
 ---
 
-Designed and built by **Jane Chavez**
+## Tech Stack
+
+- HTML5  
+- CSS3 (Flexbox, Grid, responsive design)  
+- JavaScript (ES6+)  
+- Bootstrap 5  
+- Git & GitHub  
+- Figma (for UI planning and prototyping)  
+
+---
+
+## Purpose
+
+This project was built to:
+
+- Showcase my frontend development skills through real projects  
+- Demonstrate my ability to translate UI/UX concepts into working interfaces  
+- Present clean, maintainable, and scalable code structure  
+- Provide a clear and professional portfolio for recruiters and hiring managers  
+
+---
+
+## Preview
+
+### Portfolio Homepage
+<img src="./images/figma-hero.png" width="700"/>
+
+### CaloriEat Dashboard
+<img src="./images/calorieat-screenshot.png" width="700"/>
+
+### Animal Rescue Redesign
+<img src="./images/animal-rescue-redesign.png" width="700"/>
+
+---
+
+## Resume
+
+My latest resume is included in this repository:  
+Jane_Chavez_Resume_2026.pdf
+
+---
+
+## Currently Learning
+
+- React (component-based architecture and state management)  
+- Improving frontend scalability and code organization  
+
+---
+
+Designed and built by Jane Chavez
