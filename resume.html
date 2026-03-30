@@ -766,4 +766,12 @@
       toggle.addEventListener('click', () => {
         document.querySelector('nav').classList.toggle('nav-mobile-open');
       });
- 
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        a.addEventListener('click', () => {
+          document.querySelector('nav').classList.remove('nav-mobile-open');
+        });
+      });
+    }
+  </script>
+</body>
+</html>

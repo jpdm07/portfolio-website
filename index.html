@@ -554,6 +554,15 @@
         color: var(--text-dim);
       }
       .btn-ghost::after { content: '↓'; margin-left: 8px; }
+      /* Hero — center everything, name on one line */
+      #hero { align-items: center; text-align: center; }
+      .hero-name { font-size: 2.6rem; white-space: nowrap; }
+      .hero-name em { display: inline; }
+      .hero-name br { display: none; }
+      .hero-eyebrow { text-align: center; }
+      .hero-desc { text-align: center; margin-left: auto; margin-right: auto; }
+      .hero-ctas { margin-left: auto; margin-right: auto; }
+      .hero-scroll-indicator { left: 50%; transform: translateX(-50%); }
       .hero-scroll-indicator { left: 20px; display: none; }
 
       #projects, #about, #contact { padding: 80px 20px; }
