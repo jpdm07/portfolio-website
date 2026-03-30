@@ -73,19 +73,19 @@
     }
     .blob-1 {
       width: 750px; height: 750px;
-      background: radial-gradient(circle, rgba(244,114,182,0.12) 0%, transparent 65%);
+      background: radial-gradient(circle, rgba(244,114,182,0.22) 0%, transparent 65%);
       top: -220px; right: -220px;
       animation: blobDrift 22s ease-in-out infinite alternate;
     }
     .blob-2 {
       width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(139,92,246,0.09) 0%, transparent 65%);
+      background: radial-gradient(circle, rgba(139,92,246,0.18) 0%, transparent 65%);
       bottom: 0; left: -200px;
       animation: blobDrift 28s ease-in-out infinite alternate-reverse;
     }
     .blob-3 {
       width: 380px; height: 380px;
-      background: radial-gradient(circle, rgba(244,114,182,0.07) 0%, transparent 65%);
+      background: radial-gradient(circle, rgba(244,114,182,0.15) 0%, transparent 65%);
       top: 40%; left: 35%;
       animation: blobDrift 36s ease-in-out infinite alternate;
     }
@@ -161,11 +161,13 @@
     }
     .nav-logo {
       font-family: var(--serif);
-      font-size: 1.3rem; font-weight: 600; letter-spacing: 0.05em;
-      color: var(--text); text-decoration: none;
-      letter-spacing: 0.02em;
+      font-size: 1.3rem; font-weight: 600;
+      text-decoration: none; display: inline-block;
+      background: linear-gradient(to bottom, #ffffff 0%, #fce4f0 40%, #f472b6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .nav-logo span { color: var(--pink); }
     .nav-mobile-toggle { display: none; }
     .nav-links { display: flex; gap: 36px; list-style: none; }
     .nav-links a {
@@ -204,8 +206,20 @@
       font-weight: 300; line-height: 0.92;
       letter-spacing: -0.02em; margin-bottom: 32px;
       opacity: 0; animation: fadeUp 0.9s ease 0.5s forwards;
+      background: linear-gradient(to bottom, #ffffff 0%, #fce4f0 45%, #f472b6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      width: fit-content;
     }
-    .hero-name em { font-style: italic; color: var(--pink); display: block; }
+    .hero-name em {
+      font-style: italic;
+      display: block;
+      background: inherit;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
     .hero-desc {
       font-size: 1rem; color: var(--text-dim); font-weight: 300;
       max-width: 480px; line-height: 1.7; margin-bottom: 48px;
@@ -996,7 +1010,7 @@
       </div>
       <p class="contact-sub reveal reveal-delay-1">I'm actively seeking entry-level front-end and UI/UX roles. If you're looking for someone who cares deeply about both design and code, I'd love to connect.</p>
       <div class="contact-links reveal reveal-delay-2">
-        <a href="mailto:jpdm015@gmail.com" class="contact-link primary">Get In Touch ↗</a>
+        <a href="/cdn-cgi/l/email-protection#f39983979ec3c2c6b3949e929a9fdd909c9e" class="contact-link primary">Get In Touch ↗</a>
         <a href="https://www.linkedin.com/in/jane-c-699a9241" target="_blank" class="contact-link">LinkedIn ↗</a>
         <a href="https://github.com/jpdm07" target="_blank" class="contact-link">GitHub ↗</a>
       </div>
@@ -1009,7 +1023,7 @@
     <p>Front-End Developer · UI/UX Designer · Houston, TX</p>
   </footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // Declare glow canvas first
     const glowCanvas = document.createElement('canvas');
     const glowCtx = glowCanvas.getContext('2d');
@@ -1019,10 +1033,10 @@
       if (!W || !H) return;
       glowCtx.clearRect(0, 0, W, H);
       const vg1 = glowCtx.createRadialGradient(W*.82,H*.06,0,W*.82,H*.06,W*.5);
-      vg1.addColorStop(0,'rgba(244,114,182,0.18)'); vg1.addColorStop(1,'transparent');
+      vg1.addColorStop(0,'rgba(244,114,182,0.32)'); vg1.addColorStop(1,'transparent');
       glowCtx.fillStyle = vg1; glowCtx.fillRect(0,0,W,H);
       const vg2 = glowCtx.createRadialGradient(W*.08,H*.9,0,W*.08,H*.9,W*.42);
-      vg2.addColorStop(0,'rgba(168,85,247,0.14)'); vg2.addColorStop(1,'transparent');
+      vg2.addColorStop(0,'rgba(168,85,247,0.26)'); vg2.addColorStop(1,'transparent');
       glowCtx.fillStyle = vg2; glowCtx.fillRect(0,0,W,H);
     }
 
@@ -1039,12 +1053,12 @@
 
     // 45 particles
     const particles = [];
-    for (let i = 0; i < 45; i++) {
+    for (let i = 0; i < 70; i++) {
       const hue = Math.random() < .55 ? 330 : Math.random() < .6 ? 270 : 220;
       particles.push({
         x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight,
-        r: Math.random()*1.4+.35, vx: (Math.random()-.5)*.18, vy: (Math.random()-.5)*.18,
-        opacity: Math.random()*.55+.22, color: `hsla(${hue},90%,85%,`,
+        r: Math.random()*1.8+.5, vx: (Math.random()-.5)*.18, vy: (Math.random()-.5)*.18,
+        opacity: Math.random()*.6+.35, color: `hsla(${hue},90%,85%,`,
         pulseOffset: Math.random()*Math.PI*2, pulseSpeed: .006+Math.random()*.01,
       });
     }
@@ -1085,7 +1099,7 @@
         const pulse = Math.sin(elapsed*p.pulseSpeed*5+p.pulseOffset)*.3+.7;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r*pulse, 0, Math.PI*2);
-        ctx.fillStyle = p.color+(p.opacity*pulse*2.6)+')';
+        ctx.fillStyle = p.color+(p.opacity*pulse*3.2)+')';
         ctx.fill();
       }
       if (glowCanvas.width > 0 && glowCanvas.height > 0) ctx.drawImage(glowCanvas,0,0);
@@ -1317,8 +1331,4 @@
       if (!isOpen) el.classList.add('open');
     }
 
-    // Nav shrink on scroll
-    const nav = document.querySelector('nav');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 60) {
-        nav
+    // Nav shrink
