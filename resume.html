@@ -344,25 +344,41 @@
       .nav-links { display: none; }
       .nav-mobile-toggle {
         display: flex; flex-direction: column; gap: 5px;
-        cursor: pointer; padding: 4px;
+        cursor: pointer; padding: 8px; z-index: 9001;
+        position: relative;
       }
       .nav-mobile-toggle span {
-        display: block; width: 22px; height: 1.5px;
-        background: var(--text-dim); transition: all 0.3s;
+        display: block; width: 24px; height: 2px;
+        background: var(--text); transition: all 0.35s ease;
+        border-radius: 2px;
       }
+      /* Full-screen overlay — above everything */
       .nav-mobile-open .nav-links {
-        display: flex; flex-direction: column;
-        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(7,7,15,0.97);
-        backdrop-filter: blur(20px);
+        display: flex !important; flex-direction: column;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw; height: 100vh;
+        background: rgba(7,7,15,0.98);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
         align-items: center; justify-content: center;
-        gap: 36px; z-index: 200;
+        gap: 40px;
+        z-index: 9000;
+        margin: 0; padding: 0;
+        list-style: none;
       }
-      .nav-mobile-open .nav-links a { font-size: 1rem; }
-      .nav-mobile-open .nav-mobile-toggle span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-      .nav-mobile-open .nav-mobile-toggle span:nth-child(2) { opacity: 0; }
-      .nav-mobile-open .nav-mobile-toggle span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-      .nav-mobile-toggle { z-index: 201; }
+      .nav-mobile-open .nav-links li { width: auto; }
+      .nav-mobile-open .nav-links a {
+        font-size: 1.3rem !important;
+        letter-spacing: 0.18em;
+        color: var(--text-dim) !important;
+        padding: 8px 0;
+      }
+      .nav-mobile-open .nav-links a:hover { color: var(--pink) !important; }
+      /* X animation */
+      .nav-mobile-open .nav-mobile-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--pink); }
+      .nav-mobile-open .nav-mobile-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+      .nav-mobile-open .nav-mobile-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--pink); }
 
       .page { padding: 100px 20px 60px; }
       .resume-header { flex-direction: column; align-items: flex-start; gap: 20px; }
@@ -437,7 +453,7 @@
         </div>
         <div class="r-contact-item">
           <div class="r-dot"></div>
-          <a href="mailto:jpdm015@gmail.com">jpdm015@gmail.com</a>
+          <a href="/cdn-cgi/l/email-protection#b2d8c2d6df828387f2d5dfd3dbde9cd1dddf"><span class="__cf_email__" data-cfemail="8ee4feeae3bebfbbcee9e3efe7e2a0ede1e3">[email&#160;protected]</span></a>
         </div>
         <div class="r-contact-item">
           <div class="r-dot"></div>
@@ -640,7 +656,7 @@
 
   </div><!-- /page -->
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // Declare glow canvas first
     const glowCanvas = document.createElement('canvas');
     const glowCtx = glowCanvas.getContext('2d');
@@ -750,12 +766,4 @@
       toggle.addEventListener('click', () => {
         document.querySelector('nav').classList.toggle('nav-mobile-open');
       });
-      document.querySelectorAll('.nav-links a').forEach(a => {
-        a.addEventListener('click', () => {
-          document.querySelector('nav').classList.remove('nav-mobile-open');
-        });
-      });
-    }
-  </script>
-</body>
-</html>
+ 

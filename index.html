@@ -502,25 +502,41 @@
       .nav-links { display: none; }
       .nav-mobile-toggle {
         display: flex; flex-direction: column; gap: 5px;
-        cursor: pointer; padding: 4px;
+        cursor: pointer; padding: 8px; z-index: 9001;
+        position: relative;
       }
       .nav-mobile-toggle span {
-        display: block; width: 22px; height: 1.5px;
-        background: var(--text-dim); transition: all 0.3s;
+        display: block; width: 24px; height: 2px;
+        background: var(--text); transition: all 0.35s ease;
+        border-radius: 2px;
       }
+      /* Full-screen overlay — above everything */
       .nav-mobile-open .nav-links {
-        display: flex; flex-direction: column;
-        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(7,7,15,0.97);
-        backdrop-filter: blur(20px);
+        display: flex !important; flex-direction: column;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw; height: 100vh;
+        background: rgba(7,7,15,0.98);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
         align-items: center; justify-content: center;
-        gap: 36px; z-index: 200;
+        gap: 40px;
+        z-index: 9000;
+        margin: 0; padding: 0;
+        list-style: none;
       }
-      .nav-mobile-open .nav-links a { font-size: 1rem; }
-      .nav-mobile-open .nav-mobile-toggle span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-      .nav-mobile-open .nav-mobile-toggle span:nth-child(2) { opacity: 0; }
-      .nav-mobile-open .nav-mobile-toggle span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-      .nav-mobile-toggle { z-index: 201; }
+      .nav-mobile-open .nav-links li { width: auto; }
+      .nav-mobile-open .nav-links a {
+        font-size: 1.3rem !important;
+        letter-spacing: 0.18em;
+        color: var(--text-dim) !important;
+        padding: 8px 0;
+      }
+      .nav-mobile-open .nav-links a:hover { color: var(--pink) !important; }
+      /* X animation */
+      .nav-mobile-open .nav-mobile-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--pink); }
+      .nav-mobile-open .nav-mobile-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+      .nav-mobile-open .nav-mobile-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--pink); }
 
       #hero { padding: 0 20px; }
       .hero-name { font-size: 3rem; }
@@ -960,7 +976,7 @@
       </div>
       <p class="contact-sub reveal reveal-delay-1">I'm actively seeking entry-level front-end and UI/UX roles. If you're looking for someone who cares deeply about both design and code, I'd love to connect.</p>
       <div class="contact-links reveal reveal-delay-2">
-        <a href="mailto:jpdm015@gmail.com" class="contact-link primary">Get In Touch ↗</a>
+        <a href="/cdn-cgi/l/email-protection#721802161f42434732151f131b1e5c111d1f" class="contact-link primary">Get In Touch ↗</a>
         <a href="https://www.linkedin.com/in/jane-c-699a9241" target="_blank" class="contact-link">LinkedIn ↗</a>
         <a href="https://github.com/jpdm07" target="_blank" class="contact-link">GitHub ↗</a>
       </div>
@@ -973,7 +989,7 @@
     <p>Front-End Developer · UI/UX Designer · Houston, TX</p>
   </footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // Declare glow canvas first
     const glowCanvas = document.createElement('canvas');
     const glowCtx = glowCanvas.getContext('2d');
@@ -1285,8 +1301,4 @@
     const nav = document.querySelector('nav');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 60) {
-        nav.style.background = 'rgba(7,7,15,0.96)';
-        nav.style.backdropFilter = 'blur(20px)';
-        nav.style.padding = '14px 48px';
-      } else {
-  
+        nav
