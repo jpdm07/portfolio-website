@@ -82,12 +82,19 @@
 
     /* ── Cursor ── */
     #cursor {
-      width: 10px; height: 10px; background: var(--pink);
-      border-radius: 50%; position: fixed; top: 0; left: 0;
-      pointer-events: none; z-index: 99999;
+      width: 10px;
+      height: 10px;
+      background: #f472b6;
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 2147483647;
       transition: width 0.25s cubic-bezier(0.34,1.56,0.64,1),
                   height 0.25s cubic-bezier(0.34,1.56,0.64,1),
-                  border-radius 0.25s ease, background 0.25s ease,
+                  border-radius 0.25s ease,
+                  background 0.25s ease,
                   box-shadow 0.25s ease;
     }
     #cursor.is-hovering {
@@ -106,14 +113,20 @@
       display: flex; align-items: center; justify-content: space-between;
       padding: 24px 48px;
       background: linear-gradient(to bottom, rgba(7,7,15,0.9), transparent);
-      backdrop-filter: blur(2px);
       transition: padding 0.3s, background 0.3s;
     }
     .nav-logo {
       font-family: var(--serif); font-size: 1.3rem; font-weight: 600;
       color: var(--text); text-decoration: none; letter-spacing: 0.05em;
     }
-    .nav-logo span { color: var(--pink); }
+    .nav-logo {
+      background: linear-gradient(to bottom, #ffffff 0%, #fce4f0 40%, #f472b6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
+    }
+    .nav-logo span { -webkit-text-fill-color: inherit; }
     .nav-mobile-toggle { display: none; }
     .nav-links { display: flex; gap: 36px; list-style: none; }
     .nav-links a {
@@ -139,7 +152,7 @@
       max-width: 860px;
       margin: 0 auto;
       padding: 140px 48px 100px;
-      position: relative; z-index: 1;
+      position: relative;
     }
 
     /* ── Page header ── */
@@ -157,7 +170,13 @@
     .resume-name {
       font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 4rem);
       font-weight: 300; line-height: 1; letter-spacing: -0.02em;
+      background: linear-gradient(to bottom, #ffffff 0%, #fce4f0 40%, #f472b6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
     }
+    .resume-name em { font-style: italic; }
     .resume-name em { font-style: italic; color: var(--pink); }
     .resume-sub {
       font-family: var(--mono); font-size: 0.7rem;
@@ -193,8 +212,7 @@
 
     /* ── Resume card ── */
     .resume-card {
-      background: var(--surface);
-      backdrop-filter: blur(16px);
+      background: rgba(22,22,35,0.85);
       border: 1px solid var(--border);
       padding: 56px 56px;
       opacity: 0; animation: fadeUp 0.9s ease 0.4s forwards;
@@ -395,12 +413,12 @@
 </head>
 <body>
 
+  <div id="cursor"></div>
   <div id="bg"></div>
   <canvas id="bg-canvas"></canvas>
   <div class="blob blob-1"></div>
   <div class="blob blob-2"></div>
   <div class="blob blob-3"></div>
-  <div id="cursor"></div>
 
   <!-- Nav -->
   <nav>
@@ -453,7 +471,7 @@
         </div>
         <div class="r-contact-item">
           <div class="r-dot"></div>
-          <a href="mailto:jpdm015@gmail.com"><span class="__cf_email__" data-cfemail="8ee4feeae3bebfbbcee9e3efe7e2a0ede1e3">[email&#160;protected]</span></a>
+          <a href="mailto:jpdm015@gmail.com">jpdm015@gmail.com</a>
         </div>
         <div class="r-contact-item">
           <div class="r-dot"></div>
@@ -738,20 +756,24 @@
       if (glowCanvas.width > 0 && glowCanvas.height > 0) ctx.drawImage(glowCanvas,0,0);
     }
     requestAnimationFrame(draw);
-    // Cursor
-    const cursor = document.getElementById('cursor');
-    let mx=0, my=0;
-    function moveCursor(x,y) {
-      cursor.style.transform = `translate(${x-cursor.offsetWidth/2}px,${y-cursor.offsetHeight/2}px)`;
-    }
-    document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; moveCursor(mx,my); });
-    document.querySelectorAll('nav a').forEach(el => {
-      el.addEventListener('mouseenter',()=>cursor.classList.add('is-nav'));
-      el.addEventListener('mouseleave',()=>cursor.classList.remove('is-nav'));
-    });
-    document.querySelectorAll('a:not(nav a)').forEach(el => {
-      el.addEventListener('mouseenter',()=>cursor.classList.add('is-hovering'));
-      el.addEventListener('mouseleave',()=>cursor.classList.remove('is-hovering'));
+    // Cursor — wait for DOM to be ready
+    document.addEventListener('DOMContentLoaded', () => {
+      const cursor = document.getElementById('cursor');
+      if (!cursor) return;
+      let mx = 0, my = 0;
+      cursor.style.transform = 'translate(-20px,-20px)';
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        cursor.style.transform = `translate(${mx-5}px,${my-5}px)`;
+      });
+      document.querySelectorAll('nav a').forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('is-nav'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('is-nav'));
+      });
+      document.querySelectorAll('a:not(nav a)').forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('is-hovering'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('is-hovering'));
+      });
     });
     // Nav shrink
     const nav = document.querySelector('nav');
