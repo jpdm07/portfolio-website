@@ -800,31 +800,37 @@
                     <div class="browser-dots"><span></span><span></span><span></span></div>
                     <div class="browser-url"></div>
                   </div>
-                  <div class="browser-screen-placeholder" style="background:linear-gradient(135deg,#07070f 0%,#0f0f1c 100%);padding:0;overflow:hidden;position:relative;">
-                    <!-- Mini hero replica -->
-                    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 80% 10%,rgba(244,114,182,0.18) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 10% 90%,rgba(139,92,246,0.12) 0%,transparent 55%);"></div>
-                    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);background-size:30px 30px;"></div>
-                    <div style="position:relative;z-index:2;padding:14px 16px;display:flex;flex-direction:column;justify-content:center;height:100%;">
-                      <!-- Nav bar mini -->
-                      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.06);">
-                        <span style="font-family:'DM Mono',monospace;font-size:8px;color:#f472b6;letter-spacing:0.1em;font-weight:600;">JC</span>
-                        <div style="display:flex;gap:8px;">
-                          <span style="font-size:5px;color:rgba(155,151,178,0.7);font-family:'DM Mono',monospace;letter-spacing:0.08em;">WORK</span>
-                          <span style="font-size:5px;color:rgba(155,151,178,0.7);font-family:'DM Mono',monospace;letter-spacing:0.08em;">ABOUT</span>
-                          <span style="font-size:5px;color:rgba(155,151,178,0.7);font-family:'DM Mono',monospace;letter-spacing:0.08em;">CONTACT</span>
+                  <div class="browser-screen-placeholder" style="background:#07070f;padding:0;overflow:hidden;position:relative;">
+                    <!-- Updated mini hero replica matching current design -->
+                    <!-- Grid lines -->
+                    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.018) 1px,transparent 1px);background-size:28px 28px;"></div>
+                    <!-- Pink glow top right -->
+                    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 85% 5%,rgba(244,114,182,0.2) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 5% 90%,rgba(139,92,246,0.14) 0%,transparent 60%);"></div>
+                    <!-- Aurora wave hint -->
+                    <div style="position:absolute;top:30%;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(244,114,182,0.25),transparent);"></div>
+                    <div style="position:absolute;top:55%;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(168,85,247,0.2),transparent);"></div>
+                    <div style="position:relative;z-index:2;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;height:100%;">
+                      <!-- Nav -->
+                      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid rgba(255,255,255,0.06);">
+                        <span style="font-family:'Cormorant Garamond',serif;font-size:9px;font-weight:600;background:linear-gradient(to bottom,#fff,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">JC</span>
+                        <div style="display:flex;gap:7px;">
+                          <span style="font-size:4.5px;color:rgba(155,151,178,0.6);font-family:'DM Mono',monospace;letter-spacing:0.08em;">WORK</span>
+                          <span style="font-size:4.5px;color:rgba(155,151,178,0.6);font-family:'DM Mono',monospace;letter-spacing:0.08em;">ABOUT</span>
+                          <span style="font-size:4.5px;color:rgba(155,151,178,0.6);font-family:'DM Mono',monospace;letter-spacing:0.08em;">CONTACT</span>
+                          <span style="font-size:4.5px;color:#f472b6;font-family:'DM Mono',monospace;letter-spacing:0.08em;">RÉSUMÉ</span>
                         </div>
                       </div>
-                      <!-- Hero text mini -->
-                      <div style="margin-top:4px;">
-                        <div style="font-size:6px;color:#f472b6;font-family:'DM Mono',monospace;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:6px;">Front-End Developer · UI/UX Designer</div>
-                        <div style="font-family:'Cormorant Garamond',serif;line-height:0.95;margin-bottom:8px;">
-                          <div style="font-size:22px;color:#f0eef8;font-weight:300;letter-spacing:-0.02em;">Jane</div>
-                          <div style="font-size:22px;color:#f472b6;font-weight:300;font-style:italic;letter-spacing:-0.02em;">Chavez</div>
+                      <!-- Hero -->
+                      <div style="margin-top:2px;">
+                        <div style="font-size:5px;color:#f472b6;font-family:'DM Mono',monospace;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:5px;">Front-End Developer · UI/UX Designer</div>
+                        <div style="font-family:'Cormorant Garamond',serif;line-height:0.92;margin-bottom:7px;background:linear-gradient(to bottom,#ffffff 0%,#fce4f0 45%,#f472b6 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:inline-block;">
+                          <div style="font-size:20px;font-weight:300;letter-spacing:-0.02em;">Jane</div>
+                          <div style="font-size:20px;font-weight:300;font-style:italic;letter-spacing:-0.02em;">Chavez</div>
                         </div>
-                        <div style="font-size:5.5px;color:rgba(155,151,178,0.8);line-height:1.6;max-width:160px;margin-bottom:10px;">Building responsive, accessible web interfaces with strong attention to user experience.</div>
-                        <div style="display:flex;gap:6px;">
-                          <div style="border:1px solid #f472b6;padding:3px 8px;font-size:5px;color:#f472b6;font-family:'DM Mono',monospace;letter-spacing:0.1em;">VIEW MY WORK</div>
-                          <div style="font-size:5px;color:rgba(155,151,178,0.7);font-family:'DM Mono',monospace;letter-spacing:0.1em;display:flex;align-items:center;">RÉSUMÉ ↓</div>
+                        <div style="font-size:5px;color:rgba(155,151,178,0.75);line-height:1.6;max-width:150px;margin-bottom:9px;">Building responsive, accessible web interfaces with strong attention to user experience.</div>
+                        <div style="display:flex;gap:6px;align-items:center;">
+                          <div style="border:1px solid #f472b6;padding:3px 8px;font-size:4.5px;color:#f472b6;font-family:'DM Mono',monospace;letter-spacing:0.1em;">VIEW MY WORK</div>
+                          <div style="font-size:4.5px;color:rgba(155,151,178,0.6);font-family:'DM Mono',monospace;letter-spacing:0.1em;">DOWNLOAD RÉSUMÉ ↓</div>
                         </div>
                       </div>
                     </div>
@@ -832,21 +838,22 @@
                 </div>
                 <div class="phone-frame">
                   <div class="phone-notch"><div class="phone-notch-dot"></div></div>
-                  <div class="phone-screen" style="display:flex;flex-direction:column;background:linear-gradient(180deg,#07070f,#0f0f1c);position:relative;overflow:hidden;">
-                    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 80% 5%,rgba(244,114,182,0.2) 0%,transparent 60%);"></div>
-                    <div style="position:relative;z-index:2;padding:6px 5px;display:flex;flex-direction:column;height:100%;">
-                      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,0.06);">
-                        <span style="font-family:'DM Mono',monospace;font-size:5px;color:#f472b6;font-weight:600;letter-spacing:0.08em;">JC</span>
-                        <span style="font-size:4px;color:rgba(155,151,178,0.6);font-family:'DM Mono',monospace;">≡</span>
+                  <div class="phone-screen" style="display:flex;flex-direction:column;background:#07070f;position:relative;overflow:hidden;">
+                    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 85% 5%,rgba(244,114,182,0.22) 0%,transparent 60%);"></div>
+                    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);background-size:18px 18px;"></div>
+                    <div style="position:relative;z-index:2;padding:6px 5px;display:flex;flex-direction:column;height:100%;align-items:center;text-align:center;">
+                      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,0.06);width:100%;">
+                        <span style="font-family:'Cormorant Garamond',serif;font-size:6px;font-weight:600;background:linear-gradient(to bottom,#fff,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">JC</span>
+                        <span style="font-size:5px;color:rgba(155,151,178,0.6);font-family:'DM Mono',monospace;">≡</span>
                       </div>
-                      <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
-                        <div style="font-size:4px;color:#f472b6;font-family:'DM Mono',monospace;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:4px;">Front-End · UI/UX</div>
-                        <div style="font-family:'Cormorant Garamond',serif;line-height:0.95;margin-bottom:5px;">
-                          <div style="font-size:13px;color:#f0eef8;font-weight:300;">Jane</div>
-                          <div style="font-size:13px;color:#f472b6;font-style:italic;font-weight:300;">Chavez</div>
+                      <div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+                        <div style="font-size:3.5px;color:#f472b6;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Front-End · UI/UX</div>
+                        <div style="font-family:'Cormorant Garamond',serif;line-height:0.92;margin-bottom:5px;background:linear-gradient(to bottom,#ffffff,#fce4f0,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:inline-block;text-align:center;">
+                          <div style="font-size:12px;font-weight:300;">Jane Chavez</div>
                         </div>
-                        <div style="font-size:3.5px;color:rgba(155,151,178,0.7);line-height:1.5;margin-bottom:6px;">Building responsive, accessible web interfaces.</div>
-                        <div style="border:1px solid #f472b6;padding:2px 5px;font-size:3.5px;color:#f472b6;font-family:'DM Mono',monospace;letter-spacing:0.08em;display:inline-block;width:fit-content;">VIEW WORK</div>
+                        <div style="font-size:3px;color:rgba(155,151,178,0.7);line-height:1.5;margin-bottom:5px;text-align:center;">Building responsive, accessible web interfaces.</div>
+                        <div style="border:1px solid #f472b6;padding:2px 4px;font-size:3px;color:#f472b6;font-family:'DM Mono',monospace;letter-spacing:0.08em;width:80%;text-align:center;">VIEW WORK</div>
+                        <div style="border:1px solid rgba(255,255,255,0.1);padding:2px 4px;font-size:3px;color:rgba(155,151,178,0.6);font-family:'DM Mono',monospace;letter-spacing:0.08em;width:80%;text-align:center;margin-top:3px;">RÉSUMÉ ↓</div>
                       </div>
                     </div>
                   </div>
