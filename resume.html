@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Résumé — Jane Chavez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500&display=swap"></noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #07070f;
+      --surface: rgba(22,22,35,0.72);
+      --surface2: rgba(28,28,42,0.85);
+      --border: rgba(255,255,255,0.06);
+      --pink: #f472b6;
+      --text: #f0eef8;
+      --text-dim: #9b97b2;
+      --text-muted: #5a5672;
+      --mono: 'DM Mono', monospace;
+      --serif: 'Cormorant Garamond', serif;
+      --sans: 'Outfit', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: transparent;
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
+      min-height: 100vh;
+    }
+
+    /* ── Background stack (identical to index.html) ── */
+    #bg {
+      position: fixed; inset: 0;
+      z-index: -100; background: #07070f; pointer-events: none;
+    }
+    #bg-canvas {
+      position: fixed; inset: 0;
+      z-index: -99; display: block;
+      pointer-events: none; width: 100%; height: 100%;
+    }
+    .blob {
+      position: fixed; border-radius: 50%;
+      filter: blur(120px); pointer-events: none; z-index: -98;
+    }
+    .blob-1 {
+      width: 750px; height: 750px;
+      background: radial-gradient(circle, rgba(244,114,182,0.12) 0%, transparent 65%);
+      top: -220px; right: -220px;
+      animation: blobDrift 22s ease-in-out infinite alternate;
+    }
+    .blob-2 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(139,92,246,0.09) 0%, transparent 65%);
+      bottom: 0; left: -200px;
+      animation: blobDrift 28s ease-in-out infinite alternate-reverse;
+    }
+    .blob-3 {
+      width: 380px; height: 380px;
+      background: radial-gradient(circle, rgba(244,114,182,0.07) 0%, transparent 65%);
+      top: 40%; left: 35%;
+      animation: blobDrift 36s ease-in-out infinite alternate;
+    }
+    body::after {
+      content: ''; position: fixed; inset: 0;
+      background: rgba(7,7,15,0.28); pointer-events: none; z-index: -97;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: -96; opacity: 0.4;
+    }
+
+    /* ── Cursor ── */
+    #cursor {
+      width: 10px; height: 10px; background: var(--pink);
+      border-radius: 50%; position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 99999;
+      transition: width 0.25s cubic-bezier(0.34,1.56,0.64,1),
+                  height 0.25s cubic-bezier(0.34,1.56,0.64,1),
+                  border-radius 0.25s ease, background 0.25s ease,
+                  box-shadow 0.25s ease;
+    }
+    #cursor.is-hovering {
+      width: 38px; height: 38px; background: transparent;
+      border: 1.5px solid var(--pink);
+      box-shadow: 0 0 14px rgba(244,114,182,0.45), inset 0 0 8px rgba(244,114,182,0.1);
+    }
+    #cursor.is-nav {
+      width: 30px; height: 5px; border-radius: 3px;
+      background: var(--pink); box-shadow: 0 0 10px rgba(244,114,182,0.6);
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 48px;
+      background: linear-gradient(to bottom, rgba(7,7,15,0.9), transparent);
+      backdrop-filter: blur(2px);
+      transition: padding 0.3s, background 0.3s;
+    }
+    .nav-logo {
+      font-family: var(--serif); font-size: 1.3rem; font-weight: 600;
+      color: var(--text); text-decoration: none; letter-spacing: 0.05em;
+    }
+    .nav-logo span { color: var(--pink); }
+    .nav-mobile-toggle { display: none; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-family: var(--mono); font-size: 0.7rem; color: var(--text-dim);
+      text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase;
+      transition: color 0.3s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute;
+      bottom: -6px; left: 50%; transform: translateX(-50%) scale(0);
+      width: 4px; height: 4px; background: var(--pink);
+      border-radius: 50%;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s;
+      opacity: 0;
+    }
+    .nav-links a:hover { color: var(--pink); }
+    .nav-links a:hover::after { transform: translateX(-50%) scale(1); opacity: 1; }
+    .nav-links a.active { color: var(--pink); }
+    .nav-links a.active::after { transform: translateX(-50%) scale(1); opacity: 1; }
+
+    /* ── Page wrapper ── */
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 140px 48px 100px;
+      position: relative; z-index: 1;
+    }
+
+    /* ── Page header ── */
+    .resume-header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 56px;
+      opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards;
+    }
+    .resume-title-block {}
+    .resume-eyebrow {
+      font-family: var(--mono); font-size: 0.68rem;
+      color: var(--pink); letter-spacing: 0.2em; text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .resume-name {
+      font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 300; line-height: 1; letter-spacing: -0.02em;
+    }
+    .resume-name em { font-style: italic; color: var(--pink); }
+    .resume-sub {
+      font-family: var(--mono); font-size: 0.7rem;
+      color: var(--text-muted); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-top: 10px;
+    }
+    .download-btn {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 28px;
+      border: 1px solid var(--pink); color: var(--pink);
+      font-family: var(--mono); font-size: 0.7rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      text-decoration: none; cursor: none;
+      position: relative; overflow: hidden;
+      transition: color 0.3s; white-space: nowrap;
+    }
+    .download-btn::before {
+      content: ''; position: absolute; inset: 0;
+      background: var(--pink); transform: translateX(-101%);
+      transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+    .download-btn:hover { color: var(--bg); }
+    .download-btn:hover::before { transform: translateX(0); }
+    .download-btn span { position: relative; z-index: 1; display: flex; align-items: center; gap: 10px; }
+    .download-icon { font-size: 1rem; }
+
+    /* ── Divider ── */
+    .glow-line {
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--pink), transparent);
+      opacity: 0.35; margin-bottom: 56px;
+    }
+
+    /* ── Resume card ── */
+    .resume-card {
+      background: var(--surface);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      padding: 56px 56px;
+      opacity: 0; animation: fadeUp 0.9s ease 0.4s forwards;
+    }
+
+    /* Contact row */
+    .r-contact {
+      display: flex; gap: 24px; flex-wrap: wrap;
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    .r-contact-item {
+      font-family: var(--mono); font-size: 0.68rem;
+      color: var(--text-dim); letter-spacing: 0.06em;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .r-contact-item a {
+      color: var(--pink); text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .r-contact-item a:hover { opacity: 0.7; }
+    .r-dot {
+      width: 3px; height: 3px; background: var(--text-muted);
+      border-radius: 50%; flex-shrink: 0;
+    }
+
+    /* Section */
+    .r-section { margin-bottom: 40px; }
+    .r-section:last-child { margin-bottom: 0; }
+    .r-section-title {
+      font-family: var(--mono); font-size: 0.65rem;
+      color: var(--pink); letter-spacing: 0.18em; text-transform: uppercase;
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .r-section-title::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* Summary */
+    .r-summary {
+      font-size: 0.9rem; color: var(--text-dim);
+      line-height: 1.8; max-width: 680px;
+    }
+
+    /* Skills */
+    .r-skills-grid {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .r-skill-row { display: flex; gap: 12px; align-items: baseline; }
+    .r-skill-label {
+      font-family: var(--mono); font-size: 0.62rem;
+      color: var(--text-muted); letter-spacing: 0.08em;
+      text-transform: uppercase; min-width: 130px; flex-shrink: 0;
+    }
+    .r-skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .r-tag {
+      font-family: var(--mono); font-size: 0.62rem;
+      color: var(--text-dim); border: 1px solid var(--border);
+      padding: 3px 10px; letter-spacing: 0.05em;
+      transition: border-color 0.3s, color 0.3s;
+    }
+    .r-tag:hover { border-color: var(--pink); color: var(--pink); }
+
+    /* Experience / Education blocks */
+    .r-block { margin-bottom: 28px; }
+    .r-block:last-child { margin-bottom: 0; }
+    .r-block-header {
+      display: flex; justify-content: space-between;
+      align-items: baseline; gap: 12px; margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+    .r-block-title {
+      font-family: var(--sans); font-size: 0.92rem;
+      font-weight: 400; color: var(--text);
+    }
+    .r-block-date {
+      font-family: var(--mono); font-size: 0.62rem;
+      color: var(--text-muted); letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+    .r-block-org {
+      font-family: var(--mono); font-size: 0.68rem;
+      color: var(--pink); letter-spacing: 0.06em;
+      margin-bottom: 10px;
+    }
+    .r-block-bullets { list-style: none; padding: 0; }
+    .r-block-bullets li {
+      font-size: 0.86rem; color: var(--text-dim);
+      line-height: 1.75; padding-left: 18px; position: relative;
+      margin-bottom: 4px;
+    }
+    .r-block-bullets li::before {
+      content: '—'; position: absolute; left: 0;
+      color: var(--pink); font-size: 0.7rem;
+    }
+    .r-block-note {
+      font-size: 0.86rem; color: var(--text-dim); line-height: 1.7;
+    }
+    .r-gpa {
+      font-family: var(--mono); font-size: 0.65rem;
+      color: var(--pink); letter-spacing: 0.06em; margin-top: 4px;
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes blobDrift {
+      0%   { transform: translate(0,0) scale(1); }
+      100% { transform: translate(40px,30px) scale(1.08); }
+    }
+
+    /* Footer */
+    .r-footer {
+      text-align: center; margin-top: 48px;
+      font-family: var(--mono); font-size: 0.62rem;
+      color: var(--text-muted); letter-spacing: 0.08em;
+      opacity: 0; animation: fadeUp 0.8s ease 0.8s forwards;
+    }
+    .r-footer a { color: var(--pink); text-decoration: none; }
+    .r-footer a:hover { opacity: 0.7; }
+
+
+    /* ── Pink scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #07070f; }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(to bottom, #f472b6, #c84b8a);
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover { background: #f472b6; }
+    * { scrollbar-width: thin; scrollbar-color: #f472b6 #07070f; }
+
+    /* ── Full responsive ── */
+    @media (max-width: 900px) {
+      nav { padding: 20px 32px; }
+      .page { padding: 120px 32px 80px; }
+    }
+
+    @media (max-width: 640px) {
+      body { cursor: auto; }
+      #cursor { display: none; }
+
+      nav { padding: 18px 20px; }
+      .nav-links { display: none; }
+      .nav-mobile-toggle {
+        display: flex; flex-direction: column; gap: 5px;
+        cursor: pointer; padding: 4px;
+      }
+      .nav-mobile-toggle span {
+        display: block; width: 22px; height: 1.5px;
+        background: var(--text-dim); transition: all 0.3s;
+      }
+      .nav-mobile-open .nav-links {
+        display: flex; flex-direction: column;
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(7,7,15,0.97);
+        backdrop-filter: blur(20px);
+        align-items: center; justify-content: center;
+        gap: 36px; z-index: 200;
+      }
+      .nav-mobile-open .nav-links a { font-size: 1rem; }
+      .nav-mobile-open .nav-mobile-toggle span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+      .nav-mobile-open .nav-mobile-toggle span:nth-child(2) { opacity: 0; }
+      .nav-mobile-open .nav-mobile-toggle span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+      .nav-mobile-toggle { z-index: 201; }
+
+      .page { padding: 100px 20px 60px; }
+      .resume-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .resume-name { font-size: 2.4rem; }
+      .resume-card { padding: 28px 20px; }
+      .r-contact { gap: 14px; }
+      .r-skill-row { flex-direction: column; gap: 6px; }
+      .r-skill-label { min-width: unset; }
+      .r-block-header { flex-direction: column; gap: 2px; }
+      .download-btn { width: 100%; justify-content: center; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="bg"></div>
+  <canvas id="bg-canvas"></canvas>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div id="cursor"></div>
+
+  <!-- Nav -->
+  <nav>
+    <a href="index.html" class="nav-logo">J<span>C</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html#projects">Work</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><a href="resume.html" class="active">Résumé</a></li>
+    </ul>
+    <div class="nav-mobile-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <!-- Header -->
+    <div class="resume-header">
+      <div class="resume-title-block">
+        <p class="resume-eyebrow">Curriculum Vitae</p>
+        <h1 class="resume-name">Jane <em>Chavez</em></h1>
+        <p class="resume-sub">UX/UI Designer · Front-End Engineer</p>
+      </div>
+      <a href="https://jpdm07.github.io/portfolio-website/Jane_Chavez_Resume_2026.pdf"
+         download="Jane_Chavez_Resume_2026.pdf"
+         target="_blank"
+         class="download-btn">
+        <span>
+          <span class="download-icon">↓</span>
+          Download PDF
+        </span>
+      </a>
+    </div>
+
+    <div class="glow-line"></div>
+
+    <!-- Resume card -->
+    <div class="resume-card">
+
+      <!-- Contact -->
+      <div class="r-contact">
+        <div class="r-contact-item">
+          <div class="r-dot"></div>
+          Cypress, TX
+        </div>
+        <div class="r-contact-item">
+          <div class="r-dot"></div>
+          <a href="tel:9797033827">979-703-3827</a>
+        </div>
+        <div class="r-contact-item">
+          <div class="r-dot"></div>
+          <a href="mailto:jpdm015@gmail.com">jpdm015@gmail.com</a>
+        </div>
+        <div class="r-contact-item">
+          <div class="r-dot"></div>
+          <a href="https://www.linkedin.com/in/jane-c-699a9241" target="_blank">LinkedIn</a>
+        </div>
+        <div class="r-contact-item">
+          <div class="r-dot"></div>
+          <a href="https://github.com/jpdm07" target="_blank">GitHub</a>
+        </div>
+        <div class="r-contact-item">
+          <div class="r-dot"></div>
+          <a href="index.html">Portfolio</a>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="r-section">
+        <h2 class="r-section-title">Professional Summary</h2>
+        <p class="r-summary">UX/UI Designer and Front-End Engineer with a Master's in Software Engineering, focused on designing task-driven, user-centered interfaces. Experienced in building responsive web applications and translating user needs into structured workflows, intuitive navigation, and low-friction interactions. Skilled in Figma, HTML, CSS, JavaScript, and usability-driven design, with a strong foundation in human-computer interaction principles. A background in healthcare brings experience in fast-paced, high-stakes environments that require clarity, efficiency, and reliability.</p>
+      </div>
+
+      <!-- Skills -->
+      <div class="r-section">
+        <h2 class="r-section-title">Technical Skills</h2>
+        <div class="r-skills-grid">
+          <div class="r-skill-row">
+            <span class="r-skill-label">Frontend</span>
+            <div class="r-skill-tags">
+              <span class="r-tag">HTML5</span>
+              <span class="r-tag">CSS3</span>
+              <span class="r-tag">JavaScript</span>
+              <span class="r-tag">Bootstrap 5</span>
+              <span class="r-tag">DOM Manipulation</span>
+              <span class="r-tag">Responsive Design</span>
+            </div>
+          </div>
+          <div class="r-skill-row">
+            <span class="r-skill-label">UX/UI Design</span>
+            <div class="r-skill-tags">
+              <span class="r-tag">Figma</span>
+              <span class="r-tag">Wireframing</span>
+              <span class="r-tag">Prototyping</span>
+              <span class="r-tag">Task Flows</span>
+              <span class="r-tag">User-Centered Design</span>
+              <span class="r-tag">Visual Hierarchy</span>
+              <span class="r-tag">Usability Evaluation</span>
+            </div>
+          </div>
+          <div class="r-skill-row">
+            <span class="r-skill-label">Dev & Tools</span>
+            <div class="r-skill-tags">
+              <span class="r-tag">Git</span>
+              <span class="r-tag">GitHub</span>
+              <span class="r-tag">GitHub Pages</span>
+              <span class="r-tag">WordPress</span>
+              <span class="r-tag">Chart.js</span>
+            </div>
+          </div>
+          <div class="r-skill-row">
+            <span class="r-skill-label">Data & Analytics</span>
+            <div class="r-skill-tags">
+              <span class="r-tag">R</span>
+              <span class="r-tag">Weka</span>
+              <span class="r-tag">EDA</span>
+              <span class="r-tag">Data Cleaning</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Experience -->
+      <div class="r-section">
+        <h2 class="r-section-title">Professional Experience</h2>
+
+        <div class="r-block">
+          <div class="r-block-header">
+            <span class="r-block-title">Volunteer Web UX Designer</span>
+            <span class="r-block-date">Feb 2026 – Present</span>
+          </div>
+          <p class="r-block-org">Sierra Overlook Animal Rescue · Remote</p>
+          <ul class="r-block-bullets">
+            <li>Evaluated real user behavior to identify friction in navigation, content structure, and task completion (adoption, donation, volunteer flows)</li>
+            <li>Redesigned information architecture and task flows to improve usability and content discoverability</li>
+            <li>Prioritized key user actions through improved visual hierarchy and layout structuring</li>
+            <li>Implemented responsive UI improvements in Wix, aligning design decisions with platform constraints</li>
+            <li>Applied user-centered design principles to reduce cognitive load and improve overall user experience</li>
+          </ul>
+        </div>
+
+        <div class="r-block">
+          <div class="r-block-header">
+            <span class="r-block-title">Staff Nurse – IMU</span>
+            <span class="r-block-date">Jul 2023 – Oct 2023</span>
+          </div>
+          <p class="r-block-org">HCA Houston Healthcare Cypress</p>
+          <ul class="r-block-bullets">
+            <li>Managed high-acuity patient care in a fast-paced hospital environment</li>
+            <li>Collaborated with multidisciplinary teams to ensure safe and efficient patient outcomes</li>
+          </ul>
+        </div>
+
+        <div class="r-block">
+          <div class="r-block-header">
+            <span class="r-block-title">Staff Nurse / Charge Nurse / Float Nurse</span>
+            <span class="r-block-date">Jan 2019 – Apr 2021</span>
+          </div>
+          <p class="r-block-org">CHI St. Joseph Hospital</p>
+          <ul class="r-block-bullets">
+            <li>Oversaw patient care operations and coordinated across multiple hospital units</li>
+            <li>Improved workflow efficiency and supported clinical team operations</li>
+          </ul>
+        </div>
+
+        <div class="r-block">
+          <div class="r-block-header">
+            <span class="r-block-title">House Supervisor & Staff Nurse</span>
+            <span class="r-block-date">May 2016 – Jan 2019</span>
+          </div>
+          <p class="r-block-org">Rock Prairie Behavioral Health</p>
+          <ul class="r-block-bullets">
+            <li>Supervised nursing staff and ensured adherence to operational standards</li>
+            <li>Coordinated patient care workflows and staff training</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Projects -->
+      <div class="r-section">
+        <h2 class="r-section-title">Technical Projects</h2>
+
+        <div class="r-block">
+          <div class="r-block-header">
+            <span class="r-block-title">CaloriEat Web Application</span>
+            <span class="r-block-date">UHCL Capstone</span>
+          </div>
+          <p class="r-block-org">HTML · CSS · JavaScript · Node.js · Chart.js</p>
+          <ul class="r-block-bullets">
+            <li>Designed task-driven user workflows for meal logging, goal tracking, and progress monitoring</li>
+            <li>Defined system behavior using use cases, data flow diagrams, and state models</li>
+            <li>Developed dashboard interfaces with clear visual hierarchy and low cognitive load</li>
+            <li>Integrated Chart.js data visualization to support user feedback and decision-making</li>
+          </ul>
+        </div>
+
+        <div class="r-block">
+          <div class="r-block-header">
+            <span class="r-block-title">HTML Portfolio Website</span>
+            <span class="r-block-date">GitHub</span>
+          </div>
+          <p class="r-block-org">HTML · CSS · Bootstrap 5 · Figma</p>
+          <ul class="r-block-bullets">
+            <li>Designed and developed a responsive portfolio with clear navigation and structured user flow</li>
+            <li>Built reusable UI components using Bootstrap and implemented interactive features with JavaScript</li>
+            <li>Deployed and maintained using GitHub Pages</li>
+          </ul>
+        </div>
+
+        <div class="r-block">
+          <div class="r-block-header">
+            <span class="r-block-title">Predicting AI's Impact on Careers</span>
+            <span class="r-block-date">UHCL SWEN 5139</span>
+          </div>
+          <p class="r-block-org">R · Weka · Group Project</p>
+          <ul class="r-block-bullets">
+            <li>Conducted exploratory data analysis (EDA) to evaluate trends in AI-related job growth and displacement</li>
+            <li>Applied classification modeling in Weka to identify workforce patterns</li>
+            <li>Performed data cleaning and feature engineering to improve analysis accuracy</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Education -->
+      <div class="r-section">
+        <h2 class="r-section-title">Education</h2>
+
+        <div class="r-block">
+          <div class="r-block-header">
+            <span class="r-block-title">M.S. Software Engineering</span>
+            <span class="r-block-date">Graduated Dec 2024</span>
+          </div>
+          <p class="r-block-org">University of Houston–Clear Lake</p>
+          <p class="r-gpa">GPA 3.90 · Agile · Data Science · Software Engineering</p>
+        </div>
+
+        <div class="r-block">
+          <div class="r-block-header">
+            <span class="r-block-title">B.S. Nursing</span>
+            <span class="r-block-date"></span>
+          </div>
+          <p class="r-block-org">The University of Texas at Arlington</p>
+          <p class="r-gpa">GPA 4.00</p>
+        </div>
+      </div>
+
+    </div><!-- /resume-card -->
+
+    <div class="r-footer">
+      <p>← <a href="index.html">Back to Portfolio</a> &nbsp;·&nbsp; <a href="https://jpdm07.github.io/portfolio-website/Jane_Chavez_Resume_2026.pdf" target="_blank" download>Download PDF</a></p>
+    </div>
+
+  </div><!-- /page -->
+
+  <script>
+    // Declare glow canvas first
+    const glowCanvas = document.createElement('canvas');
+    const glowCtx = glowCanvas.getContext('2d');
+
+    function buildGlowCanvas() {
+      const W = glowCanvas.width, H = glowCanvas.height;
+      if (!W || !H) return;
+      glowCtx.clearRect(0, 0, W, H);
+      const vg1 = glowCtx.createRadialGradient(W*.82,H*.06,0,W*.82,H*.06,W*.5);
+      vg1.addColorStop(0,'rgba(244,114,182,0.18)'); vg1.addColorStop(1,'transparent');
+      glowCtx.fillStyle = vg1; glowCtx.fillRect(0,0,W,H);
+      const vg2 = glowCtx.createRadialGradient(W*.08,H*.9,0,W*.08,H*.9,W*.42);
+      vg2.addColorStop(0,'rgba(168,85,247,0.14)'); vg2.addColorStop(1,'transparent');
+      glowCtx.fillStyle = vg2; glowCtx.fillRect(0,0,W,H);
+    }
+
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width = glowCanvas.width = window.innerWidth;
+      canvas.height = glowCanvas.height = window.innerHeight;
+      buildGlowCanvas();
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // 45 particles
+    const particles = [];
+    for (let i = 0; i < 45; i++) {
+      const hue = Math.random() < .55 ? 330 : Math.random() < .6 ? 270 : 220;
+      particles.push({
+        x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight,
+        r: Math.random()*1.4+.35, vx: (Math.random()-.5)*.18, vy: (Math.random()-.5)*.18,
+        opacity: Math.random()*.55+.22, color: `hsla(${hue},90%,85%,`,
+        pulseOffset: Math.random()*Math.PI*2, pulseSpeed: .006+Math.random()*.01,
+      });
+    }
+
+    const lineData = [
+      {offset:0,    speed:.5,  amp:55, yBase:.12, hue:315, alpha:.07},
+      {offset:1.05, speed:.35, amp:75, yBase:.30, hue:325, alpha:.06},
+      {offset:2.10, speed:.6,  amp:50, yBase:.52, hue:280, alpha:.05},
+      {offset:3.14, speed:.4,  amp:65, yBase:.74, hue:340, alpha:.065},
+      {offset:4.20, speed:.28, amp:45, yBase:.90, hue:310, alpha:.05},
+    ];
+
+    let lastFrame = 0, elapsed = 0;
+    function draw(ts) {
+      requestAnimationFrame(draw);
+      const delta = ts - lastFrame;
+      if (delta < 33) return;
+      lastFrame = ts;
+      elapsed += delta * .001;
+      const W = canvas.width, H = canvas.height;
+      ctx.fillStyle = '#07070f';
+      ctx.fillRect(0,0,W,H);
+      for (const l of lineData) {
+        ctx.beginPath();
+        const yb = H * l.yBase;
+        for (let x = 0; x <= W; x += 6) {
+          const y = yb + Math.sin(x*.006 + elapsed*l.speed + l.offset)*l.amp
+                      + Math.sin(x*.012 + elapsed*l.speed*1.6 + l.offset*.7)*(l.amp*.4);
+          x===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+        }
+        ctx.strokeStyle = `hsla(${l.hue},85%,72%,${l.alpha})`;
+        ctx.lineWidth = 1.5; ctx.stroke();
+      }
+      for (const p of particles) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x<-5) p.x=W+5; if (p.x>W+5) p.x=-5;
+        if (p.y<-5) p.y=H+5; if (p.y>H+5) p.y=-5;
+        const pulse = Math.sin(elapsed*p.pulseSpeed*5+p.pulseOffset)*.3+.7;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r*pulse, 0, Math.PI*2);
+        ctx.fillStyle = p.color+(p.opacity*pulse*2.6)+')';
+        ctx.fill();
+      }
+      if (glowCanvas.width > 0 && glowCanvas.height > 0) ctx.drawImage(glowCanvas,0,0);
+    }
+    requestAnimationFrame(draw);
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    let mx=0, my=0;
+    function moveCursor(x,y) {
+      cursor.style.transform = `translate(${x-cursor.offsetWidth/2}px,${y-cursor.offsetHeight/2}px)`;
+    }
+    document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; moveCursor(mx,my); });
+    document.querySelectorAll('nav a').forEach(el => {
+      el.addEventListener('mouseenter',()=>cursor.classList.add('is-nav'));
+      el.addEventListener('mouseleave',()=>cursor.classList.remove('is-nav'));
+    });
+    document.querySelectorAll('a:not(nav a)').forEach(el => {
+      el.addEventListener('mouseenter',()=>cursor.classList.add('is-hovering'));
+      el.addEventListener('mouseleave',()=>cursor.classList.remove('is-hovering'));
+    });
+    // Nav shrink
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll',()=>{
+      if (window.scrollY>60) { nav.style.background='rgba(7,7,15,0.96)'; nav.style.backdropFilter='blur(20px)'; nav.style.padding='14px 48px'; }
+      else { nav.style.background=''; nav.style.backdropFilter=''; nav.style.padding=''; }
+    },{passive:true});
+
+    // Mobile nav toggle
+    const toggle = document.querySelector('.nav-mobile-toggle');
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        document.querySelector('nav').classList.toggle('nav-mobile-open');
+      });
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        a.addEventListener('click', () => {
+          document.querySelector('nav').classList.remove('nav-mobile-open');
+        });
+      });
+    }
+  </script>
+</body>
+</html>
