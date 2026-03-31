@@ -1212,14 +1212,15 @@
     },{passive:true});
 
 
-    // ── Lottery number shuffle on project numbers ──
+    // ── Lottery number shuffle ──
     function shuffleNumber(el) {
       const final = el.getAttribute('data-final');
       const chars = '0123456789';
       const digits = final.split('');
-      // Stagger each digit — left to right, one at a time
+      // Reset first
+      el.textContent = '000'.slice(0, digits.length);
       digits.forEach((targetChar, digitIndex) => {
-        const delay = digitIndex * 220; // 220ms gap between each digit starting
+        const delay = 300 + digitIndex * 250; // wait 300ms then stagger each digit
         let iterations = 0;
         const maxIterations = 14;
         setTimeout(() => {
@@ -1231,21 +1232,22 @@
             el.textContent = current.join('');
             iterations++;
             if (iterations > maxIterations) clearInterval(interval);
-          }, 75); // slower — 75ms per frame
+          }, 80);
         }, delay);
       });
     }
 
-    // Fire shuffle when project header becomes visible
+    // Re-trigger every time project header enters viewport
     const numObserver = new IntersectionObserver(entries => {
       entries.forEach(e => {
+        const num = e.target.querySelector('.project-num[data-final]');
+        if (!num) return;
         if (e.isIntersecting) {
-          const num = e.target.querySelector('.project-num[data-final]');
-          if (num) setTimeout(() => shuffleNumber(num), 80);
-          numObserver.unobserve(e.target);
+          // Delay until reveal animation finishes (800ms)
+          setTimeout(() => shuffleNumber(num), 850);
         }
       });
-    }, { threshold: 0.05 });
+    }, { threshold: 0.3 });
 
     document.querySelectorAll('.project-header').forEach(el => numObserver.observe(el));
 

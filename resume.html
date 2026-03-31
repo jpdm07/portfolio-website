@@ -471,7 +471,7 @@
         </div>
         <div class="r-contact-item">
           <div class="r-dot"></div>
-          <a href="mailto:jpdm015@gmail.com">jpdm015@gmail.com</a>
+          <a href="mailto:jpdm015@gmail.com"><span class="__cf_email__" data-cfemail="94fee4f0f9a4a5a1d4f3f9f5fdf8baf7fbf9">[email&#160;protected]</span></a>
         </div>
         <div class="r-contact-item">
           <div class="r-dot"></div>
@@ -677,23 +677,22 @@
   <div id="cursor"></div>
 
   <script>
-    // ── Glow canvas ──
+    // ── Glow canvas declared first ──
     const glowCanvas = document.createElement('canvas');
     const glowCtx = glowCanvas.getContext('2d');
 
     function buildGlowCanvas() {
       const W = glowCanvas.width, H = glowCanvas.height;
       if (!W || !H) return;
-      glowCtx.clearRect(0, 0, W, H);
+      glowCtx.clearRect(0,0,W,H);
       const vg1 = glowCtx.createRadialGradient(W*.82,H*.06,0,W*.82,H*.06,W*.5);
       vg1.addColorStop(0,'rgba(244,114,182,0.18)'); vg1.addColorStop(1,'transparent');
-      glowCtx.fillStyle = vg1; glowCtx.fillRect(0,0,W,H);
+      glowCtx.fillStyle=vg1; glowCtx.fillRect(0,0,W,H);
       const vg2 = glowCtx.createRadialGradient(W*.08,H*.9,0,W*.08,H*.9,W*.42);
       vg2.addColorStop(0,'rgba(168,85,247,0.14)'); vg2.addColorStop(1,'transparent');
-      glowCtx.fillStyle = vg2; glowCtx.fillRect(0,0,W,H);
+      glowCtx.fillStyle=vg2; glowCtx.fillRect(0,0,W,H);
     }
 
-    // ── Main canvas ──
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
 
@@ -705,19 +704,17 @@
     resize();
     window.addEventListener('resize', resize);
 
-    // ── Particles ──
     const particles = [];
     for (let i = 0; i < 45; i++) {
-      const hue = Math.random() < .55 ? 330 : Math.random() < .6 ? 270 : 220;
+      const hue = Math.random()<.55?330:Math.random()<.6?270:220;
       particles.push({
-        x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight,
-        r: Math.random()*1.4+.35, vx: (Math.random()-.5)*.18, vy: (Math.random()-.5)*.18,
-        opacity: Math.random()*.55+.22, color: `hsla(${hue},90%,85%,`,
-        pulseOffset: Math.random()*Math.PI*2, pulseSpeed: .006+Math.random()*.01,
+        x:Math.random()*window.innerWidth, y:Math.random()*window.innerHeight,
+        r:Math.random()*1.4+.35, vx:(Math.random()-.5)*.18, vy:(Math.random()-.5)*.18,
+        opacity:Math.random()*.55+.22, color:`hsla(${hue},90%,85%,`,
+        pulseOffset:Math.random()*Math.PI*2, pulseSpeed:.006+Math.random()*.01,
       });
     }
 
-    // ── Aurora lines ──
     const lineData = [
       {offset:0,    speed:.5,  amp:55, yBase:.12, hue:315, alpha:.07},
       {offset:1.05, speed:.35, amp:75, yBase:.30, hue:325, alpha:.06},
@@ -726,39 +723,34 @@
       {offset:4.20, speed:.28, amp:45, yBase:.90, hue:310, alpha:.05},
     ];
 
-    // ── Draw loop ──
-    let lastFrame = 0, elapsed = 0;
+    let lastFrame=0, elapsed=0;
     function draw(ts) {
       requestAnimationFrame(draw);
       const delta = ts - lastFrame;
       if (delta < 33) return;
-      lastFrame = ts;
-      elapsed += delta * .001;
-      const W = canvas.width, H = canvas.height;
-      ctx.fillStyle = '#07070f';
-      ctx.fillRect(0,0,W,H);
+      lastFrame = ts; elapsed += delta*.001;
+      const W=canvas.width, H=canvas.height;
+      ctx.fillStyle='#07070f'; ctx.fillRect(0,0,W,H);
       for (const l of lineData) {
         ctx.beginPath();
-        const yb = H * l.yBase;
-        for (let x = 0; x <= W; x += 6) {
-          const y = yb + Math.sin(x*.006 + elapsed*l.speed + l.offset)*l.amp
-                      + Math.sin(x*.012 + elapsed*l.speed*1.6 + l.offset*.7)*(l.amp*.4);
-          x===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+        const yb = H*l.yBase;
+        for (let x=0; x<=W; x+=6) {
+          const y = yb + Math.sin(x*.006+elapsed*l.speed+l.offset)*l.amp
+                      + Math.sin(x*.012+elapsed*l.speed*1.6+l.offset*.7)*(l.amp*.4);
+          x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
         }
-        ctx.strokeStyle = `hsla(${l.hue},85%,72%,${l.alpha})`;
-        ctx.lineWidth = 1.5; ctx.stroke();
+        ctx.strokeStyle=`hsla(${l.hue},85%,72%,${l.alpha})`;
+        ctx.lineWidth=1.5; ctx.stroke();
       }
       for (const p of particles) {
-        p.x += p.vx; p.y += p.vy;
-        if (p.x<-5) p.x=W+5; if (p.x>W+5) p.x=-5;
-        if (p.y<-5) p.y=H+5; if (p.y>H+5) p.y=-5;
-        const pulse = Math.sin(elapsed*p.pulseSpeed*5+p.pulseOffset)*.3+.7;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r*pulse, 0, Math.PI*2);
-        ctx.fillStyle = p.color+(p.opacity*pulse*3.2)+')';
-        ctx.fill();
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<-5)p.x=W+5; if(p.x>W+5)p.x=-5;
+        if(p.y<-5)p.y=H+5; if(p.y>H+5)p.y=-5;
+        const pulse=Math.sin(elapsed*p.pulseSpeed*5+p.pulseOffset)*.3+.7;
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r*pulse,0,Math.PI*2);
+        ctx.fillStyle=p.color+(p.opacity*pulse*3.2)+')'; ctx.fill();
       }
-      if (glowCanvas.width > 0 && glowCanvas.height > 0) ctx.drawImage(glowCanvas,0,0);
+      if(glowCanvas.width>0&&glowCanvas.height>0) ctx.drawImage(glowCanvas,0,0);
     }
     requestAnimationFrame(draw);
 
@@ -780,39 +772,29 @@
       });
     });
 
-    // ── Nav shrink on scroll ──
+    // ── Nav shrink ──
     const nav = document.querySelector('nav');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 60) {
-        nav.style.background = 'rgba(7,7,15,0.96)';
-        nav.style.backdropFilter = 'blur(20px)';
-        nav.style.padding = '14px 48px';
+      if (window.scrollY>60) {
+        nav.style.background='rgba(7,7,15,0.96)';
+        nav.style.backdropFilter='blur(20px)';
+        nav.style.padding='14px 48px';
       } else {
-        nav.style.background = '';
-        nav.style.backdropFilter = '';
-        nav.style.padding = '';
+        nav.style.background='';
+        nav.style.backdropFilter='';
+        nav.style.padding='';
       }
     }, {passive:true});
 
     // ── Mobile nav toggle ──
     const toggle = document.querySelector('.nav-mobile-toggle');
     if (toggle) {
-      toggle.addEventListener('click', () => {
-        document.querySelector('nav').classList.toggle('nav-mobile-open');
-      });
+      toggle.addEventListener('click', () => document.querySelector('nav').classList.toggle('nav-mobile-open'));
       document.querySelectorAll('.nav-links a').forEach(a => {
-        a.addEventListener('click', () => {
-          document.querySelector('nav').classList.remove('nav-mobile-open');
-        });
+        a.addEventListener('click', () => document.querySelector('nav').classList.remove('nav-mobile-open'));
       });
     }
-
-    // ── Email JS encoded (Cloudflare-proof) ──
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('a[href*="jpdm015"]').forEach(el => {
-        el.href = 'mailto:' + 'jpdm015' + '@' + 'gmail.com';
-      });
-    });
   </script>
+  <div id="cursor"></div>
 </body>
 </html>
