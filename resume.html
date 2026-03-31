@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Résumé — Jane Chavez</title>
+  <title>Résumé - Jane Chavez</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -370,7 +370,7 @@
         background: var(--text); transition: all 0.35s ease;
         border-radius: 2px;
       }
-      /* Full-screen overlay — above everything */
+      /* Full-screen overlay - above everything */
       .nav-mobile-open .nav-links {
         display: flex !important; flex-direction: column;
         position: fixed;
@@ -650,7 +650,7 @@
         <div class="r-block">
           <div class="r-block-header">
             <span class="r-block-title">M.S. Software Engineering</span>
-            <span class="r-block-date">Graduated Dec 2024</span>
+            <span class="r-block-date">Graduated Dec 2025</span>
           </div>
           <p class="r-block-org">University of Houston–Clear Lake</p>
           <p class="r-gpa">GPA 3.90 · Agile · Data Science · Software Engineering</p>
@@ -659,7 +659,7 @@
         <div class="r-block">
           <div class="r-block-header">
             <span class="r-block-title">B.S. Nursing</span>
-            <span class="r-block-date"></span>
+            <span class="r-block-date">Graduated May 2016</span>
           </div>
           <p class="r-block-org">The University of Texas at Arlington</p>
           <p class="r-gpa">GPA 4.00</p>
@@ -756,7 +756,7 @@
       if (glowCanvas.width > 0 && glowCanvas.height > 0) ctx.drawImage(glowCanvas,0,0);
     }
     requestAnimationFrame(draw);
-    // Cursor — wait for DOM to be ready
+    // Cursor - wait for DOM to be ready
     document.addEventListener('DOMContentLoaded', () => {
       const cursor = document.getElementById('cursor');
       if (!cursor) return;
@@ -788,12 +788,3 @@
       toggle.addEventListener('click', () => {
         document.querySelector('nav').classList.toggle('nav-mobile-open');
       });
-      document.querySelectorAll('.nav-links a').forEach(a => {
-        a.addEventListener('click', () => {
-          document.querySelector('nav').classList.remove('nav-mobile-open');
-        });
-      });
-    }
-  </script>
-</body>
-</html>
