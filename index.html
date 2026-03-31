@@ -1017,7 +1017,7 @@
       </div>
       <p class="contact-sub reveal reveal-delay-1">I'm actively seeking entry-level front-end and UI/UX roles. If you're looking for someone who cares deeply about both design and code, I'd love to connect.</p>
       <div class="contact-links reveal reveal-delay-2">
-        <a href="/cdn-cgi/l/email-protection#f39983979ec3c2c6b3949e929a9fdd909c9e" class="contact-link primary">Get In Touch ↗</a>
+        <a href="#" id="contact-email" class="contact-link primary">Get In Touch ↗</a>
         <a href="https://www.linkedin.com/in/jane-c-699a9241" target="_blank" class="contact-link">LinkedIn ↗</a>
         <a href="https://github.com/jpdm07" target="_blank" class="contact-link">GitHub ↗</a>
       </div>
@@ -1030,7 +1030,7 @@
     <p>Front-End Developer · UI/UX Designer · Houston, TX</p>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     // Declare glow canvas first
     const glowCanvas = document.createElement('canvas');
     const glowCtx = glowCanvas.getContext('2d');
@@ -1170,6 +1170,16 @@
         });
       });
     }
+
+    // Set email link dynamically to prevent Cloudflare obfuscation
+    document.addEventListener('DOMContentLoaded', () => {
+      const emailBtn = document.getElementById('contact-email');
+      if (emailBtn) {
+        const u = 'jpdm015';
+        const d = 'gmail.com';
+        emailBtn.href = 'mailto:' + u + '@' + d;
+      }
+    });
   </script><script>
     // ── Animated canvas background ──
     const canvas = document.getElementById('bg-canvas');
