@@ -1216,35 +1216,38 @@
     function shuffleNumber(el) {
       const final = el.getAttribute('data-final');
       const chars = '0123456789';
-      let iterations = 0;
-      const maxIterations = 18;
-      const interval = setInterval(() => {
-        el.textContent = Array.from(final).map((char, i) => {
-          if (iterations > maxIterations - (final.length - i) * 4) return char;
-          return chars[Math.floor(Math.random() * chars.length)];
-        }).join('');
-        iterations++;
-        if (iterations >= maxIterations + final.length * 4) {
-          el.textContent = final;
-          clearInterval(interval);
-        }
-      }, 40);
+      const digits = final.split('');
+      // Stagger each digit — left to right, one at a time
+      digits.forEach((targetChar, digitIndex) => {
+        const delay = digitIndex * 220; // 220ms gap between each digit starting
+        let iterations = 0;
+        const maxIterations = 14;
+        setTimeout(() => {
+          const interval = setInterval(() => {
+            const current = el.textContent.split('');
+            current[digitIndex] = iterations >= maxIterations
+              ? targetChar
+              : chars[Math.floor(Math.random() * chars.length)];
+            el.textContent = current.join('');
+            iterations++;
+            if (iterations > maxIterations) clearInterval(interval);
+          }, 75); // slower — 75ms per frame
+        }, delay);
+      });
     }
 
-    // Trigger shuffle when project item enters viewport
+    // Fire shuffle when project header becomes visible
     const numObserver = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
           const num = e.target.querySelector('.project-num[data-final]');
-          if (num) {
-            setTimeout(() => shuffleNumber(num), 100);
-          }
+          if (num) setTimeout(() => shuffleNumber(num), 80);
           numObserver.unobserve(e.target);
         }
       });
-    }, { threshold: 0.2 });
+    }, { threshold: 0.05 });
 
-    document.querySelectorAll('.project-item').forEach(el => numObserver.observe(el));
+    document.querySelectorAll('.project-header').forEach(el => numObserver.observe(el));
 
     // Mobile nav toggle
     const toggle = document.querySelector('.nav-mobile-toggle');
@@ -1436,4 +1439,38 @@
       if (!isOpen) el.classList.add('open');
     }
 
-    // Nav shrink
+    // Nav shrin    // Nav shrink
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        nav.style.background = 'rgba(7,7,15,0.96)';
+        nav.style.backdropFilter = 'blur(20px)';
+        nav.style.padding = '14px 48px';
+      } else {
+        nav.style.background = '';
+        nav.style.backdropFilter = '';
+        nav.style.padding = '';
+      }
+    }, { passive: true });
+
+    // Mobile nav toggle
+    const toggle = document.querySelector('.nav-mobile-toggle');
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        document.querySelector('nav').classList.toggle('nav-mobile-open');
+      });
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        a.addEventListener('click', () => {
+          document.querySelector('nav').classList.remove('nav-mobile-open');
+        });
+      });
+    }
+
+    // Email link JS encoded (Cloudflare-proof)
+    document.addEventListener('DOMContentLoaded', () => {
+      const emailBtn = document.getElementById('contact-email');
+      if (emailBtn) emailBtn.href = 'mailto:' + 'jpdm015' + '@' + 'gmail.com';
+    });
+  </script>
+</body>
+</html>

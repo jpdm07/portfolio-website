@@ -674,8 +674,10 @@
 
   </div><!-- /page -->
 
+  <div id="cursor"></div>
+
   <script>
-    // Declare glow canvas first
+    // ── Glow canvas ──
     const glowCanvas = document.createElement('canvas');
     const glowCtx = glowCanvas.getContext('2d');
 
@@ -691,6 +693,7 @@
       glowCtx.fillStyle = vg2; glowCtx.fillRect(0,0,W,H);
     }
 
+    // ── Main canvas ──
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
 
@@ -702,7 +705,7 @@
     resize();
     window.addEventListener('resize', resize);
 
-    // 45 particles
+    // ── Particles ──
     const particles = [];
     for (let i = 0; i < 45; i++) {
       const hue = Math.random() < .55 ? 330 : Math.random() < .6 ? 270 : 220;
@@ -714,6 +717,7 @@
       });
     }
 
+    // ── Aurora lines ──
     const lineData = [
       {offset:0,    speed:.5,  amp:55, yBase:.12, hue:315, alpha:.07},
       {offset:1.05, speed:.35, amp:75, yBase:.30, hue:325, alpha:.06},
@@ -722,6 +726,7 @@
       {offset:4.20, speed:.28, amp:45, yBase:.90, hue:310, alpha:.05},
     ];
 
+    // ── Draw loop ──
     let lastFrame = 0, elapsed = 0;
     function draw(ts) {
       requestAnimationFrame(draw);
@@ -750,21 +755,20 @@
         const pulse = Math.sin(elapsed*p.pulseSpeed*5+p.pulseOffset)*.3+.7;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r*pulse, 0, Math.PI*2);
-        ctx.fillStyle = p.color+(p.opacity*pulse*2.6)+')';
+        ctx.fillStyle = p.color+(p.opacity*pulse*3.2)+')';
         ctx.fill();
       }
       if (glowCanvas.width > 0 && glowCanvas.height > 0) ctx.drawImage(glowCanvas,0,0);
     }
     requestAnimationFrame(draw);
-    // Cursor - wait for DOM to be ready
+
+    // ── Cursor ──
     document.addEventListener('DOMContentLoaded', () => {
       const cursor = document.getElementById('cursor');
       if (!cursor) return;
-      let mx = 0, my = 0;
       cursor.style.transform = 'translate(-20px,-20px)';
       document.addEventListener('mousemove', e => {
-        mx = e.clientX; my = e.clientY;
-        cursor.style.transform = `translate(${mx-5}px,${my-5}px)`;
+        cursor.style.transform = `translate(${e.clientX-5}px,${e.clientY-5}px)`;
       });
       document.querySelectorAll('nav a').forEach(el => {
         el.addEventListener('mouseenter', () => cursor.classList.add('is-nav'));
@@ -775,16 +779,40 @@
         el.addEventListener('mouseleave', () => cursor.classList.remove('is-hovering'));
       });
     });
-    // Nav shrink
-    const nav = document.querySelector('nav');
-    window.addEventListener('scroll',()=>{
-      if (window.scrollY>60) { nav.style.background='rgba(7,7,15,0.96)'; nav.style.backdropFilter='blur(20px)'; nav.style.padding='14px 48px'; }
-      else { nav.style.background=''; nav.style.backdropFilter=''; nav.style.padding=''; }
-    },{passive:true});
 
-    // Mobile nav toggle
+    // ── Nav shrink on scroll ──
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        nav.style.background = 'rgba(7,7,15,0.96)';
+        nav.style.backdropFilter = 'blur(20px)';
+        nav.style.padding = '14px 48px';
+      } else {
+        nav.style.background = '';
+        nav.style.backdropFilter = '';
+        nav.style.padding = '';
+      }
+    }, {passive:true});
+
+    // ── Mobile nav toggle ──
     const toggle = document.querySelector('.nav-mobile-toggle');
     if (toggle) {
       toggle.addEventListener('click', () => {
         document.querySelector('nav').classList.toggle('nav-mobile-open');
       });
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        a.addEventListener('click', () => {
+          document.querySelector('nav').classList.remove('nav-mobile-open');
+        });
+      });
+    }
+
+    // ── Email JS encoded (Cloudflare-proof) ──
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('a[href*="jpdm015"]').forEach(el => {
+        el.href = 'mailto:' + 'jpdm015' + '@' + 'gmail.com';
+      });
+    });
+  </script>
+</body>
+</html>
