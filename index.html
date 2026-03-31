@@ -663,8 +663,8 @@
       <div class="project-item reveal" onclick="toggleProject(this)">
         <div class="project-header">
           <div class="project-meta">
-            <span class="project-num">001</span>
-            <h3 class="project-name">CaloriEat — Calorie Tracking App</h3>
+            <span class="project-num" data-final="001">001</span>
+            <h3 class="project-name">CaloriEat: Calorie Tracking App</h3>
           </div>
           <div style="display:flex;align-items:center;gap:16px;">
             <div class="project-tags"><span class="tag">Full-Stack</span><span class="tag">Capstone</span></div>
@@ -716,7 +716,7 @@
       <div class="project-item reveal reveal-delay-1" onclick="toggleProject(this)">
         <div class="project-header">
           <div class="project-meta">
-            <span class="project-num">002</span>
+            <span class="project-num" data-final="002">002</span>
             <h3 class="project-name">Happy Tails Rescue Website</h3>
           </div>
           <div style="display:flex;align-items:center;gap:16px;">
@@ -738,7 +738,7 @@
                 <li>Custom HTR logo and brand identity in warm orange and teal.</li>
               </ul>
               <h4>Outcome</h4>
-              <p>Delivered a live, fully functional nonprofit website on a custom domain. Demonstrates end-to-end WordPress + Elementor skills including layout design, branding, and form integration.</p>
+              <p>Built a working prototype of a nonprofit animal rescue website on a custom domain. Demonstrates hands-on WordPress and Elementor skills including layout design, branding, and form integration.</p>
               <div class="project-links">
                 <a href="https://janechavez.org" target="_blank" class="project-link">View Live Site ↗</a>
               </div>
@@ -819,7 +819,7 @@
       <div class="project-item reveal reveal-delay-2" onclick="toggleProject(this)">
         <div class="project-header">
           <div class="project-meta">
-            <span class="project-num">003</span>
+            <span class="project-num" data-final="003">003</span>
             <h3 class="project-name">This Portfolio Website</h3>
           </div>
           <div style="display:flex;align-items:center;gap:16px;">
@@ -921,7 +921,7 @@
       <div class="project-item reveal reveal-delay-3" onclick="toggleProject(this)">
         <div class="project-header">
           <div class="project-meta">
-            <span class="project-num">004</span>
+            <span class="project-num" data-final="004">004</span>
             <h3 class="project-name">Figma UI/UX Hero Section</h3>
           </div>
           <div style="display:flex;align-items:center;gap:16px;">
@@ -973,8 +973,8 @@
       <div class="project-item reveal reveal-delay-4" onclick="toggleProject(this)">
         <div class="project-header">
           <div class="project-meta">
-            <span class="project-num">005</span>
-            <h3 class="project-name">WoofDog — Dog Dating App</h3>
+            <span class="project-num" data-final="005">005</span>
+            <h3 class="project-name">WoofDog: Dog Dating App</h3>
           </div>
           <div style="display:flex;align-items:center;gap:16px;">
             <div class="project-tags"><span class="tag">Front-End</span><span class="tag">JavaScript</span></div>
@@ -1035,8 +1035,8 @@
     </div>
     <div class="about-grid">
       <div class="about-bio reveal">
-        <p>I'm <em>Jane Chavez</em> — a UI/UX Designer and Front-End Developer with an M.S. in Software Engineering from the University of Houston–Clear Lake.</p>
-        <p style="margin-top:1.2em;">I believe the best interfaces are the ones users never have to think about. <em>Simple, intuitive, purposeful.</em></p>
+        <p>I'm <em>Jane Chavez</em>, a UI/UX Designer and Front-End Developer with an M.S. in Software Engineering from the University of Houston–Clear Lake.</p>
+        <p style="margin-top:1.2em;">I believe the best interfaces are the ones users never have to think about. <em>Simple. Intuitive. Purposeful.</em></p>
       </div>
       <div class="about-details">
         <div class="about-block reveal reveal-delay-1">
@@ -1051,10 +1051,10 @@
         </div>
         <div class="about-block reveal reveal-delay-2">
           <h4>Education</h4>
-          <p style="font-size:0.88rem;color:var(--text-dim);line-height:1.7;">M.S. Software Engineering<br>University of Houston–Clear Lake<br><span style="color:var(--text-muted);">Graduated December 2024</span></p>
+          <p style="font-size:0.88rem;color:var(--text-dim);line-height:1.7;">M.S. Software Engineering<br>University of Houston–Clear Lake<br><span style="color:var(--text-muted);">Graduated December 2025</span></p>
         </div>
         <div class="about-block reveal reveal-delay-3">
-          <blockquote class="about-quote">"User-focused, simple, intuitive design — every pixel with purpose."</blockquote>
+          <blockquote class="about-quote">"User-focused. Simple. Intuitive. Every pixel with purpose."</blockquote>
         </div>
       </div>
     </div>
@@ -1210,6 +1210,41 @@
       if (window.scrollY>60) { nav.style.background='rgba(7,7,15,0.96)'; nav.style.backdropFilter='blur(20px)'; nav.style.padding='14px 48px'; }
       else { nav.style.background=''; nav.style.backdropFilter=''; nav.style.padding=''; }
     },{passive:true});
+
+
+    // ── Lottery number shuffle on project numbers ──
+    function shuffleNumber(el) {
+      const final = el.getAttribute('data-final');
+      const chars = '0123456789';
+      let iterations = 0;
+      const maxIterations = 18;
+      const interval = setInterval(() => {
+        el.textContent = Array.from(final).map((char, i) => {
+          if (iterations > maxIterations - (final.length - i) * 4) return char;
+          return chars[Math.floor(Math.random() * chars.length)];
+        }).join('');
+        iterations++;
+        if (iterations >= maxIterations + final.length * 4) {
+          el.textContent = final;
+          clearInterval(interval);
+        }
+      }, 40);
+    }
+
+    // Trigger shuffle when project item enters viewport
+    const numObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const num = e.target.querySelector('.project-num[data-final]');
+          if (num) {
+            setTimeout(() => shuffleNumber(num), 100);
+          }
+          numObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.project-item').forEach(el => numObserver.observe(el));
 
     // Mobile nav toggle
     const toggle = document.querySelector('.nav-mobile-toggle');
