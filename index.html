@@ -1466,11 +1466,36 @@
       var nav    = document.querySelector('nav');
       var toggle = document.querySelector('.nav-mobile-toggle');
       var close  = document.querySelector('.nav-close');
-      function open()  { if(nav){ nav.classList.add('nav-mobile-open'); document.body.style.overflow='hidden'; } }
-      function shut()  { if(nav){ nav.classList.remove('nav-mobile-open'); document.body.style.overflow=''; } }
-      if (toggle) toggle.addEventListener('click', open);
-      if (close)  close.addEventListener('click',  shut);
-      document.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click', shut); });
+
+      function openNav() {
+        if (!nav) return;
+        nav.classList.add('nav-mobile-open');
+        try { document.body.style.overflow = 'hidden'; } catch(e){}
+      }
+      function closeNav() {
+        if (!nav) return;
+        nav.classList.remove('nav-mobile-open');
+        try { document.body.style.overflow = ''; } catch(e){}
+      }
+
+      if (toggle) toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        openNav();
+      });
+      if (close) close.addEventListener('click', function(e) {
+        e.stopPropagation();
+        closeNav();
+      });
+      // Close when clicking any nav link
+      document.querySelectorAll('.nav-links a').forEach(function(a) {
+        a.addEventListener('click', closeNav);
+      });
+      // Always reset body overflow on page show (back button, etc)
+      window.addEventListener('pageshow', closeNav);
+      // Also reset if user presses Escape
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeNav();
+      });
     })();
 
   </script>
