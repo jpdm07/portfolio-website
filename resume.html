@@ -57,8 +57,8 @@
         flex-direction: column; align-items: center;
         justify-content: center; gap: 44px; z-index: 1000;
       }
-      nav.nav-open .nav-links { display: flex; }
-      nav.nav-open .nav-close { display: block; }
+      nav.nav-mobile-open .nav-links { display: flex; }
+      nav.nav-mobile-open .nav-close { display: block; }
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -125,8 +125,8 @@
 
   <nav>
     <a href="index.html" class="nav-logo">J<span>C</span></a>
-    <button class="nav-close" aria-label="Close menu">✕</button>
     <ul class="nav-links">
+      <button class="nav-close" aria-label="Close menu">✕</button>
       <li><a href="index.html#projects">Work</a></li>
       <li><a href="index.html#about">About</a></li>
       <li><a href="index.html#contact">Contact</a></li>

@@ -59,8 +59,8 @@
         flex-direction: column; align-items: center;
         justify-content: center; gap: 44px; z-index: 1000;
       }
-      nav.nav-open .nav-links { display: flex; }
-      nav.nav-open .nav-close { display: block; }
+      nav.nav-mobile-open .nav-links { display: flex; }
+      nav.nav-mobile-open .nav-close { display: block; }
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -488,7 +488,7 @@
       min-width: 160px; text-align: center;
     }
     .contact-link:hover { border-color: var(--pink); color: var(--pink); }
-    button.contact-link { background: transparent; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); }
+    button.contact-link { background: transparent !important; border: 1px solid var(--border) !important; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim) !important; padding: 14px 32px; min-width: 160px; }
     .contact-link.primary { background: var(--pink); border-color: var(--pink); color: var(--bg); }
     .contact-link.primary:hover { background: transparent; color: var(--pink); }
 
@@ -1593,15 +1593,35 @@
         if (!btn) return;
         var orig = btn.textContent;
         btn.textContent = txt;
-        setTimeout(function(){ btn.textContent = orig; }, 2200);
+        setTimeout(function(){ btn.textContent = orig; }, 2500);
       }
-      // Mobile - native share sheet
+      // Mobile — native share sheet (includes SMS, WhatsApp, etc.)
       if (navigator.share) {
-        navigator.share({ title: "Jane Chavez | Portfolio", text: msg, url: url }).catch(function(){});
+        navigator.share({ title: "Jane Chavez | Portfolio", text: msg, url: url })
+          .catch(function(){});
+        return;
+      }
+      // Any device — try opening SMS directly
+      var smsLink = document.createElement('a');
+      smsLink.href = 'sms:?&body=' + encodeURIComponent(msg);
+      smsLink.style.display = 'none';
+      document.body.appendChild(smsLink);
+      smsLink.click();
+      document.body.removeChild(smsLink);
+      // Also copy to clipboard as backup
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function() {
+          flashBtn('Copied + SMS!');
+        }).catch(function() { flashBtn('Opening SMS...'); });
       } else {
-        // Desktop/fallback - open SMS
-        window.open('sms:?body=' + encodeURIComponent(msg));
-        flashBtn('Opening SMS...');
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = url; ta.style.cssText = 'position:fixed;opacity:0';
+          document.body.appendChild(ta); ta.focus(); ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          flashBtn('Copied + SMS!');
+        } catch(e) { flashBtn('Opening SMS...'); }
       }
     });
       } else if (navigator.clipboard) {
@@ -1643,8 +1663,8 @@
       var toggle = document.querySelector('.nav-mobile-toggle');
       var close  = document.querySelector('.nav-close');
       var nav    = document.querySelector('nav');
-      function openNav()  { nav && nav.classList.add('nav-open'); }
-      function closeNav() { nav && nav.classList.remove('nav-open'); }
+      function openNav()  { nav && nav.classList.add('nav-mobile-open'); }
+      function closeNav() { nav && nav.classList.remove('nav-mobile-open'); }
       if (toggle) toggle.addEventListener('click', openNav);
       if (close)  close.addEventListener('click',  closeNav);
       document.querySelectorAll('.nav-links a').forEach(function(a) {
