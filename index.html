@@ -13,7 +13,7 @@
 
     /* ── Navigation ── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 998;
       display: flex; align-items: center; justify-content: space-between;
       padding: 20px 48px; transition: all 0.4s ease;
     }
@@ -54,13 +54,16 @@
       nav { padding: 16px 24px; }
       .nav-mobile-toggle { display: flex; }
       .nav-links {
-        display: none; position: fixed; inset: 0;
+        display: none; position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
         background: rgba(7,7,15,0.97);
         flex-direction: column; align-items: center;
-        justify-content: center; gap: 44px; z-index: 1000;
+        justify-content: center; gap: 48px; z-index: 9998;
+        list-style: none;
       }
       nav.nav-mobile-open .nav-links { display: flex; }
-      nav.nav-mobile-open .nav-close { display: block; }
+      .nav-links .nav-close { position: fixed; top: 20px; right: 20px; display: none; z-index: 9999; }
+      nav.nav-mobile-open .nav-links .nav-close { display: block; }
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1373,29 +1376,6 @@
         if (num) setTimeout(() => queueShuffle(num), 900 + i * 200);
       });
     });
-
-    // Mobile nav toggle
-    (function() {
-      var nav     = document.querySelector('nav');
-      var toggle  = document.querySelector('.nav-mobile-toggle');
-      var close   = document.querySelector('.nav-close');
-      var links   = document.querySelectorAll('.nav-links a');
-
-      function openNav() {
-        if (nav) nav.classList.add('nav-mobile-open');
-        document.body.style.overflow = 'hidden';
-      }
-      function closeNav() {
-        if (nav) nav.classList.remove('nav-mobile-open');
-        document.body.style.overflow = '';
-      }
-
-      if (toggle) toggle.addEventListener('click', openNav);
-      if (close)  close.addEventListener('click', closeNav);
-      links.forEach(function(a) {
-        a.addEventListener('click', closeNav);
-      });
-    })();
     document.querySelectorAll('.nav-links a').forEach(function(a) {
       a.addEventListener('click', function(){ closeNav(); });
     });
@@ -1590,29 +1570,6 @@
         nav.style.padding = '';
       }
     }, { passive: true });
-
-    // Mobile nav toggle
-    (function() {
-      var nav     = document.querySelector('nav');
-      var toggle  = document.querySelector('.nav-mobile-toggle');
-      var close   = document.querySelector('.nav-close');
-      var links   = document.querySelectorAll('.nav-links a');
-
-      function openNav() {
-        if (nav) nav.classList.add('nav-mobile-open');
-        document.body.style.overflow = 'hidden';
-      }
-      function closeNav() {
-        if (nav) nav.classList.remove('nav-mobile-open');
-        document.body.style.overflow = '';
-      }
-
-      if (toggle) toggle.addEventListener('click', openNav);
-      if (close)  close.addEventListener('click', closeNav);
-      links.forEach(function(a) {
-        a.addEventListener('click', closeNav);
-      });
-    })();
     document.querySelectorAll('.nav-links a').forEach(function(a) {
       a.addEventListener('click', function(){ closeNav(); });
     });
@@ -1626,65 +1583,49 @@
     // ── Share portfolio ──
     function sharePortfolio() {
       var url = 'https://jpdm07.github.io/portfolio-website/';
-      var btn = document.getElementById('share-btn');
 
-      // Create toast if it doesn't exist
+      // Show toast
       var toast = document.getElementById('share-toast');
       if (!toast) {
         toast = document.createElement('div');
         toast.id = 'share-toast';
-        toast.style.cssText = [
-          'position:fixed',
-          'bottom:40px',
-          'left:50%',
-          'transform:translateX(-50%)',
-          'background:rgba(7,7,15,0.92)',
-          'border:1px solid #f472b6',
-          'color:#f472b6',
-          'font-family:var(--mono)',
-          'font-size:0.72rem',
-          'letter-spacing:0.1em',
-          'padding:14px 32px',
-          'z-index:99999',
-          'opacity:0',
-          'transition:opacity 0.35s ease',
-          'pointer-events:none',
-          'white-space:nowrap'
-        ].join(';');
+        toast.style.cssText = 'position:fixed;bottom:40px;left:50%;transform:translateX(-50%);background:rgba(7,7,15,0.95);border:1px solid #f472b6;color:#f472b6;font-family:DM Mono,monospace;font-size:0.72rem;letter-spacing:0.1em;padding:14px 32px;z-index:99999;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap;';
         document.body.appendChild(toast);
       }
       function showToast(msg) {
         toast.textContent = msg;
         toast.style.opacity = '1';
-        clearTimeout(toast._t);
-        toast._t = setTimeout(function(){ toast.style.opacity = '0'; }, 2800);
+        clearTimeout(toast._hide);
+        toast._hide = setTimeout(function(){ toast.style.opacity='0'; }, 3000);
       }
 
-      // Mobile - use native share
+      // Mobile native share
       if (navigator.share) {
-        navigator.share({ title: 'Jane Chavez | Portfolio', url: url }).catch(function(){});
+        navigator.share({ title:'Jane Chavez | Portfolio', url:url }).catch(function(){});
         return;
       }
 
-      // Desktop - try modern clipboard API first
-      if (window.isSecureContext && navigator.clipboard) {
+      // Try clipboard
+      try {
         navigator.clipboard.writeText(url).then(function(){
-          showToast('✓ Link copied to clipboard!');
-        }).catch(function(){ legacyCopy(); });
-      } else {
+          showToast('✓  Link copied to clipboard!');
+        }).catch(function(){
+          legacyCopy();
+        });
+      } catch(e) {
         legacyCopy();
       }
 
       function legacyCopy() {
         var ta = document.createElement('textarea');
         ta.value = url;
-        ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none';
+        ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0;';
         document.body.appendChild(ta);
         ta.focus(); ta.select();
         var ok = false;
-        try { ok = document.execCommand('copy'); } catch(e){}
+        try { ok = document.execCommand('copy'); } catch(x){}
         document.body.removeChild(ta);
-        showToast(ok ? '✓ Link copied to clipboard!' : url);
+        showToast(ok ? '✓  Link copied to clipboard!' : 'Copy: ' + url);
       }
     });
       } else if (navigator.clipboard) {
@@ -1723,16 +1664,19 @@
 
     // ── Nav toggle ──
     (function() {
+          })();
+
+
+    // ── Mobile nav ──
+    (function() {
+      var nav    = document.querySelector('nav');
       var toggle = document.querySelector('.nav-mobile-toggle');
       var close  = document.querySelector('.nav-close');
-      var nav    = document.querySelector('nav');
-      function openNav()  { nav && nav.classList.add('nav-mobile-open'); }
-      function closeNav() { nav && nav.classList.remove('nav-mobile-open'); }
-      if (toggle) toggle.addEventListener('click', openNav);
-      if (close)  close.addEventListener('click',  closeNav);
-      document.querySelectorAll('.nav-links a').forEach(function(a) {
-        a.addEventListener('click', closeNav);
-      });
+      function open()  { if(nav){ nav.classList.add('nav-mobile-open'); document.body.style.overflow='hidden'; } }
+      function shut()  { if(nav){ nav.classList.remove('nav-mobile-open'); document.body.style.overflow=''; } }
+      if (toggle) toggle.addEventListener('click', open);
+      if (close)  close.addEventListener('click',  shut);
+      document.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click', shut); });
     })();
 
   </script>

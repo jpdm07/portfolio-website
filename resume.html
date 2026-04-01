@@ -52,13 +52,16 @@
       nav { padding: 16px 24px; }
       .nav-mobile-toggle { display: flex; }
       .nav-links {
-        display: none; position: fixed; inset: 0;
+        display: none; position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
         background: rgba(7,7,15,0.97);
         flex-direction: column; align-items: center;
-        justify-content: center; gap: 44px; z-index: 1000;
+        justify-content: center; gap: 48px; z-index: 9998;
+        list-style: none;
       }
       nav.nav-mobile-open .nav-links { display: flex; }
-      nav.nav-mobile-open .nav-close { display: block; }
+      .nav-links .nav-close { position: fixed; top: 20px; right: 20px; display: none; z-index: 9999; }
+      nav.nav-mobile-open .nav-links .nav-close { display: block; }
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -253,14 +256,17 @@
 
   <div id="cursor"></div>
   <script>
-    var nc = document.querySelector('.nav-close');
-    var nt = document.querySelector('.nav-mobile-toggle');
-    var nv = document.querySelector('nav');
-    function openNav()  { if(nv) { nv.classList.add('nav-mobile-open'); document.body.style.overflow='hidden'; } }
-    function closeNav() { if(nv) { nv.classList.remove('nav-mobile-open'); document.body.style.overflow=''; } }
-    if (nt) nt.addEventListener('click', openNav);
-    if (nc) nc.addEventListener('click', closeNav);
-    document.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click', closeNav); });
+    // ── Mobile nav ──
+    (function() {
+      var nav    = document.querySelector('nav');
+      var toggle = document.querySelector('.nav-mobile-toggle');
+      var close  = document.querySelector('.nav-close');
+      function open()  { if(nav){ nav.classList.add('nav-mobile-open'); document.body.style.overflow='hidden'; } }
+      function shut()  { if(nav){ nav.classList.remove('nav-mobile-open'); document.body.style.overflow=''; } }
+      if (toggle) toggle.addEventListener('click', open);
+      if (close)  close.addEventListener('click',  shut);
+      document.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click', shut); });
+    })();
   </script>
   <script src="resume-fx.js"></script>
 </body>
