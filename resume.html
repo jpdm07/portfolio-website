@@ -52,7 +52,15 @@
     .r-contact-row { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; }
     .r-contact-row a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; color: var(--text-dim); text-decoration: none; transition: color 0.3s; }
     .r-contact-row a:hover { color: var(--pink); }
-    .r-download { position: fixed; top: 20px; right: 24px; z-index: 1001; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pink); border: 1px solid var(--pink); padding: 8px 16px; text-decoration: none; transition: all 0.3s; }
+    .r-download {
+      display: block;
+      width: fit-content;
+      margin: 16px auto 0;
+      font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--pink);
+      border: 1px solid var(--pink); padding: 10px 20px;
+      text-decoration: none; transition: all 0.3s; text-align: center;
+    }
     .r-download:hover { background: var(--pink); color: var(--bg); }
     .resume-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 48px; margin-bottom: 24px; }
     .r-section-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pink); margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
@@ -72,14 +80,13 @@
     .r-footer { text-align: center; padding: 32px 0; font-family: var(--mono); font-size: 0.68rem; color: var(--text-muted); letter-spacing: 0.08em; }
     .r-footer a { color: var(--text-dim); text-decoration: none; transition: color 0.3s; }
     .r-footer a:hover { color: var(--pink); }
-    @media (max-width: 600px) { .resume-card { padding: 28px 20px; } nav { padding: 14px 20px; } .r-download { top: auto; bottom: 20px; right: 20px; } }
+    @media (max-width: 600px) { .resume-card { padding: 28px 20px; } nav { padding: 14px 20px; } }
   </style>
 </head>
 <body>
   <div id="bg"></div>
   <canvas id="bg-canvas"></canvas>
 
-  <a href="https://jpdm07.github.io/portfolio-website/Jane_Chavez_Resume_2026.pdf" class="r-download" target="_blank" download>Download PDF ↓</a>
 
   <nav>
     <a href="index.html" class="nav-logo">J<span>C</span></a>
@@ -104,11 +111,15 @@
         <a href="https://github.com/jpdm07" target="_blank">GitHub</a>
         <a href="https://jpdm07.github.io/portfolio-website/" target="_blank">Portfolio</a>
       </div>
+      <br>
+      <a href="https://jpdm07.github.io/portfolio-website/Jane_Chavez_Resume_2026.pdf" class="r-download" target="_blank" download>Download PDF ↓</a>
     </div>
 
     <div class="resume-card">
       <h2 class="r-section-title">Summary</h2>
       <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.8;">Entry-level Front-End Developer and UI/UX Designer with an M.S. in Software Engineering from UHCL. Passionate about building responsive, accessible web interfaces with strong attention to user experience, visual hierarchy, and clean structure. Skilled in translating design concepts into functional, polished code.</p>
+      <br>
+      <a href="https://jpdm07.github.io/portfolio-website/Jane_Chavez_Resume_2026.pdf" class="r-download" target="_blank" download>Download PDF ↓</a>
     </div>
 
     <div class="resume-card">
@@ -121,6 +132,8 @@
         <span class="skill-pill">Git / GitHub</span><span class="skill-pill">Agile / Scrum</span><span class="skill-pill">Chart.js</span>
         <span class="skill-pill">Bootstrap</span><span class="skill-pill">Accessibility (WCAG)</span><span class="skill-pill">REST APIs</span>
       </div>
+      <br>
+      <a href="https://jpdm07.github.io/portfolio-website/Jane_Chavez_Resume_2026.pdf" class="r-download" target="_blank" download>Download PDF ↓</a>
     </div>
 
     <div class="resume-card">
@@ -138,6 +151,8 @@
           <li>Implemented interactive data visualizations using Chart.js for a calorie tracking application.</li>
         </ul>
       </div>
+      <br>
+      <a href="https://jpdm07.github.io/portfolio-website/Jane_Chavez_Resume_2026.pdf" class="r-download" target="_blank" download>Download PDF ↓</a>
     </div>
 
     <div class="resume-card">
@@ -174,6 +189,8 @@
           <li>Designed and built a playful matchmaking app UI for dog owners with swipe-style interaction.</li>
         </ul>
       </div>
+      <br>
+      <a href="https://jpdm07.github.io/portfolio-website/Jane_Chavez_Resume_2026.pdf" class="r-download" target="_blank" download>Download PDF ↓</a>
     </div>
 
     <div class="resume-card">
@@ -196,11 +213,8 @@
       </div>
     </div>
 
-    <div class="r-footer">
-      <p>← <a href="index.html">Back to Portfolio</a></p>
-    </div>
-  </div>
-
+  <div id="cursor"></div>
+  <script data
   <div id="cursor"></div>
   <script src="resume-fx.js"></script>
 </body>

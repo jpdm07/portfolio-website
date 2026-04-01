@@ -585,15 +585,12 @@
     }
 
     /* ── Page fade-in entrance ── */
-    @keyframes pageFadeIn {
-      from { opacity: 0; }
+    
       to   { opacity: 1; }
     }
-    #page-fade {
-      position: fixed; inset: 0; z-index: 9998;
-      background: #07070f; pointer-events: none;
-      animation: pageFadeIn 1.4s cubic-bezier(0.4,0,0.2,1) reverse both;
-    }
+
+    @keyframes siteFadeIn { from{opacity:0;} to{opacity:1;} }
+    body { animation: siteFadeIn 1.1s ease both; }
 
     /* ── Crystal Orb ── */
     .crystal-wrap canvas { display: block; }
@@ -602,7 +599,6 @@
 </head>
 <body>
 <!-- Page entrance fade -->
-  <div id="page-fade" aria-hidden="true"></div>
 
   <!-- Animated canvas background -->
   <canvas id="bg-canvas"></canvas>
@@ -1522,11 +1518,19 @@
     // ── Share portfolio ──
     function sharePortfolio() {
       var url = 'https://jpdm07.github.io/portfolio-website/';
-      var msg = 'Check out Jane Chavez portfolio: ' + url;
+      var msg = "Check out Jane Chavez's portfolio! " + url;
+      var btn = document.querySelector('[onclick="sharePortfolio()"]');
       if (navigator.share) {
         navigator.share({ title: 'Jane Chavez Portfolio', text: msg, url: url });
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(function() {
+          if (btn) { var o=btn.textContent; btn.textContent='Link Copied!'; setTimeout(function(){btn.textContent=o;},2000); }
+        });
       } else {
-        window.open('sms:?body=' + encodeURIComponent(msg));
+        var ta=document.createElement('textarea'); ta.value=url;
+        document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+        document.body.removeChild(ta);
+        if (btn) { var o=btn.textContent; btn.textContent='Link Copied!'; setTimeout(function(){btn.textContent=o;},2000); }
       }
     }
 
@@ -1654,9 +1658,9 @@
         if(hero&&wrap) wrap.style.opacity=hero.getBoundingClientRect().bottom>50?'1':'0';
       },{passive:true});
 
-      function init(){ resize(); requestAnimationFrame(draw); }
-      if(document.readyState==='complete') init();
-      else window.addEventListener('load', init);
+      function initCrystal(){ resizeCrystal(); requestAnimationFrame(drawCrystal); }
+      if(document.readyState==='complete') initCrystal();
+      else window.addEventListener('load', initCrystal);
     })();
 
   </script>
