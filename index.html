@@ -580,48 +580,20 @@
     @media (max-width: 400px) {
       .hero-name { font-size: 2.4rem; }
     }
+    }
 
-
-    /* ── Floating 3D Orb — desktop hero right side ── */
-    .hero-orb-wrap {
-      position: absolute;
-      right: 7%;
-      top: 50%;
+    /* ── Crystal Orb ── */
+    .crystal-wrap {
+      position: absolute; right: 6%; top: 50%;
       transform: translateY(-50%);
-      width: min(320px, 34vw);
-      height: min(320px, 34vw);
-      pointer-events: none;
-      z-index: 2;
+      width: min(300px, 32vw); height: min(300px, 32vw);
+      pointer-events: none; z-index: 2;
+      transition: filter 0.4s ease;
     }
-    .hero-orb-wrap svg {
-      width: 100%;
-      height: 100%;
-      animation: orb-spin 18s linear infinite;
-      filter: drop-shadow(0 0 32px rgba(244,114,182,0.35)) drop-shadow(0 0 80px rgba(168,85,247,0.2));
+    .crystal-wrap canvas {
+      width: 100%; height: 100%; display: block;
     }
-    @keyframes orb-spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-    .orb-inner {
-      transform-origin: center;
-      animation: orb-counter 18s linear infinite;
-    }
-    @keyframes orb-counter {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(-360deg); }
-    }
-    .orb-pulse {
-      animation: orb-breathe 4s ease-in-out infinite;
-      transform-origin: center;
-    }
-    @keyframes orb-breathe {
-      0%, 100% { transform: scale(1); opacity: 0.7; }
-      50%       { transform: scale(1.06); opacity: 1; }
-    }
-    @media (max-width: 900px) {
-      .hero-orb-wrap { display: none !important; }
-    }
+    @media (max-width: 900px) { .crystal-wrap { display: none !important; } }
   </style>
 </head>
 <body>
@@ -662,73 +634,7 @@
       <a href="#projects" class="btn-primary"><span>View My Work</span></a>
       <a href="https://jpdm07.github.io/portfolio-website/Jane_Chavez_Resume_2026.pdf" class="btn-ghost" target="_blank">Download Résumé</a>
     </div>
-
-    <!-- Floating 3D crystal orb -->
-    <div class="hero-orb-wrap" aria-hidden="true">
-      <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="og1" cx="38%" cy="35%" r="60%">
-            <stop offset="0%"   stop-color="#fce4f0" stop-opacity="0.95"/>
-            <stop offset="40%"  stop-color="#f472b6" stop-opacity="0.7"/>
-            <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.4"/>
-          </radialGradient>
-          <radialGradient id="og2" cx="60%" cy="65%" r="55%">
-            <stop offset="0%"   stop-color="#a78bfa" stop-opacity="0.6"/>
-            <stop offset="100%" stop-color="#f472b6" stop-opacity="0.1"/>
-          </radialGradient>
-          <radialGradient id="og3" cx="50%" cy="50%" r="50%">
-            <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.18"/>
-            <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
-
-        <!-- Outer glow ring -->
-        <circle cx="150" cy="150" r="145" fill="none"
-          stroke="url(#og1)" stroke-width="1" opacity="0.3"/>
-        <circle cx="150" cy="150" r="135" fill="none"
-          stroke="#f472b6" stroke-width="0.5" opacity="0.2"
-          stroke-dasharray="8 6"/>
-
-        <!-- Main sphere -->
-        <g class="orb-pulse">
-          <circle cx="150" cy="150" r="115" fill="url(#og1)" opacity="0.85"/>
-          <circle cx="150" cy="150" r="115" fill="url(#og2)" opacity="0.5"/>
-          <circle cx="150" cy="150" r="115" fill="url(#og3)"/>
-        </g>
-
-        <!-- Crystal facets that spin -->
-        <g class="orb-inner">
-          <!-- Facet lines -->
-          <line x1="150" y1="35"  x2="150" y2="265" stroke="#fce4f0" stroke-width="0.5" opacity="0.25"/>
-          <line x1="35"  y1="150" x2="265" y2="150" stroke="#fce4f0" stroke-width="0.5" opacity="0.25"/>
-          <line x1="65"  y1="65"  x2="235" y2="235" stroke="#f472b6" stroke-width="0.5" opacity="0.2"/>
-          <line x1="235" y1="65"  x2="65"  y2="235" stroke="#a78bfa" stroke-width="0.5" opacity="0.2"/>
-
-          <!-- Facet triangles -->
-          <polygon points="150,35 265,150 150,150"  fill="#f472b6" opacity="0.08"/>
-          <polygon points="150,35 35,150  150,150"  fill="#a78bfa" opacity="0.1"/>
-          <polygon points="150,265 265,150 150,150" fill="#a78bfa" opacity="0.08"/>
-          <polygon points="150,265 35,150  150,150" fill="#f472b6" opacity="0.1"/>
-          <polygon points="65,65   235,65  150,150" fill="#fce4f0" opacity="0.06"/>
-          <polygon points="65,235  235,235 150,150" fill="#fce4f0" opacity="0.06"/>
-
-          <!-- Orbital rings -->
-          <ellipse cx="150" cy="150" rx="115" ry="38"
-            fill="none" stroke="#f472b6" stroke-width="0.8" opacity="0.3"/>
-          <ellipse cx="150" cy="150" rx="38" ry="115"
-            fill="none" stroke="#a78bfa" stroke-width="0.8" opacity="0.25"/>
-          <ellipse cx="150" cy="150" rx="115" ry="55"
-            fill="none" stroke="#fce4f0" stroke-width="0.5" opacity="0.15"
-            transform="rotate(45 150 150)"/>
-        </g>
-
-        <!-- Highlight sparkle (fixed — does not spin) -->
-        <circle cx="108" cy="108" r="18" fill="white" opacity="0.12"/>
-        <circle cx="112" cy="112" r="6"  fill="white" opacity="0.35"/>
-        <circle cx="106" cy="106" r="2"  fill="white" opacity="0.9"/>
-      </svg>
-    </div>
-    <div class="hero-scroll-indicator">
+<div class="hero-scroll-indicator">
       <div class="scroll-line"></div>
       <span class="scroll-text">Scroll to explore</span>
     </div>
@@ -1616,6 +1522,227 @@
         });
       }
     }
+
+
+    // ── Crystal Gem Orb ──
+    (function() {
+      var wrap = document.getElementById('crystal-wrap');
+      var cv   = document.getElementById('crystal-canvas');
+      if (!wrap || !cv) return;
+      var cx = cv.getContext('2d');
+      var W, H, cx2, cy2;
+      var mouseX = 0.5, mouseY = 0.5; // normalized
+      var hoverScale = 1;
+
+      function resizeCrystal() {
+        var rect = wrap.getBoundingClientRect();
+        W = cv.width  = rect.width  * (window.devicePixelRatio||1);
+        H = cv.height = rect.height * (window.devicePixelRatio||1);
+        cx2 = W/2; cy2 = H/2;
+      }
+
+      document.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX / window.innerWidth;
+        mouseY = e.clientY / window.innerHeight;
+        // Speed up on hover over hero area
+        var heroEl = document.getElementById('hero');
+        if (heroEl) {
+          var r = heroEl.getBoundingClientRect();
+          var inside = e.clientX > r.width * 0.5 && e.clientY > r.top && e.clientY < r.bottom;
+          hoverScale = inside ? 2.8 : 1;
+        }
+      });
+
+      // Crystal geometry - diamond/gem shape points
+      function getGemPoints(cx, cy, r, tilt) {
+        // Top crown facets
+        var crown = [];
+        var girdle = [];
+        var pavilion = [];
+        var n = 8; // 8-sided gem
+        for (var i=0; i<n; i++) {
+          var a = (i/n)*Math.PI*2 - Math.PI/2 + tilt;
+          // Girdle (widest ring)
+          girdle.push({
+            x: cx + Math.cos(a) * r,
+            y: cy + Math.sin(a) * r * 0.38
+          });
+          // Crown points (upper half)
+          var ac = ((i+0.5)/n)*Math.PI*2 - Math.PI/2 + tilt;
+          crown.push({
+            x: cx + Math.cos(ac) * r * 0.65,
+            y: cy + Math.sin(ac) * r * 0.22 - r*0.28
+          });
+          // Pavilion points (lower half)
+          pavilion.push({
+            x: cx + Math.cos(ac) * r * 0.5,
+            y: cy + Math.sin(ac) * r * 0.2 + r*0.22
+          });
+        }
+        return { crown, girdle, pavilion, n };
+      }
+
+      function lerpColor(a, b, t) {
+        return {
+          h: a.h + (b.h - a.h)*t,
+          s: a.s + (b.s - a.s)*t,
+          l: a.l + (b.l - a.l)*t
+        };
+      }
+
+      function hsl(col, alpha) {
+        return 'hsla('+Math.round(col.h)+','+Math.round(col.s)+'%,'+Math.round(col.l)+'%,'+(alpha||1)+')';
+      }
+
+      var t = 0;
+      var spinSpeed = 0.003;
+
+      function drawCrystal(ts) {
+        requestAnimationFrame(drawCrystal);
+        // Smoothly approach target speed
+        spinSpeed += (((hoverScale * 0.003) - spinSpeed)) * 0.04;
+        t += spinSpeed;
+
+        cx.clearRect(0,0,W,H);
+
+        var r = Math.min(W,H) * 0.42;
+        // Tilt gem slightly based on mouse
+        var tiltY = (mouseX - 0.5) * 0.5;
+        var tiltX = (mouseY - 0.5) * 0.3;
+
+        var gem = getGemPoints(cx2, cy2, r, t + tiltY);
+        var n = gem.n;
+
+        // Pastel palette - pink/purple/blue
+        var palettes = [
+          {h:320, s:65, l:82}, // pastel pink
+          {h:280, s:55, l:80}, // pastel purple
+          {h:210, s:60, l:80}, // pastel blue
+          {h:300, s:50, l:85}, // light lavender
+        ];
+
+        // Light source moves with mouse
+        var lightX = cx2 + (mouseX - 0.5) * r * 0.8;
+        var lightY = cy2 + (mouseY - 0.5) * r * 0.5 - r*0.3;
+
+        // Draw crown facets (top)
+        for (var i=0; i<n; i++) {
+          var ni = (i+1)%n;
+          var g0 = gem.girdle[i];
+          var g1 = gem.girdle[ni];
+          var cr = gem.crown[i];
+
+          // Calculate how much this face points toward light
+          var faceMidX = (g0.x+g1.x+cr.x)/3;
+          var faceMidY = (g0.y+g1.y+cr.y)/3;
+          var dx = lightX - faceMidX;
+          var dy = lightY - faceMidY;
+          var dist = Math.sqrt(dx*dx+dy*dy);
+          var lit = Math.max(0, Math.min(1, 1 - dist/(r*2)));
+
+          // Pick color from palette based on face index + time
+          var palIdx = (i + Math.floor(t*0.8)) % palettes.length;
+          var palNext = (palIdx+1) % palettes.length;
+          var palT = (Math.sin(t*0.7 + i*0.8)+1)/2;
+          var col = lerpColor(palettes[palIdx], palettes[palNext], palT);
+
+          // Brighten lit faces
+          var litCol = {h: col.h, s: col.s - lit*10, l: Math.min(95, col.l + lit*18)};
+          var alpha = 0.55 + lit * 0.35;
+
+          cx.beginPath();
+          cx.moveTo(g0.x, g0.y);
+          cx.lineTo(cr.x, cr.y);
+          cx.lineTo(g1.x, g1.y);
+          cx.closePath();
+          cx.fillStyle = hsl(litCol, alpha);
+          cx.fill();
+          cx.strokeStyle = hsl({h:col.h, s:col.s, l:col.l+15}, 0.5);
+          cx.lineWidth = 0.8;
+          cx.stroke();
+        }
+
+        // Draw pavilion facets (bottom)
+        // Bottom culet point
+        var culetY = cy2 + r * 0.72 + tiltX * r * 0.2;
+        for (var i=0; i<n; i++) {
+          var ni = (i+1)%n;
+          var g0 = gem.girdle[i];
+          var g1 = gem.girdle[ni];
+
+          var dx = lightX - (g0.x+g1.x)/2;
+          var dy = lightY - culetY;
+          var dist = Math.sqrt(dx*dx+dy*dy);
+          var lit = Math.max(0, Math.min(1, 1 - dist/(r*2.5)));
+
+          var palIdx = (i+2+Math.floor(t*0.5))%palettes.length;
+          var col = palettes[palIdx];
+          var litCol = {h:col.h, s:col.s-5, l:Math.min(92, col.l+lit*12)};
+
+          cx.beginPath();
+          cx.moveTo(g0.x, g0.y);
+          cx.lineTo(cx2, culetY);
+          cx.lineTo(g1.x, g1.y);
+          cx.closePath();
+          cx.fillStyle = hsl(litCol, 0.45 + lit*0.25);
+          cx.fill();
+          cx.strokeStyle = hsl({h:col.h, s:40, l:90}, 0.3);
+          cx.lineWidth = 0.6;
+          cx.stroke();
+        }
+
+        // Table facet (flat top of gem)
+        cx.beginPath();
+        var tableR = r * 0.38;
+        for (var i=0; i<n; i++) {
+          var a = (i/n)*Math.PI*2 - Math.PI/2 + t + tiltY;
+          var px = cx2 + Math.cos(a)*tableR;
+          var py = cy2 + Math.sin(a)*tableR*0.35 - r*0.45;
+          if(i===0) cx.moveTo(px,py); else cx.lineTo(px,py);
+        }
+        cx.closePath();
+        var tableGrad = cx.createRadialGradient(lightX, lightY-r*0.3, 0, cx2, cy2-r*0.4, tableR*1.5);
+        tableGrad.addColorStop(0, 'rgba(255,245,255,0.75)');
+        tableGrad.addColorStop(0.5, 'rgba(220,190,255,0.35)');
+        tableGrad.addColorStop(1, 'rgba(180,160,255,0.15)');
+        cx.fillStyle = tableGrad;
+        cx.fill();
+        cx.strokeStyle = 'rgba(255,240,255,0.6)';
+        cx.lineWidth = 1;
+        cx.stroke();
+
+        // Specular highlight - moves with mouse
+        var spx = cx2 + (mouseX-0.5)*r*0.5 - r*0.15;
+        var spy = cy2 + (mouseY-0.5)*r*0.3 - r*0.38;
+        var spGrad = cx.createRadialGradient(spx,spy,0,spx,spy,r*0.18);
+        spGrad.addColorStop(0, 'rgba(255,255,255,0.9)');
+        spGrad.addColorStop(0.4, 'rgba(255,240,255,0.3)');
+        spGrad.addColorStop(1, 'rgba(255,255,255,0)');
+        cx.beginPath();
+        cx.arc(spx, spy, r*0.18, 0, Math.PI*2);
+        cx.fillStyle = spGrad;
+        cx.fill();
+
+        // Outer glow
+        var glow = cx.createRadialGradient(cx2,cy2,r*0.5,cx2,cy2,r*1.1);
+        glow.addColorStop(0,'rgba(244,114,182,0)');
+        glow.addColorStop(0.8,'rgba(168,85,247,0.06)');
+        glow.addColorStop(1,'rgba(244,114,182,0)');
+        cx.beginPath(); cx.arc(cx2,cy2,r*1.1,0,Math.PI*2);
+        cx.fillStyle=glow; cx.fill();
+      }
+
+      window.addEventListener('resize', resizeCrystal);
+      if (document.readyState==='complete') { resizeCrystal(); requestAnimationFrame(drawCrystal); }
+      else window.addEventListener('load', function(){ resizeCrystal(); requestAnimationFrame(drawCrystal); });
+
+      // Hide when scrolled past hero
+      window.addEventListener('scroll', function(){
+        if (!wrap) return;
+        var hero = document.getElementById('hero');
+        if (hero) wrap.style.opacity = hero.getBoundingClientRect().bottom > 50 ? '1' : '0';
+      }, {passive:true});
+    })();
 
   </script>
 </body>
