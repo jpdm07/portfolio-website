@@ -192,7 +192,7 @@
     #hero {
       min-height: 100vh;
       display: flex; flex-direction: column; justify-content: center;
-      padding: 0 48px; position: relative; overflow: hidden;
+      padding: 0 48px; position: relative; overflow: visible;
     }
     .hero-eyebrow {
       font-family: var(--mono); font-size: 0.7rem;
@@ -320,7 +320,7 @@
     }
     .project-item.open .project-arrow { transform: rotate(45deg); color: var(--pink); }
     .project-body { max-height: 0; overflow: hidden; transition: max-height 0.6s cubic-bezier(0.77, 0, 0.175, 1); }
-    .project-item.open .project-body { max-height: 900px; }
+    .project-item.open .project-body { max-height: 2000px; }
     .project-content { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; padding: 0 36px 48px; }
     .project-text h4 {
       font-family: var(--mono); font-size: 0.65rem; color: var(--pink);
@@ -566,8 +566,9 @@
       .project-header { padding: 20px; }
       .project-name { font-size: 1.2rem; }
       .project-tags { display: none; }
-      .project-content { padding: 0 20px 32px; gap: 32px; }
+      .project-content { padding: 0 20px 32px; gap: 24px; grid-template-columns: 1fr; }
       .project-mockup { display: none; }
+      .project-text { width: 100%; }
 
       .about-bio { font-size: 1.15rem; }
 
@@ -585,10 +586,14 @@
 
     /* ── Page fade-in entrance ── */
     @keyframes pageFadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; }
+      to   { opacity: 1; }
     }
-    body { animation: pageFadeIn 1.2s cubic-bezier(0.4,0,0.2,1) both; }
+    #page-fade {
+      position: fixed; inset: 0; z-index: 9998;
+      background: #07070f; pointer-events: none;
+      animation: pageFadeIn 1.4s cubic-bezier(0.4,0,0.2,1) reverse both;
+    }
 
     /* ── Crystal Orb ── */
     .crystal-wrap canvas { display: block; }
@@ -596,7 +601,10 @@
   </style>
 </head>
 <body>
-<!-- Animated canvas background -->
+<!-- Page entrance fade -->
+  <div id="page-fade" aria-hidden="true"></div>
+
+  <!-- Animated canvas background -->
   <canvas id="bg-canvas"></canvas>
   <!-- Fixed background base -->
   <div id="bg"></div>
@@ -1069,7 +1077,7 @@
         <a href="#" id="contact-email" class="contact-link primary">Get In Touch ↗</a>
         <a href="https://www.linkedin.com/in/jane-c-699a9241" target="_blank" class="contact-link">LinkedIn ↗</a>
         <a href="https://github.com/jpdm07" target="_blank" class="contact-link">GitHub ↗</a>
-        <button onclick="sharePortfolio()" class="contact-link" style="cursor:none;background:transparent;font-family:var(--mono);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;border:1px solid var(--border);color:var(--text-dim);padding:14px 24px;transition:border-color 0.3s,color 0.3s;" onmouseenter="this.style.borderColor='var(--pink)';this.style.color='var(--pink)'" onmouseleave="this.style.borderColor='';this.style.color=''">Share ↗</button>
+        <button type="button" onclick="sharePortfolio()" class="contact-link" style="cursor:none;background:transparent;border:1px solid var(--border);">Share ↗</button>
       </div>
     </div>
   </section>
@@ -1511,206 +1519,143 @@
       if (emailBtn) emailBtn.href = 'mailto:' + 'jpdm015' + '@' + 'gmail.com';
     });
 
-    // ── Share portfolio button ──
-    function sharePortfolio() {
-      const url = 'https://jpdm07.github.io/portfolio-website/';
-      if (navigator.share) {
-        navigator.share({ title: 'Jane Chavez Portfolio', url });
-      } else {
-        navigator.clipboard.writeText(url).then(() => {
-          const btn = document.querySelector('[onclick="sharePortfolio()"]');
-          const orig = btn.textContent;
-          btn.textContent = 'Link Copied!';
-          setTimeout(() => { btn.textContent = orig; }, 2000);
-        });
-      }
-    }
-
     // ── Share portfolio ──
     function sharePortfolio() {
       var url = 'https://jpdm07.github.io/portfolio-website/';
-      var text = 'Check out Jane Chavez\'s portfolio! ' + url;
-      // Try native share (mobile)
+      var msg = 'Check out Jane Chavez portfolio: ' + url;
       if (navigator.share) {
-        navigator.share({ title: 'Jane Chavez Portfolio', text: text, url: url });
+        navigator.share({ title: 'Jane Chavez Portfolio', text: msg, url: url });
       } else {
-        // Open SMS with pre-filled text
-        window.open('sms:?body=' + encodeURIComponent(text));
+        window.open('sms:?body=' + encodeURIComponent(msg));
       }
     }
 
-    // ── Crystal Gem Orb ──
+        // ── Crystal Gem Orb ──
     (function() {
       var wrap = document.getElementById('crystal-wrap');
       var cv   = document.getElementById('crystal-canvas');
       if (!wrap || !cv) return;
-      var ctx2d = cv.getContext('2d');
-      var W = 0, H = 0, CX = 0, CY = 0;
+      var X = cv.getContext('2d');
+      var W = 300, H = 300, CX = 150, CY = 150;
+      var dpr = window.devicePixelRatio || 1;
 
-      var rawMX = window.innerWidth * 0.75;
-      var rawMY = window.innerHeight * 0.5;
-      var smMX = rawMX, smMY = rawMY;
-
-      document.addEventListener('mousemove', function(e) {
-        rawMX = e.clientX; rawMY = e.clientY;
-      });
-
-      function resizeCrystal() {
-        var rect = wrap.getBoundingClientRect();
-        if (!rect.width || !rect.height) {
-          // Fallback to explicit size
-          W = cv.width  = 300 * (window.devicePixelRatio || 1);
-          H = cv.height = 300 * (window.devicePixelRatio || 1);
-        } else {
-          W = cv.width  = rect.width  * (window.devicePixelRatio || 1);
-          H = cv.height = rect.height * (window.devicePixelRatio || 1);
-        }
+      function resize() {
+        var r = wrap.getBoundingClientRect();
+        W = cv.width  = (r.width  || 300) * dpr;
+        H = cv.height = (r.height || 300) * dpr;
         CX = W/2; CY = H/2;
       }
+      window.addEventListener('resize', resize);
 
-      var PAL = [
-        {h:320,s:60,l:83}, {h:280,s:52,l:80},
-        {h:210,s:58,l:80}, {h:300,s:48,l:86}, {h:240,s:55,l:82}
-      ];
+      var rawMX = window.innerWidth * 0.8, rawMY = window.innerHeight * 0.5;
+      var smMX = rawMX, smMY = rawMY;
+      document.addEventListener('mousemove', function(e){ rawMX=e.clientX; rawMY=e.clientY; });
 
-      function lerp(a,b,t){ return a+(b-a)*t; }
-      function lerpCol(a,b,t){ return {h:lerp(a.h,b.h,t),s:lerp(a.s,b.s,t),l:lerp(a.l,b.l,t)}; }
-      function hsla(col,a){ return 'hsla('+Math.round(col.h)+','+Math.round(col.s)+'%,'+Math.round(col.l)+'%,'+(a||1)+')'; }
+      var PAL=[{h:320,s:60,l:83},{h:280,s:52,l:80},{h:210,s:58,l:80},{h:300,s:48,l:86},{h:240,s:55,l:82}];
+      function lerp(a,b,t){return a+(b-a)*t;}
+      function lc(a,b,t){return {h:lerp(a.h,b.h,t),s:lerp(a.s,b.s,t),l:lerp(a.l,b.l,t)};}
+      function hs(col,a){return 'hsla('+Math.round(col.h)+','+Math.round(col.s)+'%,'+Math.round(col.l)+'%,'+(a||1)+')';}
 
-      var t = 0;
-      var curSpeed = 0.004;
-      var targetSpeed = 0.004;
+      var t=0, spd=0.004, tSpd=0.004;
 
-      function drawCrystal(ts) {
-        requestAnimationFrame(drawCrystal);
-        if (!W || !H) { resizeCrystal(); return; }
-
-        t += curSpeed;
-        smMX = lerp(smMX, rawMX, 0.06);
-        smMY = lerp(smMY, rawMY, 0.06);
-        curSpeed = lerp(curSpeed, targetSpeed, 0.05);
+      function draw(ts) {
+        requestAnimationFrame(draw);
+        t += spd;
+        smMX = lerp(smMX, rawMX, 0.07);
+        smMY = lerp(smMY, rawMY, 0.07);
+        spd  = lerp(spd, tSpd, 0.05);
 
         var rect = wrap.getBoundingClientRect();
-        var localMX = (smMX - rect.left) / rect.width;
-        var localMY = (smMY - rect.top)  / rect.height;
-        var near = localMX > -0.5 && localMX < 1.5 && localMY > -0.5 && localMY < 1.5;
-        targetSpeed = near ? 0.013 : 0.004;
+        var lx = (smMX - rect.left) / (rect.width  || 300);
+        var ly = (smMY - rect.top)  / (rect.height || 300);
+        var near = lx>-0.3&&lx<1.3&&ly>-0.3&&ly<1.3;
+        tSpd = near ? 0.014 : 0.004;
 
-        var lightX = CX + (localMX - 0.5) * W * 1.1;
-        var lightY = CY + (localMY - 0.5) * H * 0.8 - H * 0.15;
+        var lightX = CX + (lx-0.5)*W*1.1;
+        var lightY = CY + (ly-0.5)*H*0.8 - H*0.12;
 
-        ctx2d.clearRect(0, 0, W, H);
-        var r = Math.min(W, H) * 0.42;
-        var tiltA = (localMX - 0.5) * 0.7;
-        var tiltD = (localMY - 0.5) * 0.3;
+        X.clearRect(0,0,W,H);
+        var r=Math.min(W,H)*0.42;
+        var tA=(lx-0.5)*0.7, tD=(ly-0.5)*0.3;
+        var N=8, girdle=[], crown=[];
 
-        var N = 8;
-        var girdle = [], crown = [];
-        for (var i = 0; i < N; i++) {
-          var a = (i/N)*Math.PI*2 - Math.PI/2 + t + tiltA;
-          girdle.push({x: CX+Math.cos(a)*r, y: CY+Math.sin(a)*r*(0.38+tiltD*0.1)});
-          var ac = ((i+0.5)/N)*Math.PI*2 - Math.PI/2 + t + tiltA;
-          crown.push({x: CX+Math.cos(ac)*r*0.55, y: CY+Math.sin(ac)*r*0.18 - r*0.38});
+        for(var i=0;i<N;i++){
+          var a=(i/N)*Math.PI*2-Math.PI/2+t+tA;
+          girdle.push({x:CX+Math.cos(a)*r, y:CY+Math.sin(a)*r*(0.38+tD*0.1)});
+          var ac=((i+0.5)/N)*Math.PI*2-Math.PI/2+t+tA;
+          crown.push({x:CX+Math.cos(ac)*r*0.55, y:CY+Math.sin(ac)*r*0.18-r*0.38});
         }
-        var culetY = CY + r*0.78 + tiltD*r*0.3;
+        var culetY=CY+r*0.78+tD*r*0.3;
 
         // Pavilion
-        for (var i = 0; i < N; i++) {
-          var ni=(i+1)%N;
-          var g0=girdle[i], g1=girdle[ni];
-          var mx2=(g0.x+g1.x)/2;
-          var dx=lightX-mx2, dy=lightY-culetY;
+        for(var i=0;i<N;i++){
+          var ni=(i+1)%N, g0=girdle[i], g1=girdle[ni];
+          var dx=lightX-(g0.x+g1.x)/2, dy=lightY-culetY;
           var lit=Math.max(0,Math.min(1,1-Math.sqrt(dx*dx+dy*dy)/(r*2.2)));
           var col=PAL[(i+2)%PAL.length];
           var fc={h:col.h,s:col.s,l:Math.min(93,col.l+lit*18)};
-          ctx2d.beginPath();
-          ctx2d.moveTo(g0.x,g0.y); ctx2d.lineTo(CX,culetY); ctx2d.lineTo(g1.x,g1.y);
-          ctx2d.closePath();
-          ctx2d.fillStyle=hsla(fc,0.42+lit*0.3);
-          ctx2d.fill();
-          ctx2d.strokeStyle=hsla({h:col.h,s:35,l:92},0.25);
-          ctx2d.lineWidth=0.6; ctx2d.stroke();
+          X.beginPath(); X.moveTo(g0.x,g0.y); X.lineTo(CX,culetY); X.lineTo(g1.x,g1.y); X.closePath();
+          X.fillStyle=hs(fc,0.42+lit*0.3); X.fill();
+          X.strokeStyle=hs({h:col.h,s:35,l:92},0.25); X.lineWidth=0.6; X.stroke();
         }
 
         // Crown
-        for (var i = 0; i < N; i++) {
-          var ni=(i+1)%N;
-          var g0=girdle[i],g1=girdle[ni],cr=crown[i];
+        for(var i=0;i<N;i++){
+          var ni=(i+1)%N, g0=girdle[i], g1=girdle[ni], cr=crown[i];
           var mx2=(g0.x+g1.x+cr.x)/3, my2=(g0.y+g1.y+cr.y)/3;
           var dx=lightX-mx2, dy=lightY-my2;
           var lit=Math.max(0,Math.min(1,1-Math.sqrt(dx*dx+dy*dy)/(r*1.8)));
           var palT=(Math.sin(t*0.8+i*0.9)+1)/2;
-          var col=lerpCol(PAL[i%PAL.length],PAL[(i+1)%PAL.length],palT);
-          col.l=Math.min(94,col.l+lit*22);
-          col.s=Math.max(28,col.s-lit*8);
-          ctx2d.beginPath();
-          ctx2d.moveTo(g0.x,g0.y); ctx2d.lineTo(cr.x,cr.y); ctx2d.lineTo(g1.x,g1.y);
-          ctx2d.closePath();
-          ctx2d.fillStyle=hsla(col,0.55+lit*0.35);
-          ctx2d.fill();
-          ctx2d.strokeStyle=hsla({h:col.h,s:col.s,l:col.l+10},0.45+lit*0.2);
-          ctx2d.lineWidth=0.8; ctx2d.stroke();
+          var col=lc(PAL[i%PAL.length],PAL[(i+1)%PAL.length],palT);
+          col.l=Math.min(94,col.l+lit*22); col.s=Math.max(28,col.s-lit*8);
+          X.beginPath(); X.moveTo(g0.x,g0.y); X.lineTo(cr.x,cr.y); X.lineTo(g1.x,g1.y); X.closePath();
+          X.fillStyle=hs(col,0.55+lit*0.35); X.fill();
+          X.strokeStyle=hs({h:col.h,s:col.s,l:col.l+10},0.45+lit*0.2); X.lineWidth=0.8; X.stroke();
         }
 
-        // Table facet
-        ctx2d.beginPath();
-        var tR=r*0.35;
-        for (var i=0;i<N;i++){
-          var a=(i/N)*Math.PI*2-Math.PI/2+t+tiltA;
-          var px=CX+Math.cos(a)*tR, py=CY+Math.sin(a)*tR*0.32-r*0.5;
-          i===0?ctx2d.moveTo(px,py):ctx2d.lineTo(px,py);
+        // Table
+        X.beginPath();
+        for(var i=0;i<N;i++){
+          var a=(i/N)*Math.PI*2-Math.PI/2+t+tA;
+          var px=CX+Math.cos(a)*r*0.35, py=CY+Math.sin(a)*r*0.35*0.32-r*0.5;
+          i===0?X.moveTo(px,py):X.lineTo(px,py);
         }
-        ctx2d.closePath();
-        var tg=ctx2d.createRadialGradient(lightX,lightY-r*0.1,0,CX,CY-r*0.45,tR*2);
-        tg.addColorStop(0,'rgba(255,248,255,0.88)');
-        tg.addColorStop(0.5,'rgba(220,195,255,0.4)');
-        tg.addColorStop(1,'rgba(190,170,255,0.12)');
-        ctx2d.fillStyle=tg; ctx2d.fill();
-        ctx2d.strokeStyle='rgba(255,245,255,0.7)'; ctx2d.lineWidth=1; ctx2d.stroke();
+        X.closePath();
+        var tg=X.createRadialGradient(lightX,lightY-r*0.1,0,CX,CY-r*0.45,r*0.7);
+        tg.addColorStop(0,'rgba(255,248,255,0.88)'); tg.addColorStop(0.5,'rgba(220,195,255,0.4)'); tg.addColorStop(1,'rgba(190,170,255,0.12)');
+        X.fillStyle=tg; X.fill(); X.strokeStyle='rgba(255,245,255,0.7)'; X.lineWidth=1; X.stroke();
 
-        // Specular — follows mouse
-        var spx=CX+(localMX-0.5)*r*0.8-r*0.08;
-        var spy=CY+(localMY-0.5)*r*0.55-r*0.44;
-        var spR=near?r*0.24:r*0.14;
-        var sg=ctx2d.createRadialGradient(spx,spy,0,spx,spy,spR);
-        sg.addColorStop(0,'rgba(255,255,255,0.95)');
-        sg.addColorStop(0.35,'rgba(255,245,255,0.45)');
-        sg.addColorStop(1,'rgba(255,255,255,0)');
-        ctx2d.beginPath(); ctx2d.arc(spx,spy,spR,0,Math.PI*2);
-        ctx2d.fillStyle=sg; ctx2d.fill();
+        // Specular highlight
+        var spx=CX+(lx-0.5)*r*0.8-r*0.08, spy=CY+(ly-0.5)*r*0.55-r*0.44;
+        var spR=near?r*0.26:r*0.15;
+        var sg=X.createRadialGradient(spx,spy,0,spx,spy,spR);
+        sg.addColorStop(0,'rgba(255,255,255,0.95)'); sg.addColorStop(0.35,'rgba(255,245,255,0.45)'); sg.addColorStop(1,'rgba(255,255,255,0)');
+        X.beginPath(); X.arc(spx,spy,spR,0,Math.PI*2); X.fillStyle=sg; X.fill();
 
-        // Rainbow dispersion streaks on hover
-        if (near) {
-          var streaks=[{h:0,a:0.12},{h:30,a:0.1},{h:200,a:0.1},{h:270,a:0.12}];
-          for (var si=0;si<streaks.length;si++) {
-            var sk=streaks[si];
-            var sx=spx+(Math.cos(t*2+si*1.57)*r*0.3);
-            var sy=spy+(Math.sin(t*2+si*1.57)*r*0.2);
-            var stg=ctx2d.createRadialGradient(sx,sy,0,sx,sy,r*0.1);
-            stg.addColorStop(0,'hsla('+sk.h+',100%,85%,'+sk.a+')');
-            stg.addColorStop(1,'hsla('+sk.h+',100%,85%,0)');
-            ctx2d.beginPath(); ctx2d.arc(sx,sy,r*0.1,0,Math.PI*2);
-            ctx2d.fillStyle=stg; ctx2d.fill();
-          }
+        // Rainbow streaks on hover
+        if(near){
+          [{h:0,a:0.13},{h:200,a:0.11},{h:270,a:0.13}].forEach(function(sk,si){
+            var sx=spx+Math.cos(t*2+si*2.1)*r*0.3, sy=spy+Math.sin(t*2+si*2.1)*r*0.2;
+            var stg=X.createRadialGradient(sx,sy,0,sx,sy,r*0.12);
+            stg.addColorStop(0,'hsla('+sk.h+',100%,85%,'+sk.a+')'); stg.addColorStop(1,'hsla('+sk.h+',100%,85%,0)');
+            X.beginPath(); X.arc(sx,sy,r*0.12,0,Math.PI*2); X.fillStyle=stg; X.fill();
+          });
         }
 
         // Outer glow
-        var glow=ctx2d.createRadialGradient(CX,CY,r*0.5,CX,CY,r*1.1);
-        glow.addColorStop(0,'rgba(244,114,182,0)');
-        glow.addColorStop(0.8,'rgba(168,85,247,0.07)');
-        glow.addColorStop(1,'rgba(244,114,182,0)');
-        ctx2d.beginPath(); ctx2d.arc(CX,CY,r*1.1,0,Math.PI*2);
-        ctx2d.fillStyle=glow; ctx2d.fill();
+        var gw=X.createRadialGradient(CX,CY,r*0.5,CX,CY,r*1.1);
+        gw.addColorStop(0,'rgba(244,114,182,0)'); gw.addColorStop(0.8,'rgba(168,85,247,0.08)'); gw.addColorStop(1,'rgba(244,114,182,0)');
+        X.beginPath(); X.arc(CX,CY,r*1.1,0,Math.PI*2); X.fillStyle=gw; X.fill();
       }
 
-      window.addEventListener('resize', resizeCrystal);
-      window.addEventListener('scroll', function(){
+      // Hide when scrolled past hero
+      window.addEventListener('scroll',function(){
         var hero=document.getElementById('hero');
-        if(hero && wrap) wrap.style.opacity=hero.getBoundingClientRect().bottom>50?'1':'0';
+        if(hero&&wrap) wrap.style.opacity=hero.getBoundingClientRect().bottom>50?'1':'0';
       },{passive:true});
 
-      function init() { resizeCrystal(); requestAnimationFrame(drawCrystal); }
-      if (document.readyState==='complete') init();
+      function init(){ resize(); requestAnimationFrame(draw); }
+      if(document.readyState==='complete') init();
       else window.addEventListener('load', init);
     })();
 
