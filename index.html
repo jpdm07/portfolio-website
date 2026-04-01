@@ -637,7 +637,7 @@
 
   <!-- Hero -->
   <section id="hero">
-    <canvas id="hero-orb" style="position:absolute;right:8%;top:50%;transform:translateY(-50%);width:min(340px,38vw);height:min(340px,38vw);pointer-events:none;opacity:0.85;z-index:1;"></canvas>
+    <canvas id="hero-orb" style="position:absolute;right:6%;top:50%;transform:translateY(-50%);width:min(320px,35vw);height:min(320px,35vw);pointer-events:none;opacity:0.9;z-index:2;"></canvas>
     <p class="hero-eyebrow">Front-End Developer · UI/UX Designer</p>
     <h1 class="hero-name">Jane<br> <em>Chavez</em></h1>
     <p class="hero-desc">Building responsive, accessible web interfaces with strong attention to user experience, visual hierarchy, and clean structure.</p>
@@ -1536,16 +1536,18 @@
 
     // ── 3D floating crystal orb on hero ──
     (function() {
-      const orb = document.getElementById('hero-orb');
-      if (!orb) return;
-      const oc = orb.getContext('2d');
-      let W, H;
-      function resizeOrb() {
-        W = orb.width  = orb.offsetWidth  * window.devicePixelRatio;
-        H = orb.height = orb.offsetHeight * window.devicePixelRatio;
-      }
-      resizeOrb();
-      window.addEventListener('resize', resizeOrb);
+      function initOrb() {
+        const orb = document.getElementById('hero-orb');
+        if (!orb) return;
+        const oc = orb.getContext('2d');
+        let W, H;
+        function resizeOrb() {
+          const rect = orb.getBoundingClientRect();
+          W = orb.width  = rect.width  * (window.devicePixelRatio || 1);
+          H = orb.height = rect.height * (window.devicePixelRatio || 1);
+        }
+        resizeOrb();
+        window.addEventListener('resize', resizeOrb);
 
       let t = 0;
       let mx = 0.5, my = 0.5; // normalized mouse
@@ -1620,6 +1622,10 @@
         oc.fill();
       }
       requestAnimationFrame(drawOrb);
+      }
+      // Wait for layout to complete before reading dimensions
+      if (document.readyState === 'complete') initOrb();
+      else window.addEventListener('load', initOrb);
     })();
 
   </script>
