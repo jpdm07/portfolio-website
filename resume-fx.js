@@ -123,16 +123,4 @@
     }, {passive:true});
   }
 
-  // MOBILE NAV
-  var toggle = document.querySelector('.nav-mobile-toggle');
-  if (toggle) {
-    toggle.addEventListener('click', function(){
-      document.querySelector('nav').classList.toggle('nav-mobile-open');
-    });
-    document.querySelectorAll('.nav-links a').forEach(function(a){
-      a.addEventListener('click', function(){
-        document.querySelector('nav').classList.remove('nav-mobile-open');
-      });
-    });
-  }
 })();
