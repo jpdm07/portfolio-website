@@ -107,10 +107,20 @@
     });
   }
 
-  // NAV SHRINK
+  // NAV SHRINK (skip backdrop-filter on mobile — it breaks full-screen fixed .nav-links)
   var nav = document.querySelector('nav');
+  function navIsMobile() {
+    return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+  }
   if (nav) {
     window.addEventListener('scroll', function() {
+      if (navIsMobile()) {
+        nav.style.background = window.scrollY > 60 ? 'rgba(7,7,15,0.96)' : '';
+        nav.style.backdropFilter = '';
+        nav.style.webkitBackdropFilter = '';
+        nav.style.padding = '';
+        return;
+      }
       if (window.scrollY>60) {
         nav.style.background='rgba(7,7,15,0.96)';
         nav.style.backdropFilter='blur(20px)';
