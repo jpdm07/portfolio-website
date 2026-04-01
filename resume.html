@@ -97,7 +97,7 @@
       text-decoration: none; transition: all 0.3s; text-align: center;
     }
     .r-download:hover { background: var(--pink); color: var(--bg); }
-    .page { max-width: 860px; margin: 0 auto; padding: 140px 24px 80px; }
+    .page { max-width: 780px; margin: 0 auto; padding: 120px 24px 80px; }
     .resume-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 48px; margin-bottom: 24px; }
     .r-section-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pink); margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
     .r-block { margin-bottom: 28px; }
@@ -244,7 +244,24 @@
         <p class="r-block-org">The University of Texas at Arlington</p>
         <p class="r-gpa">GPA 4.00</p>
       </div>
+    </div>
+
+    <div class="r-footer">
+      <p>← <a href="index.html">Back to Portfolio</a></p>
+    </div>
+  </div>
+
   <div id="cursor"></div>
+  <script>
+    var nc = document.querySelector('.nav-close');
+    var nt = document.querySelector('.nav-mobile-toggle');
+    var nv = document.querySelector('nav');
+    function openNav()  { if(nv) { nv.classList.add('nav-mobile-open'); document.body.style.overflow='hidden'; } }
+    function closeNav() { if(nv) { nv.classList.remove('nav-mobile-open'); document.body.style.overflow=''; } }
+    if (nt) nt.addEventListener('click', openNav);
+    if (nc) nc.addEventListener('click', closeNav);
+    document.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click', closeNav); });
+  </script>
   <script src="resume-fx.js"></script>
 </body>
 </html>

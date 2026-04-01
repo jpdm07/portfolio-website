@@ -603,7 +603,7 @@
     .crystal-floater {
       width: 100%; height: 100%;
       animation: crystalFloat 7s ease-in-out infinite;
-      transition: filter 0.5s ease;
+      transition: filter 0.5s ease, transform 0.5s ease;
       filter: drop-shadow(0 0 28px rgba(244,114,182,0.5)) drop-shadow(0 0 70px rgba(168,85,247,0.28));
     }
     .crystal-wrap.hovered .crystal-floater {
@@ -646,8 +646,8 @@
   <!-- Nav -->
   <nav>
     <a href="#" class="nav-logo">J<span>C</span></a>
-    <button class="nav-close" aria-label="Close menu">✕</button>
     <ul class="nav-links">
+      <button class="nav-close" aria-label="Close menu">✕</button>
       <li><a href="#projects">Work</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -1375,7 +1375,27 @@
     });
 
     // Mobile nav toggle
-    if (navClose)  navClose.addEventListener('click',  function(){ closeNav(); });
+    (function() {
+      var nav     = document.querySelector('nav');
+      var toggle  = document.querySelector('.nav-mobile-toggle');
+      var close   = document.querySelector('.nav-close');
+      var links   = document.querySelectorAll('.nav-links a');
+
+      function openNav() {
+        if (nav) nav.classList.add('nav-mobile-open');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeNav() {
+        if (nav) nav.classList.remove('nav-mobile-open');
+        document.body.style.overflow = '';
+      }
+
+      if (toggle) toggle.addEventListener('click', openNav);
+      if (close)  close.addEventListener('click', closeNav);
+      links.forEach(function(a) {
+        a.addEventListener('click', closeNav);
+      });
+    })();
     document.querySelectorAll('.nav-links a').forEach(function(a) {
       a.addEventListener('click', function(){ closeNav(); });
     });
@@ -1572,7 +1592,27 @@
     }, { passive: true });
 
     // Mobile nav toggle
-    if (navClose)  navClose.addEventListener('click',  function(){ closeNav(); });
+    (function() {
+      var nav     = document.querySelector('nav');
+      var toggle  = document.querySelector('.nav-mobile-toggle');
+      var close   = document.querySelector('.nav-close');
+      var links   = document.querySelectorAll('.nav-links a');
+
+      function openNav() {
+        if (nav) nav.classList.add('nav-mobile-open');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeNav() {
+        if (nav) nav.classList.remove('nav-mobile-open');
+        document.body.style.overflow = '';
+      }
+
+      if (toggle) toggle.addEventListener('click', openNav);
+      if (close)  close.addEventListener('click', closeNav);
+      links.forEach(function(a) {
+        a.addEventListener('click', closeNav);
+      });
+    })();
     document.querySelectorAll('.nav-links a').forEach(function(a) {
       a.addEventListener('click', function(){ closeNav(); });
     });
@@ -1588,40 +1628,63 @@
       var url = 'https://jpdm07.github.io/portfolio-website/';
       var btn = document.getElementById('share-btn');
 
-      // Show toast notification
+      // Create toast if it doesn't exist
       var toast = document.getElementById('share-toast');
       if (!toast) {
         toast = document.createElement('div');
         toast.id = 'share-toast';
-        toast.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:rgba(244,114,182,0.15);border:1px solid #f472b6;color:#f472b6;font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;padding:12px 28px;z-index:99999;opacity:0;transition:opacity 0.3s ease;pointer-events:none;backdrop-filter:blur(10px);';
+        toast.style.cssText = [
+          'position:fixed',
+          'bottom:40px',
+          'left:50%',
+          'transform:translateX(-50%)',
+          'background:rgba(7,7,15,0.92)',
+          'border:1px solid #f472b6',
+          'color:#f472b6',
+          'font-family:var(--mono)',
+          'font-size:0.72rem',
+          'letter-spacing:0.1em',
+          'padding:14px 32px',
+          'z-index:99999',
+          'opacity:0',
+          'transition:opacity 0.35s ease',
+          'pointer-events:none',
+          'white-space:nowrap'
+        ].join(';');
         document.body.appendChild(toast);
       }
       function showToast(msg) {
         toast.textContent = msg;
         toast.style.opacity = '1';
-        setTimeout(function(){ toast.style.opacity = '0'; }, 2500);
+        clearTimeout(toast._t);
+        toast._t = setTimeout(function(){ toast.style.opacity = '0'; }, 2800);
       }
 
-      // Mobile native share
+      // Mobile - use native share
       if (navigator.share) {
-        navigator.share({ title: "Jane Chavez | Portfolio", url: url }).catch(function(){});
+        navigator.share({ title: 'Jane Chavez | Portfolio', url: url }).catch(function(){});
         return;
       }
-      // Desktop - copy to clipboard
-      if (navigator.clipboard && navigator.clipboard.writeText) {
+
+      // Desktop - try modern clipboard API first
+      if (window.isSecureContext && navigator.clipboard) {
         navigator.clipboard.writeText(url).then(function(){
-          showToast('Link copied to clipboard!');
-        }).catch(function(){ fallbackCopy(); });
+          showToast('✓ Link copied to clipboard!');
+        }).catch(function(){ legacyCopy(); });
       } else {
-        fallbackCopy();
+        legacyCopy();
       }
-      function fallbackCopy() {
+
+      function legacyCopy() {
         var ta = document.createElement('textarea');
-        ta.value = url; ta.style.cssText = 'position:fixed;opacity:0';
-        document.body.appendChild(ta); ta.focus(); ta.select();
-        try { document.execCommand('copy'); showToast('Link copied to clipboard!'); }
-        catch(e) { showToast('Copy: ' + url); }
+        ta.value = url;
+        ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none';
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        var ok = false;
+        try { ok = document.execCommand('copy'); } catch(e){}
         document.body.removeChild(ta);
+        showToast(ok ? '✓ Link copied to clipboard!' : url);
       }
     });
       } else if (navigator.clipboard) {
