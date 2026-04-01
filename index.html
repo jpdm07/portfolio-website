@@ -169,6 +169,18 @@
       background-clip: text;
     }
     .nav-mobile-toggle { display: none; }
+
+    /* ── Mobile nav close button ── */
+    .nav-close {
+      display: none;
+      position: absolute; top: 24px; right: 24px;
+      background: none; border: none;
+      color: var(--text-dim); font-size: 1.4rem;
+      cursor: none; padding: 8px; line-height: 1;
+      transition: color 0.3s;
+    }
+    .nav-close:hover { color: var(--pink); }
+
     .nav-links { display: flex; gap: 36px; list-style: none; }
     .nav-links a {
       font-family: var(--mono); font-size: 0.7rem;
@@ -599,30 +611,31 @@
       width: min(300px, 32vw); height: min(300px, 32vw);
       pointer-events: none; z-index: 2;
     }
-    .crystal-wrap.hovered .crystal-svg {
-      animation-duration: 7s, 3s;
-      filter: drop-shadow(0 0 50px rgba(244,114,182,0.85)) drop-shadow(0 0 100px rgba(168,85,247,0.55));
+    /* Float on outer wrapper, spin on inner SVG - separate transforms */
+    .crystal-floater {
+      width: 100%; height: 100%;
+      animation: crystalFloat 7s ease-in-out infinite;
+      transition: filter 0.5s ease;
+      filter: drop-shadow(0 0 28px rgba(244,114,182,0.5)) drop-shadow(0 0 70px rgba(168,85,247,0.28));
     }
-    .crystal-wrap.hovered .c-face { opacity: 0.62 !important; }
+    .crystal-wrap.hovered .crystal-floater {
+      filter: drop-shadow(0 0 55px rgba(244,114,182,0.92)) drop-shadow(0 0 110px rgba(168,85,247,0.6));
+    }
     .crystal-svg {
       width: 100%; height: 100%;
-      animation: crystalSpin 24s linear infinite, crystalFloat 7s ease-in-out infinite;
-      filter: drop-shadow(0 0 28px rgba(244,114,182,0.45)) drop-shadow(0 0 60px rgba(168,85,247,0.25));
-      transition: filter 0.6s ease;
+      animation: crystalSpin 22s linear infinite;
+      transition: animation-duration 0.8s ease;
     }
-    .crystal-wrap:hover .crystal-svg {
-      animation-duration: 7s, 3s;
-      filter: drop-shadow(0 0 50px rgba(244,114,182,0.8)) drop-shadow(0 0 100px rgba(168,85,247,0.5));
-    }
-    .c-face { transition: opacity 0.4s; }
-    .crystal-wrap:hover .c-face { opacity: 0.6 !important; }
+    .crystal-wrap.hovered .crystal-svg { animation-duration: 6s; }
+    .c-face { transition: opacity 0.4s ease; }
+    .crystal-wrap.hovered .c-face { opacity: 0.65 !important; }
     @keyframes crystalSpin {
       from { transform: rotate(0deg); }
       to   { transform: rotate(360deg); }
     }
     @keyframes crystalFloat {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(-16px); }
+      0%,100% { transform: translateY(0px); }
+      50%      { transform: translateY(-18px); }
     }
     @media (max-width: 900px) { .crystal-wrap { display: none !important; } }
   </style>
@@ -647,12 +660,13 @@
   <nav>
     <a href="#" class="nav-logo">J<span>C</span></a>
     <ul class="nav-links">
+      <button class="nav-close" aria-label="Close menu">✕</button>
       <li><a href="#projects">Work</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
       <li><a href="resume.html">Résumé</a></li>
     </ul>
-    <div class="nav-mobile-toggle" aria-label="Menu">
+    <div class="nav-mobile-toggle" aria-label="Open menu">
       <span></span><span></span><span></span>
     </div>
   </nav>
@@ -668,6 +682,7 @@
     </div>
     <!-- Crystal gem SVG - desktop only -->
     <div class="crystal-wrap" id="crystal-wrap" aria-hidden="true">
+      <div class="crystal-floater">
       <svg class="crystal-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient id="cg1" cx="38%" cy="32%" r="58%">
@@ -718,6 +733,7 @@
         <circle cx="205" cy="190" r="5" fill="white" opacity="0.15"/>
         <circle cx="205" cy="190" r="1.5" fill="white" opacity="0.4"/>
       </svg>
+      </div>
     </div>
 
     <div class="hero-scroll-indicator">
@@ -1152,7 +1168,7 @@
         <a href="#" id="contact-email" class="contact-link primary">Get In Touch ↗</a>
         <a href="https://www.linkedin.com/in/jane-c-699a9241" target="_blank" class="contact-link">LinkedIn ↗</a>
         <a href="https://github.com/jpdm07" target="_blank" class="contact-link">GitHub ↗</a>
-        <button type="button" onclick="sharePortfolio()" class="contact-link" style="cursor:none;background:transparent;border:1px solid var(--border);">Share ↗</button>
+        <button type="button" onclick="sharePortfolio()" class="contact-link" id="share-btn">Share ↗</button>
       </div>
     </div>
   </section>
@@ -1372,17 +1388,16 @@
     });
 
     // Mobile nav toggle
-    const toggle = document.querySelector('.nav-mobile-toggle');
-    if (toggle) {
-      toggle.addEventListener('click', () => {
-        document.querySelector('nav').classList.toggle('nav-mobile-open');
-      });
-      document.querySelectorAll('.nav-links a').forEach(a => {
-        a.addEventListener('click', () => {
-          document.querySelector('nav').classList.remove('nav-mobile-open');
-        });
-      });
-    }
+    var navToggle = document.querySelector('.nav-mobile-toggle');
+    var navClose  = document.querySelector('.nav-close');
+    var navEl     = document.querySelector('nav');
+    function openNav()  { if(navEl) navEl.classList.add('nav-mobile-open'); }
+    function closeNav() { if(navEl) navEl.classList.remove('nav-mobile-open'); }
+    if (navToggle) navToggle.addEventListener('click', function(){ openNav(); });
+    if (navClose)  navClose.addEventListener('click',  function(){ closeNav(); });
+    document.querySelectorAll('.nav-links a').forEach(function(a) {
+      a.addEventListener('click', function(){ closeNav(); });
+    });
 
     // Set email link dynamically to prevent Cloudflare obfuscation
     document.addEventListener('DOMContentLoaded', () => {
@@ -1576,17 +1591,16 @@
     }, { passive: true });
 
     // Mobile nav toggle
-    const toggle = document.querySelector('.nav-mobile-toggle');
-    if (toggle) {
-      toggle.addEventListener('click', () => {
-        document.querySelector('nav').classList.toggle('nav-mobile-open');
-      });
-      document.querySelectorAll('.nav-links a').forEach(a => {
-        a.addEventListener('click', () => {
-          document.querySelector('nav').classList.remove('nav-mobile-open');
-        });
-      });
-    }
+    var navToggle = document.querySelector('.nav-mobile-toggle');
+    var navClose  = document.querySelector('.nav-close');
+    var navEl     = document.querySelector('nav');
+    function openNav()  { if(navEl) navEl.classList.add('nav-mobile-open'); }
+    function closeNav() { if(navEl) navEl.classList.remove('nav-mobile-open'); }
+    if (navToggle) navToggle.addEventListener('click', function(){ openNav(); });
+    if (navClose)  navClose.addEventListener('click',  function(){ closeNav(); });
+    document.querySelectorAll('.nav-links a').forEach(function(a) {
+      a.addEventListener('click', function(){ closeNav(); });
+    });
 
     // Email link JS encoded (Cloudflare-proof)
     document.addEventListener('DOMContentLoaded', () => {
@@ -1598,7 +1612,7 @@
     function sharePortfolio() {
       var url = 'https://jpdm07.github.io/portfolio-website/';
       var msg = "Check out Jane Chavez's portfolio! " + url;
-      var btn = document.querySelector('[onclick="sharePortfolio()"]');
+      var btn = document.getElementById('share-btn');
       function flashBtn(txt) {
         if (!btn) return;
         var orig = btn.textContent;

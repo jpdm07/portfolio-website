@@ -42,6 +42,7 @@
     @media (max-width: 768px) {
       nav { padding: 16px 24px; }
       .nav-links { display: none; position: fixed; inset: 0; background: rgba(7,7,15,0.98); flex-direction: column; align-items: center; justify-content: center; gap: 48px; }
+      .nav-close { display: block; }
       nav.nav-mobile-open .nav-links { display: flex; }
       .nav-mobile-toggle { display: flex; }
     }
@@ -80,6 +81,16 @@
     .r-footer { text-align: center; padding: 32px 0; font-family: var(--mono); font-size: 0.68rem; color: var(--text-muted); letter-spacing: 0.08em; }
     .r-footer a { color: var(--text-dim); text-decoration: none; transition: color 0.3s; }
     .r-footer a:hover { color: var(--pink); }
+
+    .nav-close {
+      display: none;
+      position: absolute; top: 24px; right: 24px;
+      background: none; border: none;
+      color: var(--text-dim); font-size: 1.4rem;
+      cursor: none; padding: 8px; line-height: 1;
+      transition: color 0.3s;
+    }
+    .nav-close:hover { color: var(--pink); }
     @media (max-width: 600px) { .resume-card { padding: 28px 20px; } nav { padding: 14px 20px; } }
   </style>
 </head>
@@ -91,6 +102,7 @@
   <nav>
     <a href="index.html" class="nav-logo">J<span>C</span></a>
     <ul class="nav-links">
+      <button class="nav-close" aria-label="Close menu">✕</button>
       <li><a href="index.html#projects">Work</a></li>
       <li><a href="index.html#about">About</a></li>
       <li><a href="index.html#contact">Contact</a></li>
@@ -208,6 +220,17 @@
         <p class="r-gpa">GPA 4.00</p>
       </div>
   <div id="cursor"></div>
+  <script>
+    // Nav close button
+    var nc = document.querySelector('.nav-close');
+    var nt = document.querySelector('.nav-mobile-toggle');
+    var nv = document.querySelector('nav');
+    if (nc) nc.addEventListener('click', function(){ if(nv) nv.classList.remove('nav-mobile-open'); });
+    if (nt) nt.addEventListener('click', function(){ if(nv) nv.classList.toggle('nav-mobile-open'); });
+    document.querySelectorAll('.nav-links a').forEach(function(a){
+      a.addEventListener('click', function(){ if(nv) nv.classList.remove('nav-mobile-open'); });
+    });
+  </script>
   <script src="resume-fx.js"></script>
 </body>
 </html>
