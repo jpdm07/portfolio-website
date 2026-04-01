@@ -61,7 +61,8 @@
         justify-content: center; gap: 48px; z-index: 9998;
         list-style: none;
       }
-      nav.nav-mobile-open.nav-links .nav-close { position: fixed; top: 20px; right: 20px; display: none; z-index: 9999; }
+      nav.nav-mobile-open .nav-links { display: flex; }
+      .nav-links .nav-close { position: fixed; top: 20px; right: 20px; display: none; z-index: 9999; }
       nav.nav-mobile-open .nav-links .nav-close { display: block; }
     }
 
@@ -480,17 +481,17 @@
     }
     .contact-headline em { color: var(--pink); font-style: italic; }
     .contact-sub { font-size: 0.92rem; color: var(--text-dim); line-height: 1.75; margin-bottom: 48px; max-width: 440px; }
-    .contact-links { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .contact-links { display: flex; gap: 12px; flex-wrap: nowrap; justify-content: flex-start; }
     .contact-link {
       font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em;
       text-transform: uppercase; text-decoration: none;
       display: flex; align-items: center; justify-content: center; gap: 10px;
       color: var(--text-dim); border: 1px solid var(--border); padding: 14px 32px;
       transition: border-color 0.3s, color 0.3s, background 0.3s;
-      min-width: 160px; text-align: center; cursor: pointer;
+      cursor: pointer;
     }
     .contact-link:hover { border-color: var(--pink); color: var(--pink); }
-    button.contact-link { background: transparent; border: 1px solid var(--border); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); padding: 14px 32px; min-width: 160px; cursor: pointer; }
+    button.contact-link { background: transparent; border: 1px solid var(--border); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); padding: 14px 24px; cursor: pointer; }
     .contact-link.primary { background: var(--pink); border-color: var(--pink); color: var(--bg); }
     .contact-link.primary:hover { background: transparent; color: var(--pink); }
 
@@ -575,7 +576,7 @@
       .about-bio { font-size: 1.15rem; }
 
       .contact-headline { font-size: 2rem; }
-      .contact-links { flex-direction: column; }
+      .contact-links { flex-direction: column; align-items: stretch; }
       .contact-link { justify-content: center; }
 
       footer { padding: 24px 20px; flex-direction: column; gap: 10px; text-align: center; }
