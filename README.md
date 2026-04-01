@@ -50,8 +50,9 @@ This project was built to:
 ### Portfolio Homepage
 <img src="./images/figma-hero.png" width="700"/>
 
-### CaloriEat Dashboard
-<img src="./images/calorieat-screenshot.png" width="700"/>
+### CaloriEat (live demo opens [welcome](https://jpdm07.github.io/CaloriEat/welcome.html))
+<img src="./images/calorieat-screenshot.png" width="700" alt="CaloriEat dashboard"/>
+<img src="./images/calorieat-screenshot-mobile.png" width="320" alt="CaloriEat welcome — sign in or try as guest"/>
 
 ### Animal Rescue Redesign
 <img src="./images/animal-rescue-redesign.png" width="700"/>
