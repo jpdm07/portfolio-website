@@ -450,13 +450,14 @@
     }
     .contact-headline em { color: var(--pink); font-style: italic; }
     .contact-sub { font-size: 0.92rem; color: var(--text-dim); line-height: 1.75; margin-bottom: 48px; max-width: 440px; }
-    .contact-links { display: flex; gap: 16px; flex-wrap: wrap; }
+    .contact-links { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
     .contact-link {
       font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em;
       text-transform: uppercase; text-decoration: none;
-      display: flex; align-items: center; gap: 10px;
-      color: var(--text-dim); border: 1px solid var(--border); padding: 14px 24px;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      color: var(--text-dim); border: 1px solid var(--border); padding: 14px 32px;
       transition: border-color 0.3s, color 0.3s, background 0.3s;
+      min-width: 160px; text-align: center;
     }
     .contact-link:hover { border-color: var(--pink); color: var(--pink); }
     .contact-link.primary { background: var(--pink); border-color: var(--pink); color: var(--bg); }
@@ -590,16 +591,7 @@
     body { animation: pageFadeIn 1.2s cubic-bezier(0.4,0,0.2,1) both; }
 
     /* ── Crystal Orb ── */
-    .crystal-wrap {
-      position: absolute; right: 6%; top: 50%;
-      transform: translateY(-50%);
-      width: min(300px, 32vw); height: min(300px, 32vw);
-      pointer-events: none; z-index: 2;
-      transition: filter 0.4s ease;
-    }
-    .crystal-wrap canvas {
-      width: 100%; height: 100%; display: block;
-    }
+    .crystal-wrap canvas { display: block; }
     @media (max-width: 900px) { .crystal-wrap { display: none !important; } }
   </style>
 </head>
@@ -641,8 +633,8 @@
       <a href="https://jpdm07.github.io/portfolio-website/Jane_Chavez_Resume_2026.pdf" class="btn-ghost" target="_blank">Download Résumé</a>
     </div>
     <!-- Crystal gem orb - desktop only -->
-    <div class="crystal-wrap" id="crystal-wrap" aria-hidden="true">
-      <canvas id="crystal-canvas"></canvas>
+    <div class="crystal-wrap" id="crystal-wrap" aria-hidden="true" style="position:absolute;right:6%;top:50%;transform:translateY(-50%);width:min(300px,32vw);height:min(300px,32vw);pointer-events:none;z-index:2;">
+      <canvas id="crystal-canvas" width="300" height="300" style="width:100%;height:100%;display:block;"></canvas>
     </div>
 
     <div class="hero-scroll-indicator">
@@ -1565,9 +1557,14 @@
 
       function resizeCrystal() {
         var rect = wrap.getBoundingClientRect();
-        if (!rect.width || !rect.height) return;
-        W  = cv.width  = rect.width  * (window.devicePixelRatio || 1);
-        H  = cv.height = rect.height * (window.devicePixelRatio || 1);
+        if (!rect.width || !rect.height) {
+          // Fallback to explicit size
+          W = cv.width  = 300 * (window.devicePixelRatio || 1);
+          H = cv.height = 300 * (window.devicePixelRatio || 1);
+        } else {
+          W = cv.width  = rect.width  * (window.devicePixelRatio || 1);
+          H = cv.height = rect.height * (window.devicePixelRatio || 1);
+        }
         CX = W/2; CY = H/2;
       }
 

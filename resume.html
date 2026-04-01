@@ -1,7 +1,206 @@
-<!DOCTYP
-  <div id="cursor"></div>
-</body>
-</html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Résumé — Jane Chavez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #07070f; --surface: rgba(22,22,35,0.72); --surface2: rgba(28,28,42,0.85);
+      --border: rgba(255,255,255,0.06); --pink: #f472b6;
+      --text: #f0eef8; --text-dim: #9b97b2; --text-muted: #5a5672;
+      --mono: 'DM Mono', monospace; --serif: 'Cormorant Garamond', serif; --sans: 'Outfit', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: transparent; color: var(--text); font-family: var(--sans); font-weight: 300; overflow-x: hidden; cursor: none; min-height: 100vh; }
+    #bg { position: fixed; inset: 0; z-index: -100; background: #07070f; pointer-events: none; }
+    #bg-canvas { position: fixed; inset: 0; z-index: -99; display: block; pointer-events: none; width: 100%; height: 100%; }
+    #cursor {
+      position: fixed; top: 0; left: 0; width: 10px; height: 10px;
+      background: #f472b6; border-radius: 50%; pointer-events: none;
+      z-index: 99999; transition: transform 0.08s ease, width 0.2s, height 0.2s, background 0.2s;
+      mix-blend-mode: normal;
+    }
+    #cursor.is-hovering { width: 22px; height: 22px; background: transparent; border: 1.5px solid #f472b6; transform: translate(-6px,-6px) !important; }
+    #cursor.is-nav { width: 28px; height: 28px; background: transparent; border: 1px solid rgba(244,114,182,0.5); }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 48px; transition: all 0.4s ease;
+    }
+    .nav-logo { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; text-decoration: none; background: linear-gradient(to bottom,#fff,#f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .nav-logo span { font-style: italic; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--pink); }
+    .nav-mobile-toggle { display: none; flex-direction: column; gap: 5px; cursor: none; }
+    .nav-mobile-toggle span { width: 24px; height: 1px; background: var(--text-dim); transition: all 0.3s; }
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; position: fixed; inset: 0; background: rgba(7,7,15,0.98); flex-direction: column; align-items: center; justify-content: center; gap: 48px; }
+      nav.nav-mobile-open .nav-links { display: flex; }
+      .nav-mobile-toggle { display: flex; }
+    }
+    .page { max-width: 860px; margin: 0 auto; padding: 140px 24px 80px; }
+    .r-header { text-align: center; margin-bottom: 48px; border-bottom: 1px solid var(--border); padding-bottom: 32px; }
+    .r-name { font-family: var(--serif); font-size: clamp(2.4rem,6vw,4rem); font-weight: 300; line-height: 1; background: linear-gradient(to bottom,#ffffff 0%,#fce4f0 45%,#f472b6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; }
+    .r-tagline { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 20px; }
+    .r-contact-row { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; }
+    .r-contact-row a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; color: var(--text-dim); text-decoration: none; transition: color 0.3s; }
+    .r-contact-row a:hover { color: var(--pink); }
+    .r-download { position: fixed; top: 20px; right: 24px; z-index: 1001; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pink); border: 1px solid var(--pink); padding: 8px 16px; text-decoration: none; transition: all 0.3s; }
+    .r-download:hover { background: var(--pink); color: var(--bg); }
+    .resume-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 48px; margin-bottom: 24px; }
+    .r-section-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pink); margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .r-block { margin-bottom: 28px; }
+    .r-block:last-child { margin-bottom: 0; }
+    .r-block-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; flex-wrap: wrap; gap: 8px; }
+    .r-block-title { font-family: var(--sans); font-size: 0.95rem; font-weight: 500; color: var(--text); }
+    .r-block-date { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; color: var(--text-muted); }
+    .r-block-org { font-family: var(--mono); font-size: 0.72rem; color: var(--pink); letter-spacing: 0.05em; margin-bottom: 10px; }
+    .r-gpa { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 6px; }
+    .r-bullets { list-style: none; padding: 0; }
+    .r-bullets li { font-size: 0.88rem; color: var(--text-dim); line-height: 1.7; padding-left: 16px; position: relative; margin-bottom: 6px; }
+    .r-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--pink); font-size: 0.7rem; }
+    .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-pill { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); border: 1px solid var(--border); padding: 5px 12px; transition: all 0.3s; }
+    .skill-pill:hover { border-color: var(--pink); color: var(--pink); }
+    .r-footer { text-align: center; padding: 32px 0; font-family: var(--mono); font-size: 0.68rem; color: var(--text-muted); letter-spacing: 0.08em; }
+    .r-footer a { color: var(--text-dim); text-decoration: none; transition: color 0.3s; }
+    .r-footer a:hover { color: var(--pink); }
+    @media (max-width: 600px) { .resume-card { padding: 28px 20px; } nav { padding: 14px 20px; } .r-download { top: auto; bottom: 20px; right: 20px; } }
+  </style>
+</head>
+<body>
+  <div id="bg"></div>
+  <canvas id="bg-canvas"></canvas>
+
+  <a href="https://jpdm07.github.io/portfolio-website/Jane_Chavez_Resume_2026.pdf" class="r-download" target="_blank" download>Download PDF ↓</a>
+
+  <nav>
+    <a href="index.html" class="nav-logo">J<span>C</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html#projects">Work</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><a href="resume.html">Résumé</a></li>
+    </ul>
+    <div class="nav-mobile-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <div class="page">
+    <div class="r-header">
+      <h1 class="r-name">Jane Chavez</h1>
+      <p class="r-tagline">Front-End Developer · UI/UX Designer</p>
+      <div class="r-contact-row">
+        <a href="mailto:jpdm015@gmail.com">jpdm015@gmail.com</a>
+        <a href="https://www.linkedin.com/in/jane-c-699a9241" target="_blank">LinkedIn</a>
+        <a href="https://github.com/jpdm07" target="_blank">GitHub</a>
+        <a href="https://jpdm07.github.io/portfolio-website/" target="_blank">Portfolio</a>
+      </div>
+    </div>
+
+    <div class="resume-card">
+      <h2 class="r-section-title">Summary</h2>
+      <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.8;">Entry-level Front-End Developer and UI/UX Designer with an M.S. in Software Engineering from UHCL. Passionate about building responsive, accessible web interfaces with strong attention to user experience, visual hierarchy, and clean structure. Skilled in translating design concepts into functional, polished code.</p>
+    </div>
+
+    <div class="resume-card">
+      <h2 class="r-section-title">Skills</h2>
+      <div class="skills-grid">
+        <span class="skill-pill">HTML5</span><span class="skill-pill">CSS3</span><span class="skill-pill">JavaScript</span>
+        <span class="skill-pill">React</span><span class="skill-pill">Python</span><span class="skill-pill">SQL</span>
+        <span class="skill-pill">Figma</span><span class="skill-pill">UI/UX Design</span><span class="skill-pill">Wireframing</span>
+        <span class="skill-pill">Responsive Design</span><span class="skill-pill">WordPress</span><span class="skill-pill">Elementor</span>
+        <span class="skill-pill">Git / GitHub</span><span class="skill-pill">Agile / Scrum</span><span class="skill-pill">Chart.js</span>
+        <span class="skill-pill">Bootstrap</span><span class="skill-pill">Accessibility (WCAG)</span><span class="skill-pill">REST APIs</span>
+      </div>
+    </div>
+
+    <div class="resume-card">
+      <h2 class="r-section-title">Experience</h2>
+      <div class="r-block">
+        <div class="r-block-header">
+          <span class="r-block-title">Front-End Developer / UI/UX Designer</span>
+          <span class="r-block-date">2024 - Present</span>
+        </div>
+        <p class="r-block-org">Freelance / Independent Projects</p>
+        <ul class="r-bullets">
+          <li>Designed and developed responsive portfolio and web applications using HTML, CSS, JavaScript and React.</li>
+          <li>Built a full nonprofit animal rescue website prototype using WordPress and Elementor with custom branding.</li>
+          <li>Created UI/UX prototypes in Figma applying user-centered design principles and accessibility standards.</li>
+          <li>Implemented interactive data visualizations using Chart.js for a calorie tracking application.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="resume-card">
+      <h2 class="r-section-title">Projects</h2>
+      <div class="r-block">
+        <div class="r-block-header">
+          <span class="r-block-title">CaloriEat — Calorie Tracking App</span>
+          <span class="r-block-date"><a href="https://jpdm07.github.io/CaloriEat/" target="_blank" style="color:var(--pink);">View Live ↗</a></span>
+        </div>
+        <p class="r-block-org">HTML · CSS · JavaScript · Chart.js</p>
+        <ul class="r-bullets">
+          <li>Full-stack calorie tracking app with visual data dashboards and meal logging functionality.</li>
+          <li>Integrated Chart.js for real-time nutritional breakdown charts and weekly progress tracking.</li>
+        </ul>
+      </div>
+      <div class="r-block">
+        <div class="r-block-header">
+          <span class="r-block-title">Happy Tails Rescue Website</span>
+          <span class="r-block-date"><a href="https://janechavez.org" target="_blank" style="color:var(--pink);">View Live ↗</a></span>
+        </div>
+        <p class="r-block-org">WordPress · Elementor</p>
+        <ul class="r-bullets">
+          <li>Built a working prototype nonprofit rescue site with hero section, pet profiles, and contact form.</li>
+          <li>Designed custom HTR brand identity including logo, color palette, and typography system.</li>
+        </ul>
+      </div>
+      <div class="r-block">
+        <div class="r-block-header">
+          <span class="r-block-title">WoofDog — Dog Dating App</span>
+          <span class="r-block-date"><a href="https://jpdm07.github.io/woofdog/" target="_blank" style="color:var(--pink);">View Live ↗</a></span>
+        </div>
+        <p class="r-block-org">HTML · CSS · JavaScript</p>
+        <ul class="r-bullets">
+          <li>Designed and built a playful matchmaking app UI for dog owners with swipe-style interaction.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="resume-card">
+      <h2 class="r-section-title">Education</h2>
+      <div class="r-block">
+        <div class="r-block-header">
+          <span class="r-block-title">M.S. Software Engineering</span>
+          <span class="r-block-date">Graduated Dec 2025</span>
+        </div>
+        <p class="r-block-org">University of Houston–Clear Lake</p>
+        <p class="r-gpa">GPA 3.90 · Agile · Data Science · Software Engineering</p>
+      </div>
+      <div class="r-block">
+        <div class="r-block-header">
+          <span class="r-block-title">B.S. Nursing</span>
+          <span class="r-block-date">Graduated May 2016</span>
+        </div>
+        <p class="r-block-org">The University of Texas at Arlington</p>
+        <p class="r-gpa">GPA 4.00</p>
+      </div>
+    </div>
+
+    <div class="r-footer">
+      <p>← <a href="index.html">Back to Portfolio</a></p>
+    </div>
+  </div>
+
   <div id="cursor"></div>
   <script src="resume-fx.js"></script>
 </body>
