@@ -602,6 +602,7 @@
       background: #07070f;
       opacity: 1;
       transition: opacity 1.8s cubic-bezier(0.4,0,0.2,1);
+      will-change: opacity;
     }
     #smoke-overlay canvas {
       position: absolute; inset: 0;
@@ -653,7 +654,12 @@
       <a href="#projects" class="btn-primary"><span>View My Work</span></a>
       <a href="https://jpdm07.github.io/portfolio-website/Jane_Chavez_Resume_2026.pdf" class="btn-ghost" target="_blank">Download Résumé</a>
     </div>
-<div class="hero-scroll-indicator">
+    <!-- Crystal gem orb - desktop only -->
+    <div class="crystal-wrap" id="crystal-wrap" aria-hidden="true">
+      <canvas id="crystal-canvas"></canvas>
+    </div>
+
+    <div class="hero-scroll-indicator">
       <div class="scroll-line"></div>
       <span class="scroll-text">Scroll to explore</span>
     </div>
@@ -1552,7 +1558,8 @@
       }
 
       var startTime = performance.now();
-      var duration = 2200; // ms before fade begins
+      var isMobile = window.innerWidth < 768;
+      var duration = isMobile ? 800 : 2200; // shorter on mobile
 
       function drawSmoke(ts) {
         var elapsed = ts - startTime;
@@ -1627,7 +1634,8 @@
       }
 
       var startTime = performance.now();
-      var duration = 2200; // ms before fade begins
+      var isMobile = window.innerWidth < 768;
+      var duration = isMobile ? 800 : 2200; // shorter on mobile
 
       function drawSmoke(ts) {
         var elapsed = ts - startTime;
