@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Résumé — Jane Chavez</title>
+  <title>Résumé | Jane Chavez</title>
+  <!-- Body copy should match Jane_Chavez_Resume_2026.pdf. After changing this page, update the PDF the same way (re-export from your master doc, or print this page to PDF). -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
@@ -228,7 +229,7 @@
     .r-gpa { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 6px; }
     .r-bullets { list-style: none; padding: 0; }
     .r-bullets li { font-size: 0.88rem; color: var(--text-dim); line-height: 1.7; padding-left: 16px; position: relative; margin-bottom: 6px; }
-    .r-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--pink); font-size: 0.7rem; }
+    .r-bullets li::before { content: '•'; position: absolute; left: 0; color: var(--pink); font-size: 0.75rem; line-height: 1.7; }
     .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
     .skill-pill { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); border: 1px solid var(--border); padding: 5px 12px; transition: all 0.3s; }
     .skill-pill:hover { border-color: var(--pink); color: var(--pink); }
@@ -295,7 +296,7 @@
 
     <div class="resume-card">
       <h2 class="r-section-title">Summary</h2>
-      <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.8;">Entry-level Front-End Developer and UI/UX Designer with an M.S. in Software Engineering from UHCL. Passionate about building responsive, accessible web interfaces with strong attention to user experience, visual hierarchy, and clean structure. Skilled in translating design concepts into functional, polished code.</p>
+      <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.8;">Front-end developer and UI/UX designer with an M.S. in Software Engineering from UHCL. I like shipping responsive, accessible interfaces where the layout and the UX feel intentional. Comfortable turning Figma (or a whiteboard) into real HTML, CSS, and JavaScript.</p>
       <br>
     </div>
 
@@ -316,15 +317,14 @@
       <h2 class="r-section-title">Experience</h2>
       <div class="r-block">
         <div class="r-block-header">
-          <span class="r-block-title">UI/UX Volunteer — Website Optimization</span>
+          <span class="r-block-title">UI/UX volunteer, website optimization</span>
           <span class="r-block-date">2024 - 2025</span>
         </div>
         <p class="r-block-org">Sierra Overlook Animal Rescue</p>
         <ul class="r-bullets">
-          <li>Volunteered as a UI/UX contributor to improve the organization's existing Wix website usability and visual design.</li>
-          <li>Identified real usability pain points including unclear navigation, poor content hierarchy, and low-priority placement of key actions such as adopt, donate, and volunteer.</li>
-          <li>Applied UX best practices to reorganize content structure, improve call-to-action visibility, and enhance overall user flow.</li>
-          <li>Demonstrated ability to translate real-world observations into actionable design improvements across platforms.</li>
+          <li>Volunteer UI/UX support on the org’s Wix site: clearer navigation, stronger hierarchy, and less buried CTAs.</li>
+          <li>Called out concrete issues (where adopt/donate/volunteer lived, how people scanned the page) and suggested fixes the team could actually implement.</li>
+          <li>Translated what I saw in the field into simple wireframe-style notes and content tweaks, not just critique.</li>
         </ul>
       </div>
       <br>
@@ -334,13 +334,13 @@
       <h2 class="r-section-title">Projects</h2>
       <div class="r-block">
         <div class="r-block-header">
-          <span class="r-block-title">CaloriEat — Calorie Tracking App</span>
+          <span class="r-block-title">CaloriEat: Calorie tracking app</span>
           <span class="r-block-date"><a href="https://jpdm07.github.io/CaloriEat/" target="_blank" style="color:var(--pink);">View Live ↗</a></span>
         </div>
         <p class="r-block-org">HTML · CSS · JavaScript · Chart.js</p>
         <ul class="r-bullets">
-          <li>Full-stack calorie tracking app with visual data dashboards and meal logging functionality.</li>
-          <li>Integrated Chart.js for real-time nutritional breakdown charts and weekly progress tracking.</li>
+          <li>Capstone-style calorie tracker: meal logging, macros, weigh-ins, goals, and dashboard views.</li>
+          <li>Chart.js for nutrition breakdowns and weekly progress charts (team project; I contributed across UI, diagrams, and client-side structure).</li>
         </ul>
       </div>
       <div class="r-block">
@@ -350,18 +350,18 @@
         </div>
         <p class="r-block-org">WordPress · Elementor</p>
         <ul class="r-bullets">
-          <li>Built a working prototype nonprofit rescue site with hero section, pet profiles, and contact form.</li>
-          <li>Designed custom HTR brand identity including logo, color palette, and typography system.</li>
+          <li>WordPress + Elementor prototype: hero, “what we do,” pet-style sections, contact form (SureForms), custom domain.</li>
+          <li>HTR branding (logo, palette, type) and layout informed by volunteer work with a separate rescue (Sierra Overlook).</li>
         </ul>
       </div>
       <div class="r-block">
         <div class="r-block-header">
-          <span class="r-block-title">WoofDog — Dog Dating App</span>
+          <span class="r-block-title">WoofDog: Dog dating app (concept)</span>
           <span class="r-block-date"><a href="https://jpdm07.github.io/woofdog/" target="_blank" style="color:var(--pink);">View Live ↗</a></span>
         </div>
         <p class="r-block-org">HTML · CSS · JavaScript</p>
         <ul class="r-bullets">
-          <li>Designed and built a playful matchmaking app UI for dog owners with swipe-style interaction.</li>
+          <li>Playful front-end demo in HTML/CSS/JS: swipe-style interactions and responsive layout (portfolio piece, not a shipped product).</li>
         </ul>
       </div>
       <br>
@@ -374,7 +374,7 @@
           <span class="r-block-title">M.S. Software Engineering</span>
           <span class="r-block-date">Graduated Dec 2025</span>
         </div>
-        <p class="r-block-org">University of Houston–Clear Lake</p>
+        <p class="r-block-org">University of Houston-Clear Lake</p>
         <p class="r-gpa">GPA 3.90 · Agile · Data Science · Software Engineering</p>
       </div>
       <div class="r-block">
@@ -395,7 +395,7 @@
   </div>
 
   <footer>
-    <p>© 2026 <span>Jane Chavez</span>. Designed &amp; built with intention.</p>
+    <p>© 2026 <span>Jane Chavez</span>. Built this site myself, by hand.</p>
     <p>Front-End Developer · UI/UX Designer · Houston, TX</p>
   </footer>
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Jane Chavez — Front-End Developer & UI/UX Designer</title>
+  <title>Jane Chavez | Front-End Developer &amp; UI/UX Designer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -399,8 +399,9 @@
       transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s;
     }
     .project-item.open .project-arrow { transform: rotate(45deg); color: var(--pink); }
-    .project-body { max-height: 0; overflow: hidden; transition: max-height 0.6s cubic-bezier(0.77, 0, 0.175, 1); }
-    .project-item.open .project-body { max-height: 2000px; }
+    .project-body { max-height: 0; overflow: hidden; transition: max-height 0.65s cubic-bezier(0.77, 0, 0.175, 1); }
+    /* Tall enough for long write-ups + image stacks (e.g. portfolio 003 before/after shots) */
+    .project-item.open .project-body { max-height: 12000px; }
     .project-content { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; padding: 0 36px 48px; }
     .project-text h4 {
       font-family: var(--mono); font-size: 0.65rem; color: var(--pink);
@@ -415,7 +416,7 @@
       line-height: 1.75; padding-left: 16px; position: relative;
     }
     .project-text ul li::before {
-      content: '—'; position: absolute; left: 0; color: var(--pink); font-size: 0.7rem;
+      content: '•'; position: absolute; left: 0; color: var(--pink); font-size: 0.75rem; line-height: 1.75;
     }
     .project-links { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
     .project-link {
@@ -426,6 +427,73 @@
       transition: background 0.3s, color 0.3s;
     }
     .project-link:hover { background: var(--pink); color: var(--bg); }
+
+    .project-evolution {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 22px 0 6px;
+    }
+    .project-evolution-card {
+      border: 1px solid rgba(244,114,182,0.18);
+      border-radius: 10px;
+      padding: 14px 16px;
+      background: rgba(0,0,0,0.18);
+    }
+    .project-evolution-label {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 8px;
+    }
+    .project-evolution-card p {
+      font-size: 0.84rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+      margin: 0;
+    }
+    .project-evolution-card .project-link { margin-top: 12px; display: inline-block; }
+    .project-evolution-note {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+      margin: 14px 0 0;
+    }
+    .project-evolution-note a {
+      color: var(--pink);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .project-evolution-note a:hover { color: #fff; }
+
+    .browser-screen-placeholder > .evolution-shot-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+
+    /* Project 003: two mockups stacked in the right column */
+    .project-mockup--003-col {
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 40px;
+    }
+    .project-mockup-003-block {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .project-mockup-003-block .mockup-stack {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+    }
 
     /* Device mockup */
     .project-mockup { display: flex; align-items: center; justify-content: center; position: relative; }
@@ -479,6 +547,24 @@
       display: block;
       overflow: hidden; position: relative;
     }
+    /* Project 003: real screenshots; bias desktop crop so the crystal (right) stays in frame */
+    .portfolio-mockup-desktop-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+      display: block;
+    }
+    .portfolio-mockup-mobile-img {
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: top center !important;
+    }
     .phone-screen img {
       position: absolute !important;
       top: 50% !important;
@@ -489,6 +575,12 @@
       object-fit: cover !important;
       object-position: center center !important;
       display: block !important;
+    }
+    .phone-screen img.portfolio-mockup-mobile-img {
+      object-position: top center !important;
+    }
+    .phone-screen img.evolution-shot-img {
+      object-position: top center !important;
     }
 
     /* About */
@@ -574,6 +666,7 @@
     @media (max-width: 900px) {
       #hero, #projects, #about, #contact { padding-left: 32px; padding-right: 32px; }
       .project-content { grid-template-columns: 1fr; }
+      .project-evolution { grid-template-columns: 1fr; }
       .about-grid { grid-template-columns: 1fr; gap: 48px; }
       .mockup-stack { max-width: 320px; }
       footer { padding: 28px 32px; }
@@ -663,6 +756,13 @@
       position: fixed; inset: 0; z-index: 99990;
       pointer-events: none;
       animation: dreamLightIntroFade 3.4s cubic-bezier(0.25, 0.46, 0.2, 1) forwards;
+    }
+    /* If the intro animation fails to run (some dev servers / strict modes), force the overlay off */
+    .dream-entrance.dream-entrance--hidden {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      animation: none !important;
     }
     .dream-entrance__layer {
       position: absolute; inset: 0;
@@ -988,6 +1088,15 @@
     <div class="dream-entrance__layer dream-entrance__layer--glow-bl"></div>
     <div class="dream-entrance__layer dream-entrance__layer--shine"></div>
   </div>
+  <script>
+    (function () {
+      var el = document.getElementById('dream-entrance');
+      if (!el) return;
+      function hide() { el.classList.add('dream-entrance--hidden'); }
+      el.addEventListener('animationend', hide);
+      window.setTimeout(hide, 4500);
+    })();
+  </script>
 
   <!-- Fixed base first, then canvas on top (same z-index: later sibling paints above) -->
   <div id="bg"></div>
@@ -1015,7 +1124,7 @@
   <section id="hero">
     <p class="hero-eyebrow">Front-End Developer · UI/UX Designer</p>
     <h1 class="hero-name">Jane<br> <em>Chavez</em></h1>
-    <p class="hero-desc">Building responsive, accessible web interfaces with strong attention to user experience, visual hierarchy, and clean structure.</p>
+    <p class="hero-desc">I build responsive, accessible sites and care a lot about clear hierarchy, readable type, and structure that actually helps people get things done.</p>
     <div class="hero-ctas">
       <a href="#projects" class="btn-primary"><span>View My Work</span></a>
       <a href="Jane_Chavez_Resume_2026.pdf" class="btn-ghost" target="_blank">Download Résumé</a>
@@ -1175,7 +1284,7 @@
 
     <div class="projects-grid">
 
-      <!-- #1 — CaloriEat (most impactful: full-stack capstone, SDLC, team) -->
+      <!-- #1 — CaloriEat (capstone team project, dashboards + Chart.js) -->
       <div class="project-item reveal" onclick="toggleProject(this)">
         <div class="project-header">
           <div class="project-meta">
@@ -1191,17 +1300,17 @@
           <div class="project-content">
             <div class="project-text">
               <h4>Problem</h4>
-              <p>Designed and developed a full-stack calorie tracking web application allowing users to log meals, track macronutrients, record weigh-ins, set goals, and visualize progress through interactive dashboards.</p>
+              <p>Capstone team project: a calorie tracking web app where users can log meals, track macros, record weigh-ins, set goals, and see progress on interactive dashboards (Chart.js).</p>
               <h4>My Role</h4>
               <ul>
-                <li>Led project vision development and requirements analysis.</li>
-                <li>Designed Use Case, Data Flow, and State Chart diagrams.</li>
-                <li>Contributed to backend/database structure and system testing.</li>
-                <li>Participated in Client-Side MVC architecture design.</li>
-                <li>Integrated Chart.js for progress visualization.</li>
+                <li>Helped shape product direction and requirements with the team.</li>
+                <li>Drew use case, data flow, and state chart diagrams.</li>
+                <li>Worked on backend/database pieces and testing, not just the UI.</li>
+                <li>Helped design the client-side MVC structure.</li>
+                <li>Hooked up Chart.js for nutrition and weekly progress views.</li>
               </ul>
               <h4>Outcome</h4>
-              <p>Delivered a fully functional web application demonstrating complete SDLC principles — from requirements gathering to deployment. Showcases architecture design, documentation, and collaborative development.</p>
+              <p>We shipped a working app end to end: requirements through deployment, with documentation and a clear split of responsibilities. Good practice in collaboration, not just solo coding.</p>
               <div class="project-links">
                 <a href="https://jpdm07.github.io/CaloriEat/" target="_blank" class="project-link">View Live App ↗</a>
                 <a href="https://github.com/jpdm07/CaloriEat" target="_blank" class="project-link">Source Code ↗</a>
@@ -1244,17 +1353,17 @@
           <div class="project-content">
             <div class="project-text">
               <h4>Context</h4>
-              <p>Built a full nonprofit animal rescue website from scratch using WordPress and Elementor. Designed and developed all pages including homepage, about, and contact — demonstrating real-world Elementor proficiency.</p>
+              <p>Nonprofit-style rescue site built in WordPress with Elementor: I laid out the main pages (home, about, contact) and handled visuals, not just dropping in a template.</p>
               <h4>What I Built</h4>
               <ul>
-                <li>Custom hero section with background image, headline and CTA button.</li>
-                <li>What We Do section with 3-column icon layout — Rescue, Rehabilitate, Rehome.</li>
+                <li>Hero with background image, headline, and primary CTA.</li>
+                <li>“What we do” block: three columns for rescue, rehabilitate, and rehome.</li>
                 <li>Meet Our Animals section with pet profiles and Adopt Me buttons.</li>
                 <li>Contact page with SureForms contact form and location info.</li>
                 <li>Custom HTR logo and brand identity in warm orange and teal.</li>
               </ul>
               <h4>Outcome</h4>
-              <p>Built a working prototype nonprofit rescue site on a custom domain, informed by real UX observations from volunteering with Sierra Overlook Animal Rescue. Demonstrates hands-on WordPress and Elementor skills including layout design, branding, and form integration.</p>
+              <p>Live on a custom domain as a working prototype. Ideas pulled from volunteering (Sierra Overlook Animal Rescue, Wix site), then applied here in WordPress: layout, branding, pet sections, and a contact form (SureForms).</p>
               <div class="project-links">
                 <a href="https://janechavez.org" target="_blank" class="project-link">View Live Site ↗</a>
               </div>
@@ -1339,7 +1448,7 @@
             <h3 class="project-name">This Portfolio Website</h3>
           </div>
           <div style="display:flex;align-items:center;gap:16px;">
-            <div class="project-tags"><span class="tag">HTML / CSS</span><span class="tag">JavaScript</span><span class="tag">GitHub Pages</span></div>
+            <div class="project-tags"><span class="tag">HTML / CSS</span><span class="tag">JavaScript</span><span class="tag">GitHub Pages</span><span class="tag">Was Bootstrap 5</span></div>
             <span class="project-arrow">+</span>
           </div>
         </div>
@@ -1347,84 +1456,74 @@
           <div class="project-content">
             <div class="project-text">
               <h4>Problem</h4>
-              <p>Needed a professional platform to present my UI/UX and front-end skills to potential employers, demonstrating both design thinking and technical implementation in one cohesive product.</p>
+              <p>I needed one place that showed how I think about UX and that I can actually build what I design, without hiding behind a page builder.</p>
               <h4>My Role</h4>
               <ul>
-                <li>Designed overall layout, typography, and visual hierarchy.</li>
-                <li>Built a responsive front-end with semantic HTML, layered CSS (grid, flex, animations, and breakpoint-driven layouts), and vanilla JavaScript — no framework on this site.</li>
-                <li>Wrote JavaScript for the animated canvas background, entrance and scroll interactions, mobile navigation, accessible résumé page behavior, custom cursor states, and the draggable hero crystal — all progressively enhanced and kept maintainable in plain JS.</li>
-                <li>Ensured accessibility, cross-browser compatibility, and performance-conscious choices (e.g. reduced-motion support, efficient drawing loops).</li>
-                <li>Created low- and high-fidelity wireframes in Figma before building.</li>
+                <li>Owned layout, type, and visual hierarchy start to finish.</li>
+                <li>The first live versions of this portfolio shipped on Bootstrap 5 (grid, nav patterns, utilities). I later removed Bootstrap entirely and rewrote spacing, type scale, and components in my own CSS so the site could match the Figma direction and feel less “template-y.”</li>
+                <li>Semantic HTML, heavy custom CSS (grid, flex, motion, breakpoints), and plain JavaScript. No React on this site.</li>
+                <li>JS for the canvas background, opening transition, scroll bits, mobile nav, résumé page behavior, cursor quirks on desktop, and the draggable gem in the hero (vanilla, kept readable on purpose).</li>
+                <li>Tried to keep accessibility and performance in mind (reduced motion, reasonable canvas work).</li>
+                <li>Started from low- and high-fi wireframes in Figma.</li>
               </ul>
+              <h4>Before and after (same repo)</h4>
+              <div class="project-evolution">
+                <div class="project-evolution-card">
+                  <div class="project-evolution-label">Then</div>
+                  <p>Early versions used Bootstrap 5. The mockup on the right matches the framed screenshots on my other projects: real desktop and narrow-viewport captures from the archived build. For a live HTML preview or the raw source file, use the links below.</p>
+                </div>
+                <div class="project-evolution-card">
+                  <div class="project-evolution-label">Now</div>
+                  <p>Dropped the Bootstrap CSS/JS bundles, rebuilt the shell (nav, sections, project rows, buttons) by hand, then layered in the background canvas, entrance animation, and the smaller JS touches on top.</p>
+                </div>
+              </div>
+              <div class="project-links" style="margin-top: 20px;">
+                <a href="https://jpdm07.github.io/portfolio-website/legacy-bootstrap-demo/" target="_blank" rel="noopener" class="project-link">Older Bootstrap demo ↗</a>
+                <a href="https://github.com/jpdm07/portfolio-website/blob/ee5bb017ade517b4df4e9c907e7df64e8c4486a4/index.html" target="_blank" rel="noopener" class="project-link">Bootstrap-era source ↗</a>
+              </div>
+              <p class="project-evolution-note">If you want the whole rewrite in one place, GitHub shows it as <a href="https://github.com/jpdm07/portfolio-website/commit/4511d9c194170ef31f328258c1c2cfa73a03e981" target="_blank" rel="noopener">this single revamp commit</a> (diff is big on purpose).</p>
               <h4>Outcome</h4>
-              <p>Launched a professional, responsive portfolio on GitHub Pages that shows both UI/UX craft and hands-on front-end engineering — including real JavaScript beyond layout — with positive feedback from peers and mentors on clarity and polish.</p>
+              <p>Hosted on GitHub Pages. Classmates and mentors said it was easy to read and felt polished. For me it’s the proof that the JavaScript here is real work, not just static layout.</p>
               <div class="project-links">
                 <a href="index.html" target="_blank" rel="noopener" class="project-link">View Live ↗</a>
                 <a href="https://github.com/jpdm07/portfolio-website" target="_blank" class="project-link">Source Code ↗</a>
               </div>
             </div>
-            <div class="project-mockup">
-              <div class="mockup-stack">
-                <div class="browser-frame">
-                  <div class="browser-bar">
-                    <div class="browser-dots"><span></span><span></span><span></span></div>
-                    <div class="browser-url"></div>
+            <div class="project-mockup project-mockup--003-col">
+              <div class="project-mockup-003-block" aria-label="Bootstrap-era portfolio in device frames">
+                <div class="mockup-stack">
+                  <div class="browser-frame">
+                    <div class="browser-bar">
+                      <div class="browser-dots"><span></span><span></span><span></span></div>
+                      <div class="browser-url"></div>
+                    </div>
+                    <div class="browser-screen-placeholder">
+                      <img src="images/portfolio-bootstrap-before-desktop.png" alt="Earlier portfolio on desktop: light Bootstrap layout, hero, pale blue buttons" class="evolution-shot-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                    </div>
                   </div>
-                  <div class="browser-screen-placeholder" style="background:#07070f;padding:0;overflow:hidden;position:relative;">
-                    <!-- Updated mini hero replica matching current design -->
-                    <!-- Grid lines -->
-                    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.018) 1px,transparent 1px);background-size:28px 28px;"></div>
-                    <!-- Pink glow top right -->
-                    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 85% 5%,rgba(244,114,182,0.2) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 5% 90%,rgba(139,92,246,0.14) 0%,transparent 60%);"></div>
-                    <!-- Aurora wave hint -->
-                    <div style="position:absolute;top:30%;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(244,114,182,0.25),transparent);"></div>
-                    <div style="position:absolute;top:55%;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(168,85,247,0.2),transparent);"></div>
-                    <div style="position:relative;z-index:2;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;height:100%;">
-                      <!-- Nav -->
-                      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid rgba(255,255,255,0.06);">
-                        <span style="font-family:'Cormorant Garamond',serif;font-size:9px;font-weight:600;background:linear-gradient(to bottom,#fff,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">JC</span>
-                        <div style="display:flex;gap:7px;">
-                          <span style="font-size:4.5px;color:rgba(155,151,178,0.6);font-family:'DM Mono',monospace;letter-spacing:0.08em;">WORK</span>
-                          <span style="font-size:4.5px;color:rgba(155,151,178,0.6);font-family:'DM Mono',monospace;letter-spacing:0.08em;">ABOUT</span>
-                          <span style="font-size:4.5px;color:rgba(155,151,178,0.6);font-family:'DM Mono',monospace;letter-spacing:0.08em;">CONTACT</span>
-                          <span style="font-size:4.5px;color:#f472b6;font-family:'DM Mono',monospace;letter-spacing:0.08em;">RÉSUMÉ</span>
-                        </div>
-                      </div>
-                      <!-- Hero -->
-                      <div style="margin-top:2px;">
-                        <div style="font-size:5px;color:#f472b6;font-family:'DM Mono',monospace;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:5px;">Front-End Developer · UI/UX Designer</div>
-                        <div style="font-family:'Cormorant Garamond',serif;line-height:0.92;margin-bottom:7px;background:linear-gradient(to bottom,#ffffff 0%,#fce4f0 45%,#f472b6 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:inline-block;">
-                          <div style="font-size:20px;font-weight:300;letter-spacing:-0.02em;">Jane</div>
-                          <div style="font-size:20px;font-weight:300;font-style:italic;letter-spacing:-0.02em;">Chavez</div>
-                        </div>
-                        <div style="font-size:5px;color:rgba(155,151,178,0.75);line-height:1.6;max-width:150px;margin-bottom:9px;">Building responsive, accessible web interfaces with strong attention to user experience.</div>
-                        <div style="display:flex;gap:6px;align-items:center;">
-                          <div style="border:1px solid #f472b6;padding:3px 8px;font-size:4.5px;color:#f472b6;font-family:'DM Mono',monospace;letter-spacing:0.1em;">VIEW MY WORK</div>
-                          <div style="font-size:4.5px;color:rgba(155,151,178,0.6);font-family:'DM Mono',monospace;letter-spacing:0.1em;">DOWNLOAD RÉSUMÉ ↓</div>
-                        </div>
-                      </div>
+                  <div class="phone-frame">
+                    <div class="phone-notch"><div class="phone-notch-dot"></div></div>
+                    <div class="phone-screen">
+                      <img src="images/portfolio-bootstrap-before-mobile.png" alt="" class="evolution-shot-img evolution-shot-img--phone" loading="lazy" decoding="async" onerror="this.style.display='none'">
                     </div>
                   </div>
                 </div>
-                <div class="phone-frame">
-                  <div class="phone-notch"><div class="phone-notch-dot"></div></div>
-                  <div class="phone-screen" style="display:flex;flex-direction:column;background:#07070f;position:relative;overflow:hidden;">
-                    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 85% 5%,rgba(244,114,182,0.22) 0%,transparent 60%);"></div>
-                    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);background-size:18px 18px;"></div>
-                    <div style="position:relative;z-index:2;padding:6px 5px;display:flex;flex-direction:column;height:100%;align-items:center;text-align:center;">
-                      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,0.06);width:100%;">
-                        <span style="font-family:'Cormorant Garamond',serif;font-size:6px;font-weight:600;background:linear-gradient(to bottom,#fff,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">JC</span>
-                        <span style="font-size:5px;color:rgba(155,151,178,0.6);font-family:'DM Mono',monospace;">≡</span>
-                      </div>
-                      <div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;">
-                        <div style="font-size:3.5px;color:#f472b6;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Front-End · UI/UX</div>
-                        <div style="font-family:'Cormorant Garamond',serif;line-height:0.92;margin-bottom:5px;background:linear-gradient(to bottom,#ffffff,#fce4f0,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:inline-block;text-align:center;">
-                          <div style="font-size:12px;font-weight:300;">Jane Chavez</div>
-                        </div>
-                        <div style="font-size:3px;color:rgba(155,151,178,0.7);line-height:1.5;margin-bottom:5px;text-align:center;">Building responsive, accessible web interfaces.</div>
-                        <div style="border:1px solid #f472b6;padding:2px 4px;font-size:3px;color:#f472b6;font-family:'DM Mono',monospace;letter-spacing:0.08em;width:80%;text-align:center;">VIEW WORK</div>
-                        <div style="border:1px solid rgba(255,255,255,0.1);padding:2px 4px;font-size:3px;color:rgba(155,151,178,0.6);font-family:'DM Mono',monospace;letter-spacing:0.08em;width:80%;text-align:center;margin-top:3px;">RÉSUMÉ ↓</div>
-                      </div>
+              </div>
+              <div class="project-mockup-003-block" aria-label="Current portfolio in device frames">
+                <div class="mockup-stack">
+                  <div class="browser-frame">
+                    <div class="browser-bar">
+                      <div class="browser-dots"><span></span><span></span><span></span></div>
+                      <div class="browser-url"></div>
+                    </div>
+                    <div class="browser-screen-placeholder portfolio-mockup-desktop" style="background:#07070f;padding:0;overflow:hidden;position:relative;">
+                      <img src="images/portfolio-current-desktop.png" alt="Current portfolio hero on desktop, including grid background and crystal" class="portfolio-mockup-desktop-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                    </div>
+                  </div>
+                  <div class="phone-frame">
+                    <div class="phone-notch"><div class="phone-notch-dot"></div></div>
+                    <div class="phone-screen">
+                      <img src="images/portfolio-current-mobile.png" alt="" class="portfolio-mockup-mobile-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
                     </div>
                   </div>
                 </div>
@@ -1450,16 +1549,16 @@
           <div class="project-content">
             <div class="project-text">
               <h4>Problem</h4>
-              <p>Needed to strengthen my UI/UX portfolio by creating a polished, modern hero section demonstrating visual hierarchy, spacing, and device mockup integration — recruiter-ready and production-quality.</p>
+              <p>I wanted one strong hero treatment I could show in interviews: clear type, spacing, and a device mockup that looks intentional, not thrown together.</p>
               <h4>My Role</h4>
               <ul>
-                <li>Designed full desktop hero layout in Figma.</li>
-                <li>Established typography scale and spacing system.</li>
-                <li>Integrated project screenshot into device mockup.</li>
-                <li>Applied responsive layout principles and exported high-res assets.</li>
+                <li>Desktop hero layout in Figma.</li>
+                <li>Typography scale and spacing I could reuse elsewhere.</li>
+                <li>Dropped a project screenshot into phone/desktop frames.</li>
+                <li>Thought about how it would reflow and exported assets at usable resolution.</li>
               </ul>
               <h4>Outcome</h4>
-              <p>Produced a clean, high-fidelity UI hero section demonstrating Figma proficiency and UI design fundamentals. Strengthens portfolio toward UI/UX-focused roles.</p>
+              <p>A tight Figma file plus prototype links. Good shorthand for “I can own UI craft” when people ask for design samples.</p>
               <div class="project-links">
                 <a href="https://www.figma.com/proto/qhk0PTd7kBe39rhb9lrMKr/Hero-Section?node-id=0-1&t=eog5D9QeQcq6Pt3I-1" target="_blank" class="project-link">View Design ↗</a>
                 <a href="https://www.figma.com/proto/qhk0PTd7kBe39rhb9lrMKr/Hero-Section?node-id=7-666&t=WuJhF99nIzxijAJd-1&scaling=contain&content-scaling=fixed&page-id=0%3A1" target="_blank" class="project-link">View Prototype ↗</a>
@@ -1505,13 +1604,13 @@
               <p>Many dog owners want a fun, safe way to meet other dog owners for socializing, playdates, and community events. This concept app explores that space with a playful, engaging UI.</p>
               <h4>My Role</h4>
               <ul>
-                <li>Designed and implemented the full front-end user interface.</li>
-                <li>Developed interactive elements to simulate user interactions.</li>
-                <li>Ensured responsive design and intuitive UX across devices.</li>
-                <li>Created mockups and high-fidelity prototypes to refine interactions.</li>
+                <li>Designed and coded the whole front end in HTML, CSS, and JavaScript.</li>
+                <li>Built swipe-style and other interactions in the browser (demo/prototype level).</li>
+                <li>Responsive layout so it’s usable on phone and desktop.</li>
+                <li>Iterated on the UI directly in code until it felt fun and clear.</li>
               </ul>
               <h4>Outcome</h4>
-              <p>Delivered a prototype front-end demonstrating ability to build engaging, responsive web applications. Highlights creative design thinking alongside technical execution.</p>
+              <p>A playful live demo that shows I can pair a silly concept with solid front-end basics.</p>
               <div class="project-links">
                 <a href="https://jpdm07.github.io/woofdog/" target="_blank" class="project-link">View Live App ↗</a>
                 <a href="https://github.com/jpdm07/woofdog" target="_blank" class="project-link">Source Code ↗</a>
@@ -1552,8 +1651,8 @@
     </div>
     <div class="about-grid">
       <div class="about-bio reveal">
-        <p>I'm <em>Jane Chavez</em>, a UI/UX Designer and Front-End Developer with an M.S. in Software Engineering from the University of Houston–Clear Lake.</p>
-        <p style="margin-top:1.2em;">I believe the best interfaces are the ones users never have to think about. <em>Simple. Intuitive. Purposeful.</em></p>
+        <p>I'm <em>Jane Chavez</em>, a UI/UX designer and front-end developer. I finished my M.S. in Software Engineering at University of Houston-Clear Lake.</p>
+        <p style="margin-top:1.2em;">Best interfaces, in my book, are the ones people don’t have to fight. <em>Simple. Intuitive. On purpose.</em></p>
       </div>
       <div class="about-details">
         <div class="about-block reveal reveal-delay-1">
@@ -1568,7 +1667,7 @@
         </div>
         <div class="about-block reveal reveal-delay-2">
           <h4>Education</h4>
-          <p style="font-size:0.88rem;color:var(--text-dim);line-height:1.7;">M.S. Software Engineering<br>University of Houston–Clear Lake<br><span style="color:var(--text-muted);">Graduated December 2025</span></p>
+          <p style="font-size:0.88rem;color:var(--text-dim);line-height:1.7;">M.S. Software Engineering<br>University of Houston-Clear Lake<br><span style="color:var(--text-muted);">Graduated December 2025</span></p>
         </div>
         <div class="about-block reveal reveal-delay-3">
           <blockquote class="about-quote">"User-focused. Simple. Intuitive. Every pixel with purpose."</blockquote>
@@ -1585,7 +1684,7 @@
       <div class="reveal">
         <h2 class="contact-headline">Let's build something <em>great</em> together.</h2>
       </div>
-      <p class="contact-sub reveal reveal-delay-1">I'm actively seeking entry-level front-end and UI/UX roles. If you're looking for someone who cares deeply about both design and code, I'd love to connect.</p>
+      <p class="contact-sub reveal reveal-delay-1">I'm looking for entry-level front-end or UI/UX work. If you want someone who actually cares about both the pixels and the markup behind them, say hi.</p>
       <div class="contact-links reveal reveal-delay-2">
         <a href="#" id="contact-email" class="contact-link primary">Get In Touch ↗</a>
         <a href="https://www.linkedin.com/in/jane-c-699a9241" target="_blank" class="contact-link">LinkedIn ↗</a>
@@ -1597,7 +1696,7 @@
 
   <!-- Footer -->
   <footer>
-    <p>© 2026 <span>Jane Chavez</span>. Designed &amp; built with intention.</p>
+    <p>© 2026 <span>Jane Chavez</span>. Built this site myself, by hand.</p>
     <p>Front-End Developer · UI/UX Designer · Houston, TX</p>
   </footer>
 
@@ -1798,6 +1897,7 @@
     // Nav shrink
     const nav = document.querySelector('nav');
     window.addEventListener('scroll',()=>{
+      if (!nav) return;
       if (window.scrollY>60) { nav.style.background='rgba(7,7,15,0.96)'; nav.style.backdropFilter='blur(20px)'; nav.style.padding='14px 48px'; }
       else { nav.style.background=''; nav.style.backdropFilter=''; nav.style.padding=''; }
     },{passive:true});
