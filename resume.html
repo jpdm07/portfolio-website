@@ -784,15 +784,6 @@
         nav.style.backdropFilter='';
         nav.style.padding='';
       }
-    }, {passive:true});
-
-    // ── Mobile nav toggle ──
-    const toggle = document.querySelector('.nav-mobile-toggle');
-    if (toggle) {
-      toggle.addEventListener('click', () => document.querySelector('nav').classList.toggle('nav-mobile-open'));
-      document.querySelectorAll('.nav-links a').forEach(a => {
-        a.addEventListener('click', () => document.querySelector('nav').classList.remove('nav-mobile-open'));
-      });
     }
   </script>
   <div id="cursor"></div>

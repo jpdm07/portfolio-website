@@ -1212,15 +1212,19 @@
     },{passive:true});
 
 
-    // ── Lottery number shuffle ──
-    function shuffleNumber(el) {
+    // ── Lottery number shuffle — one at a time, never concurrent ──
+    let isShuffling = false;
+
+    function shuffleNumber(el, onDone) {
+      if (isShuffling) return; // block if one is already running
+      isShuffling = true;
       const final = el.getAttribute('data-final');
       const chars = '0123456789';
-      const digits = final.split('');
-      // Reset first
-      el.textContent = '000'.slice(0, digits.length);
-      digits.forEach((targetChar, digitIndex) => {
-        const delay = 300 + digitIndex * 250; // wait 300ms then stagger each digit
+      el.textContent = '0'.repeat(final.length);
+      const totalDigits = final.length;
+      let digitsComplete = 0;
+
+      final.split('').forEach((targetChar, digitIndex) => {
         let iterations = 0;
         const maxIterations = 14;
         setTimeout(() => {
@@ -1231,25 +1235,61 @@
               : chars[Math.floor(Math.random() * chars.length)];
             el.textContent = current.join('');
             iterations++;
-            if (iterations > maxIterations) clearInterval(interval);
+            if (iterations > maxIterations) {
+              clearInterval(interval);
+              digitsComplete++;
+              if (digitsComplete === totalDigits) {
+                // All digits done — unlock after short pause
+                setTimeout(() => {
+                  isShuffling = false;
+                  if (onDone) onDone();
+                }, 400);
+              }
+            }
           }, 80);
-        }, delay);
+        }, 300 + digitIndex * 250);
       });
     }
 
-    // Re-trigger every time project header enters viewport
+    // Queue of numbers waiting to shuffle
+    const shuffleQueue = [];
+    function processQueue() {
+      if (isShuffling || shuffleQueue.length === 0) return;
+      const next = shuffleQueue.shift();
+      shuffleNumber(next, processQueue);
+    }
+
+    function queueShuffle(el) {
+      // Don't queue duplicates
+      if (!shuffleQueue.includes(el)) shuffleQueue.push(el);
+      processQueue();
+    }
+
+    // Watch each project header — 50% chance to queue when entering view
     const numObserver = new IntersectionObserver(entries => {
       entries.forEach(e => {
+        if (!e.isIntersecting) return;
         const num = e.target.querySelector('.project-num[data-final]');
         if (!num) return;
-        if (e.isIntersecting) {
-          // Delay until reveal animation finishes (800ms)
-          setTimeout(() => shuffleNumber(num), 850);
+        if (Math.random() < 0.5) {
+          setTimeout(() => queueShuffle(num), 850);
         }
       });
     }, { threshold: 0.3 });
 
     document.querySelectorAll('.project-header').forEach(el => numObserver.observe(el));
+
+    // On page load — pick 1-2 random visible ones, queue them sequentially
+    window.addEventListener('load', () => {
+      const visible = Array.from(document.querySelectorAll('.project-header')).filter(el => {
+        const r = el.getBoundingClientRect();
+        return r.top < window.innerHeight && r.bottom > 0;
+      });
+      visible.sort(() => Math.random() - 0.5).slice(0, 2).forEach((el, i) => {
+        const num = el.querySelector('.project-num[data-final]');
+        if (num) setTimeout(() => queueShuffle(num), 900 + i * 200);
+      });
+    });
 
     // Mobile nav toggle
     const toggle = document.querySelector('.nav-mobile-toggle');
