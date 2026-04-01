@@ -59,8 +59,7 @@
         justify-content: center; gap: 48px; z-index: 9998;
         list-style: none;
       }
-      nav.nav-mobile-open .nav-links { display: flex; }
-      .nav-links .nav-close { position: fixed; top: 20px; right: 20px; display: none; z-index: 9999; }
+      nav.nav-mobile-open.nav-links .nav-close { position: fixed; top: 20px; right: 20px; display: none; z-index: 9999; }
       nav.nav-mobile-open .nav-links .nav-close { display: block; }
     }
 
@@ -255,19 +254,6 @@
   </div>
 
   <div id="cursor"></div>
-  <script>
-    // ── Mobile nav ──
-    (function() {
-      var nav    = document.querySelector('nav');
-      var toggle = document.querySelector('.nav-mobile-toggle');
-      var close  = document.querySelector('.nav-close');
-      function open()  { if(nav){ nav.classList.add('nav-mobile-open'); document.body.style.overflow='hidden'; } }
-      function shut()  { if(nav){ nav.classList.remove('nav-mobile-open'); document.body.style.overflow=''; } }
-      if (toggle) toggle.addEventListener('click', open);
-      if (close)  close.addEventListener('click',  shut);
-      document.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click', shut); });
-    })();
-  </script>
   <script src="resume-fx.js"></script>
 </body>
 </html>

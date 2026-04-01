@@ -24,7 +24,7 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     .nav-logo span { font-style: italic; }
-    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links { display: flex; gap: 36px; list-style: none; margin: 0; padding: 0; }
     .nav-links a {
       font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em;
       text-transform: uppercase; color: var(--text-dim);
@@ -61,8 +61,7 @@
         justify-content: center; gap: 48px; z-index: 9998;
         list-style: none;
       }
-      nav.nav-mobile-open .nav-links { display: flex; }
-      .nav-links .nav-close { position: fixed; top: 20px; right: 20px; display: none; z-index: 9999; }
+      nav.nav-mobile-open.nav-links .nav-close { position: fixed; top: 20px; right: 20px; display: none; z-index: 9999; }
       nav.nav-mobile-open .nav-links .nav-close { display: block; }
     }
 
@@ -488,10 +487,10 @@
       display: flex; align-items: center; justify-content: center; gap: 10px;
       color: var(--text-dim); border: 1px solid var(--border); padding: 14px 32px;
       transition: border-color 0.3s, color 0.3s, background 0.3s;
-      min-width: 160px; text-align: center;
+      min-width: 160px; text-align: center; cursor: pointer;
     }
     .contact-link:hover { border-color: var(--pink); color: var(--pink); }
-    button.contact-link { background: transparent !important; border: 1px solid var(--border) !important; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim) !important; padding: 14px 32px; min-width: 160px; }
+    button.contact-link { background: transparent; border: 1px solid var(--border); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); padding: 14px 32px; min-width: 160px; cursor: pointer; }
     .contact-link.primary { background: var(--pink); border-color: var(--pink); color: var(--bg); }
     .contact-link.primary:hover { background: transparent; color: var(--pink); }
 
@@ -603,15 +602,18 @@
       pointer-events: none; z-index: 2;
     }
     /* Float on outer wrapper, spin on inner SVG - separate transforms */
+    .crystal-scaler {
+      width: 100%; height: 100%;
+      transition: transform 0.5s ease, filter 0.5s ease;
+      filter: drop-shadow(0 0 28px rgba(244,114,182,0.5)) drop-shadow(0 0 70px rgba(168,85,247,0.28));
+    }
+    .crystal-wrap.hovered .crystal-scaler {
+      transform: scale(1.08);
+      filter: drop-shadow(0 0 55px rgba(244,114,182,0.92)) drop-shadow(0 0 110px rgba(168,85,247,0.6));
+    }
     .crystal-floater {
       width: 100%; height: 100%;
       animation: crystalFloat 7s ease-in-out infinite;
-      transition: filter 0.5s ease, transform 0.5s ease;
-      filter: drop-shadow(0 0 28px rgba(244,114,182,0.5)) drop-shadow(0 0 70px rgba(168,85,247,0.28));
-    }
-    .crystal-wrap.hovered .crystal-floater {
-      filter: drop-shadow(0 0 55px rgba(244,114,182,0.92)) drop-shadow(0 0 110px rgba(168,85,247,0.6));
-      transform: scale(1.06);
     }
     .crystal-svg {
       width: 100%; height: 100%;
@@ -672,6 +674,7 @@
     </div>
     <!-- Crystal gem SVG - desktop only -->
     <div class="crystal-wrap" id="crystal-wrap" aria-hidden="true">
+      <div class="crystal-scaler">
       <div class="crystal-floater">
       <svg class="crystal-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -723,6 +726,7 @@
         <circle cx="205" cy="190" r="5" fill="white" opacity="0.15"/>
         <circle cx="205" cy="190" r="1.5" fill="white" opacity="0.4"/>
       </svg>
+      </div>
       </div>
     </div>
 
@@ -1158,7 +1162,7 @@
         <a href="#" id="contact-email" class="contact-link primary">Get In Touch ↗</a>
         <a href="https://www.linkedin.com/in/jane-c-699a9241" target="_blank" class="contact-link">LinkedIn ↗</a>
         <a href="https://github.com/jpdm07" target="_blank" class="contact-link">GitHub ↗</a>
-        <button type="button" onclick="sharePortfolio()" class="contact-link" id="share-btn">Share ↗</button>
+        <button type="button" class="contact-link" id="share-btn">Share ↗</button>
       </div>
     </div>
   </section>
@@ -1376,9 +1380,7 @@
         if (num) setTimeout(() => queueShuffle(num), 900 + i * 200);
       });
     });
-    document.querySelectorAll('.nav-links a').forEach(function(a) {
-      a.addEventListener('click', function(){ closeNav(); });
-    });
+    
 
     // Set email link dynamically to prevent Cloudflare obfuscation
     document.addEventListener('DOMContentLoaded', () => {
@@ -1389,202 +1391,11 @@
         emailBtn.href = 'mailto:' + u + '@' + d;
       }
     });
-  </script><script>
-    // ── Animated canvas background ──
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
 
-    function resize() {
-      canvas.width  = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize);
-
-    // Floating particles
-    const PARTICLE_COUNT = 100;
-    const particles = [];
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      particles.push({
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        r: Math.random() * 1.4 + 0.35,
-        vx: (Math.random() - 0.5) * 0.22,
-        vy: (Math.random() - 0.5) * 0.22,
-        opacity: Math.random() * 0.55 + 0.22,
-        hue: Math.random() < 0.55 ? 330 : Math.random() < 0.6 ? 270 : 220,
-        pulseOffset: Math.random() * Math.PI * 2,
-        pulseSpeed: 0.008 + Math.random() * 0.012,
-      });
-    }
-
-    // Aurora lines — more visible
-    const lineData = [
-      { offset: 0,    speed: 0.00040, amp: 70,  yBase: 0.12, hue: 315, alpha: 0.06 },
-      { offset: 1.05, speed: 0.00055, amp: 90,  yBase: 0.28, hue: 325, alpha: 0.05 },
-      { offset: 2.10, speed: 0.00035, amp: 65,  yBase: 0.44, hue: 280, alpha: 0.045 },
-      { offset: 3.14, speed: 0.00060, amp: 100, yBase: 0.58, hue: 300, alpha: 0.05 },
-      { offset: 4.20, speed: 0.00045, amp: 80,  yBase: 0.72, hue: 340, alpha: 0.055 },
-      { offset: 5.25, speed: 0.00038, amp: 60,  yBase: 0.88, hue: 310, alpha: 0.045 },
-    ];
-
-    let tick = 0;
-
-    function draw() {
-      const W = canvas.width, H = canvas.height;
-      tick++;
-
-      // Base fill
-      ctx.fillStyle = '#07070f';
-      ctx.fillRect(0, 0, W, H);
-
-      // Aurora flowing lines
-      for (const l of lineData) {
-        ctx.beginPath();
-        const yBase = H * l.yBase;
-        for (let x = 0; x <= W; x += 3) {
-          const y = yBase
-            + Math.sin(x * 0.0038 + tick * l.speed + l.offset) * l.amp
-            + Math.sin(x * 0.0085 + tick * l.speed * 1.8 + l.offset * 0.6) * (l.amp * 0.38);
-          x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-        }
-        ctx.strokeStyle = `hsla(${l.hue}, 85%, 72%, ${l.alpha})`;
-        ctx.lineWidth = 1;
-        ctx.stroke();
-      }
-
-      // Faint diagonal grid
-      ctx.save();
-      ctx.strokeStyle = 'rgba(244,114,182,0.018)';
-      ctx.lineWidth = 0.5;
-      for (let x = -H; x < W + H; x += 65) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + H, H); ctx.stroke();
-      }
-      ctx.restore();
-
-      // Particles
-      for (const p of particles) {
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < -5) p.x = W + 5;
-        if (p.x > W + 5) p.x = -5;
-        if (p.y < -5) p.y = H + 5;
-        if (p.y > H + 5) p.y = -5;
-        const pulse = Math.sin(tick * p.pulseSpeed + p.pulseOffset) * 0.3 + 0.7;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r * pulse, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${p.hue}, 90%, 85%, ${p.opacity * pulse * 2.6})`;
-        ctx.fill();
-      }
-
-      // Pink corner glow top-right — stronger
-      const vg1 = ctx.createRadialGradient(W * 0.82, H * 0.06, 0, W * 0.82, H * 0.06, W * 0.5);
-      vg1.addColorStop(0, 'rgba(244,114,182,0.18)');
-      vg1.addColorStop(1, 'transparent');
-      ctx.fillStyle = vg1;
-      ctx.fillRect(0, 0, W, H);
-
-      // Purple glow bottom-left — stronger
-      const vg2 = ctx.createRadialGradient(W * 0.08, H * 0.9, 0, W * 0.08, H * 0.9, W * 0.42);
-      vg2.addColorStop(0, 'rgba(168,85,247,0.14)');
-      vg2.addColorStop(1, 'transparent');
-      ctx.fillStyle = vg2;
-      ctx.fillRect(0, 0, W, H);
-
-      requestAnimationFrame(draw);
-    }
-    draw();
-
-    // ── Smart cursor — rotation handled via separate var so translate never breaks ──
-    const cursor = document.getElementById('cursor');
-    let mx = 0, my = 0;
-    let cursorRotate = 0; // degrees, separate from position
-
-    function moveCursor(x, y) {
-      cursor.style.transform = `translate(${x - cursor.offsetWidth / 2}px, ${y - cursor.offsetHeight / 2}px) rotate(${cursorRotate}deg)`;
-    }
-
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      moveCursor(mx, my);
-    });
-
-    function setCursorState(state) {
-      cursor.classList.remove('is-hovering', 'is-project', 'is-nav');
-      if (state === 'project') {
-        cursorRotate = 45;
-        cursor.classList.add('is-project');
-      } else if (state === 'nav') {
-        cursorRotate = 0;
-        cursor.classList.add('is-nav');
-      } else if (state === 'hover') {
-        cursorRotate = 0;
-        cursor.classList.add('is-hovering');
-      } else {
-        cursorRotate = 0;
-      }
-      moveCursor(mx, my);
-    }
-
-    // Nav links
-    document.querySelectorAll('nav a').forEach(el => {
-      el.addEventListener('mouseenter', () => setCursorState('nav'));
-      el.addEventListener('mouseleave', () => setCursorState(''));
-    });
-
-    // Project header rows (the clickable accordion bar)
-    document.querySelectorAll('.project-header').forEach(el => {
-      el.addEventListener('mouseenter', () => setCursorState('project'));
-      el.addEventListener('mouseleave', () => setCursorState(''));
-    });
-
-    // All other links and buttons
-    document.querySelectorAll('a:not(nav a), button').forEach(el => {
-      if (el.closest('.project-header')) return;
-      el.addEventListener('mouseenter', () => setCursorState('hover'));
-      el.addEventListener('mouseleave', () => setCursorState(''));
-    });
-
-    // Scroll reveal
-    const revealObserver = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-    // Project accordion
-    function toggleProject(el) {
-      const isOpen = el.classList.contains('open');
-      document.querySelectorAll('.project-item.open').forEach(p => p.classList.remove('open'));
-      if (!isOpen) el.classList.add('open');
-    }
-
-    // Nav shrin    // Nav shrink
-    const nav = document.querySelector('nav');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 60) {
-        nav.style.background = 'rgba(7,7,15,0.96)';
-        nav.style.backdropFilter = 'blur(20px)';
-        nav.style.padding = '14px 48px';
-      } else {
-        nav.style.background = '';
-        nav.style.backdropFilter = '';
-        nav.style.padding = '';
-      }
-    }, { passive: true });
-    document.querySelectorAll('.nav-links a').forEach(function(a) {
-      a.addEventListener('click', function(){ closeNav(); });
-    });
-
-    // Email link JS encoded (Cloudflare-proof)
-    document.addEventListener('DOMContentLoaded', () => {
-      const emailBtn = document.getElementById('contact-email');
-      if (emailBtn) emailBtn.href = 'mailto:' + 'jpdm015' + '@' + 'gmail.com';
-    });
 
     // ── Share portfolio ──
-    function sharePortfolio() {
+    window.sharePortfolio = function() {
       var url = 'https://jpdm07.github.io/portfolio-website/';
-
-      // Show toast
       var toast = document.getElementById('share-toast');
       if (!toast) {
         toast = document.createElement('div');
@@ -1595,53 +1406,36 @@
       function showToast(msg) {
         toast.textContent = msg;
         toast.style.opacity = '1';
-        clearTimeout(toast._hide);
-        toast._hide = setTimeout(function(){ toast.style.opacity='0'; }, 3000);
+        clearTimeout(toast._h);
+        toast._h = setTimeout(function(){ toast.style.opacity='0'; }, 3000);
       }
-
-      // Mobile native share
       if (navigator.share) {
         navigator.share({ title:'Jane Chavez | Portfolio', url:url }).catch(function(){});
         return;
       }
-
-      // Try clipboard
       try {
         navigator.clipboard.writeText(url).then(function(){
           showToast('✓  Link copied to clipboard!');
-        }).catch(function(){
-          legacyCopy();
-        });
-      } catch(e) {
-        legacyCopy();
-      }
-
+        }).catch(function(){ legacyCopy(); });
+      } catch(e) { legacyCopy(); }
       function legacyCopy() {
         var ta = document.createElement('textarea');
         ta.value = url;
-        ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0;';
+        ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;';
         document.body.appendChild(ta);
         ta.focus(); ta.select();
         var ok = false;
         try { ok = document.execCommand('copy'); } catch(x){}
         document.body.removeChild(ta);
-        showToast(ok ? '✓  Link copied to clipboard!' : 'Copy: ' + url);
+        showToast(ok ? '✓  Link copied to clipboard!' : url);
       }
+    };
+    document.addEventListener('DOMContentLoaded', function() {
+      var sb = document.getElementById('share-btn');
+      if (sb) sb.addEventListener('click', window.sharePortfolio);
     });
-      } else if (navigator.clipboard) {
-        navigator.clipboard.writeText(url).then(function() {
-          if (btn) { var o=btn.textContent; btn.textContent='Link Copied!'; setTimeout(function(){btn.textContent=o;},2000); }
-        });
-      } else {
-        var ta=document.createElement('textarea'); ta.value=url;
-        document.body.appendChild(ta); ta.select(); document.execCommand('copy');
-        document.body.removeChild(ta);
-        if (btn) { var o=btn.textContent; btn.textContent='Link Copied!'; setTimeout(function(){btn.textContent=o;},2000); }
-      }
-    }
 
-    
-    // ── Crystal hover detection (works with pointer-events:none) ──
+        // ── Crystal hover detection (works with pointer-events:none) ──
     (function() {
       var cw = document.getElementById('crystal-wrap');
       if (!cw) return;
