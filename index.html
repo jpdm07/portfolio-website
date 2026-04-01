@@ -587,13 +587,38 @@
     /* ── Page fade-in entrance ── */
     
       to   { opacity: 1; }
-    }
+    } } }
 
-    @keyframes siteFadeIn { from{opacity:0;} to{opacity:1;} }
+    @keyframes siteFadeIn { from { opacity:0; } to { opacity:1; } }
     body { animation: siteFadeIn 1.1s ease both; }
 
-    /* ── Crystal Orb ── */
-    .crystal-wrap canvas { display: block; }
+    /* ── Crystal Gem SVG ── */
+    .crystal-wrap {
+      position: absolute; right: 6%; top: 50%;
+      transform: translateY(-50%);
+      width: min(300px, 32vw); height: min(300px, 32vw);
+      pointer-events: none; z-index: 2;
+    }
+    .crystal-svg {
+      width: 100%; height: 100%;
+      animation: crystalSpin 24s linear infinite, crystalFloat 7s ease-in-out infinite;
+      filter: drop-shadow(0 0 28px rgba(244,114,182,0.45)) drop-shadow(0 0 60px rgba(168,85,247,0.25));
+      transition: filter 0.6s ease;
+    }
+    .crystal-wrap:hover .crystal-svg {
+      animation-duration: 7s, 3s;
+      filter: drop-shadow(0 0 50px rgba(244,114,182,0.8)) drop-shadow(0 0 100px rgba(168,85,247,0.5));
+    }
+    .c-face { transition: opacity 0.4s; }
+    .crystal-wrap:hover .c-face { opacity: 0.6 !important; }
+    @keyframes crystalSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes crystalFloat {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-16px); }
+    }
     @media (max-width: 900px) { .crystal-wrap { display: none !important; } }
   </style>
 </head>
@@ -636,9 +661,58 @@
       <a href="#projects" class="btn-primary"><span>View My Work</span></a>
       <a href="https://jpdm07.github.io/portfolio-website/Jane_Chavez_Resume_2026.pdf" class="btn-ghost" target="_blank">Download Résumé</a>
     </div>
-    <!-- Crystal gem orb - desktop only -->
-    <div class="crystal-wrap" id="crystal-wrap" aria-hidden="true" style="position:absolute;right:6%;top:50%;transform:translateY(-50%);width:min(300px,32vw);height:min(300px,32vw);pointer-events:none;z-index:2;">
-      <canvas id="crystal-canvas" width="300" height="300" style="width:100%;height:100%;display:block;"></canvas>
+    <!-- Crystal gem SVG - desktop only -->
+    <div class="crystal-wrap" id="crystal-wrap" aria-hidden="true">
+      <svg class="crystal-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="cg1" cx="38%" cy="32%" r="58%">
+            <stop offset="0%" stop-color="#fce4f0" stop-opacity="0.95"/>
+            <stop offset="35%" stop-color="#f472b6" stop-opacity="0.65"/>
+            <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.3"/>
+          </radialGradient>
+          <radialGradient id="cg2" cx="62%" cy="68%" r="55%">
+            <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.55"/>
+            <stop offset="100%" stop-color="#bfdbfe" stop-opacity="0.1"/>
+          </radialGradient>
+          <radialGradient id="cg3" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22"/>
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="cg4" cx="35%" cy="30%" r="40%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.92"/>
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle cx="150" cy="150" r="142" fill="none" stroke="#f472b6" stroke-width="0.5" opacity="0.2"/>
+        <polygon points="150,150 60,165 105,240" fill="#a78bfa" opacity="0.35" class="c-face"/>
+        <polygon points="150,150 105,240 150,265" fill="#c4b5fd" opacity="0.3" class="c-face"/>
+        <polygon points="150,150 150,265 195,240" fill="#f472b6" opacity="0.28" class="c-face"/>
+        <polygon points="150,150 195,240 240,165" fill="#a78bfa" opacity="0.32" class="c-face"/>
+        <polygon points="150,150 240,165 240,135" fill="#bfdbfe" opacity="0.3" class="c-face"/>
+        <polygon points="150,150 240,135 195,60" fill="#f472b6" opacity="0.35" class="c-face"/>
+        <polygon points="150,150 195,60 150,35" fill="#fce4f0" opacity="0.4" class="c-face"/>
+        <polygon points="150,150 150,35 105,60" fill="#c4b5fd" opacity="0.38" class="c-face"/>
+        <polygon points="150,150 105,60 60,135" fill="#a78bfa" opacity="0.3" class="c-face"/>
+        <polygon points="150,150 60,135 60,165" fill="#bfdbfe" opacity="0.32" class="c-face"/>
+        <polygon points="60,135 60,165 105,240 150,265 195,240 240,165 240,135 195,60 150,35 105,60"
+          fill="none" stroke="#f472b6" stroke-width="0.6" opacity="0.4"/>
+        <polygon points="60,135 60,165 105,240 150,265 195,240 240,165 240,135 195,60 150,35 105,60"
+          fill="url(#cg1)" opacity="0.7"/>
+        <polygon points="60,135 60,165 105,240 150,265 195,240 240,165 240,135 195,60 150,35 105,60"
+          fill="url(#cg2)" opacity="0.4"/>
+        <polygon points="105,90 150,70 195,90 210,135 195,165 150,180 105,165 90,135"
+          fill="url(#cg3)" stroke="#fce4f0" stroke-width="0.8" opacity="0.6"/>
+        <line x1="150" y1="70" x2="150" y2="265" stroke="#fce4f0" stroke-width="0.4" opacity="0.2"/>
+        <line x1="60" y1="135" x2="240" y2="165" stroke="#f472b6" stroke-width="0.4" opacity="0.18"/>
+        <line x1="60" y1="165" x2="240" y2="135" stroke="#a78bfa" stroke-width="0.4" opacity="0.18"/>
+        <line x1="105" y1="60" x2="195" y2="240" stroke="#bfdbfe" stroke-width="0.4" opacity="0.15"/>
+        <line x1="195" y1="60" x2="105" y2="240" stroke="#f472b6" stroke-width="0.4" opacity="0.15"/>
+        <circle cx="108" cy="95" r="22" fill="url(#cg4)" opacity="0.8"/>
+        <circle cx="112" cy="99" r="7" fill="white" opacity="0.6"/>
+        <circle cx="108" cy="93" r="2.5" fill="white" opacity="0.95"/>
+        <circle cx="205" cy="190" r="5" fill="white" opacity="0.15"/>
+        <circle cx="205" cy="190" r="1.5" fill="white" opacity="0.4"/>
+      </svg>
     </div>
 
     <div class="hero-scroll-indicator">
@@ -1534,135 +1608,6 @@
       }
     }
 
-        // ── Crystal Gem Orb ──
-    (function() {
-      var wrap = document.getElementById('crystal-wrap');
-      var cv   = document.getElementById('crystal-canvas');
-      if (!wrap || !cv) return;
-      var X = cv.getContext('2d');
-      var W = 300, H = 300, CX = 150, CY = 150;
-      var dpr = window.devicePixelRatio || 1;
-
-      function resize() {
-        var r = wrap.getBoundingClientRect();
-        W = cv.width  = (r.width  || 300) * dpr;
-        H = cv.height = (r.height || 300) * dpr;
-        CX = W/2; CY = H/2;
-      }
-      window.addEventListener('resize', resize);
-
-      var rawMX = window.innerWidth * 0.8, rawMY = window.innerHeight * 0.5;
-      var smMX = rawMX, smMY = rawMY;
-      document.addEventListener('mousemove', function(e){ rawMX=e.clientX; rawMY=e.clientY; });
-
-      var PAL=[{h:320,s:60,l:83},{h:280,s:52,l:80},{h:210,s:58,l:80},{h:300,s:48,l:86},{h:240,s:55,l:82}];
-      function lerp(a,b,t){return a+(b-a)*t;}
-      function lc(a,b,t){return {h:lerp(a.h,b.h,t),s:lerp(a.s,b.s,t),l:lerp(a.l,b.l,t)};}
-      function hs(col,a){return 'hsla('+Math.round(col.h)+','+Math.round(col.s)+'%,'+Math.round(col.l)+'%,'+(a||1)+')';}
-
-      var t=0, spd=0.004, tSpd=0.004;
-
-      function draw(ts) {
-        requestAnimationFrame(draw);
-        t += spd;
-        smMX = lerp(smMX, rawMX, 0.07);
-        smMY = lerp(smMY, rawMY, 0.07);
-        spd  = lerp(spd, tSpd, 0.05);
-
-        var rect = wrap.getBoundingClientRect();
-        var lx = (smMX - rect.left) / (rect.width  || 300);
-        var ly = (smMY - rect.top)  / (rect.height || 300);
-        var near = lx>-0.3&&lx<1.3&&ly>-0.3&&ly<1.3;
-        tSpd = near ? 0.014 : 0.004;
-
-        var lightX = CX + (lx-0.5)*W*1.1;
-        var lightY = CY + (ly-0.5)*H*0.8 - H*0.12;
-
-        X.clearRect(0,0,W,H);
-        var r=Math.min(W,H)*0.42;
-        var tA=(lx-0.5)*0.7, tD=(ly-0.5)*0.3;
-        var N=8, girdle=[], crown=[];
-
-        for(var i=0;i<N;i++){
-          var a=(i/N)*Math.PI*2-Math.PI/2+t+tA;
-          girdle.push({x:CX+Math.cos(a)*r, y:CY+Math.sin(a)*r*(0.38+tD*0.1)});
-          var ac=((i+0.5)/N)*Math.PI*2-Math.PI/2+t+tA;
-          crown.push({x:CX+Math.cos(ac)*r*0.55, y:CY+Math.sin(ac)*r*0.18-r*0.38});
-        }
-        var culetY=CY+r*0.78+tD*r*0.3;
-
-        // Pavilion
-        for(var i=0;i<N;i++){
-          var ni=(i+1)%N, g0=girdle[i], g1=girdle[ni];
-          var dx=lightX-(g0.x+g1.x)/2, dy=lightY-culetY;
-          var lit=Math.max(0,Math.min(1,1-Math.sqrt(dx*dx+dy*dy)/(r*2.2)));
-          var col=PAL[(i+2)%PAL.length];
-          var fc={h:col.h,s:col.s,l:Math.min(93,col.l+lit*18)};
-          X.beginPath(); X.moveTo(g0.x,g0.y); X.lineTo(CX,culetY); X.lineTo(g1.x,g1.y); X.closePath();
-          X.fillStyle=hs(fc,0.42+lit*0.3); X.fill();
-          X.strokeStyle=hs({h:col.h,s:35,l:92},0.25); X.lineWidth=0.6; X.stroke();
-        }
-
-        // Crown
-        for(var i=0;i<N;i++){
-          var ni=(i+1)%N, g0=girdle[i], g1=girdle[ni], cr=crown[i];
-          var mx2=(g0.x+g1.x+cr.x)/3, my2=(g0.y+g1.y+cr.y)/3;
-          var dx=lightX-mx2, dy=lightY-my2;
-          var lit=Math.max(0,Math.min(1,1-Math.sqrt(dx*dx+dy*dy)/(r*1.8)));
-          var palT=(Math.sin(t*0.8+i*0.9)+1)/2;
-          var col=lc(PAL[i%PAL.length],PAL[(i+1)%PAL.length],palT);
-          col.l=Math.min(94,col.l+lit*22); col.s=Math.max(28,col.s-lit*8);
-          X.beginPath(); X.moveTo(g0.x,g0.y); X.lineTo(cr.x,cr.y); X.lineTo(g1.x,g1.y); X.closePath();
-          X.fillStyle=hs(col,0.55+lit*0.35); X.fill();
-          X.strokeStyle=hs({h:col.h,s:col.s,l:col.l+10},0.45+lit*0.2); X.lineWidth=0.8; X.stroke();
-        }
-
-        // Table
-        X.beginPath();
-        for(var i=0;i<N;i++){
-          var a=(i/N)*Math.PI*2-Math.PI/2+t+tA;
-          var px=CX+Math.cos(a)*r*0.35, py=CY+Math.sin(a)*r*0.35*0.32-r*0.5;
-          i===0?X.moveTo(px,py):X.lineTo(px,py);
-        }
-        X.closePath();
-        var tg=X.createRadialGradient(lightX,lightY-r*0.1,0,CX,CY-r*0.45,r*0.7);
-        tg.addColorStop(0,'rgba(255,248,255,0.88)'); tg.addColorStop(0.5,'rgba(220,195,255,0.4)'); tg.addColorStop(1,'rgba(190,170,255,0.12)');
-        X.fillStyle=tg; X.fill(); X.strokeStyle='rgba(255,245,255,0.7)'; X.lineWidth=1; X.stroke();
-
-        // Specular highlight
-        var spx=CX+(lx-0.5)*r*0.8-r*0.08, spy=CY+(ly-0.5)*r*0.55-r*0.44;
-        var spR=near?r*0.26:r*0.15;
-        var sg=X.createRadialGradient(spx,spy,0,spx,spy,spR);
-        sg.addColorStop(0,'rgba(255,255,255,0.95)'); sg.addColorStop(0.35,'rgba(255,245,255,0.45)'); sg.addColorStop(1,'rgba(255,255,255,0)');
-        X.beginPath(); X.arc(spx,spy,spR,0,Math.PI*2); X.fillStyle=sg; X.fill();
-
-        // Rainbow streaks on hover
-        if(near){
-          [{h:0,a:0.13},{h:200,a:0.11},{h:270,a:0.13}].forEach(function(sk,si){
-            var sx=spx+Math.cos(t*2+si*2.1)*r*0.3, sy=spy+Math.sin(t*2+si*2.1)*r*0.2;
-            var stg=X.createRadialGradient(sx,sy,0,sx,sy,r*0.12);
-            stg.addColorStop(0,'hsla('+sk.h+',100%,85%,'+sk.a+')'); stg.addColorStop(1,'hsla('+sk.h+',100%,85%,0)');
-            X.beginPath(); X.arc(sx,sy,r*0.12,0,Math.PI*2); X.fillStyle=stg; X.fill();
-          });
-        }
-
-        // Outer glow
-        var gw=X.createRadialGradient(CX,CY,r*0.5,CX,CY,r*1.1);
-        gw.addColorStop(0,'rgba(244,114,182,0)'); gw.addColorStop(0.8,'rgba(168,85,247,0.08)'); gw.addColorStop(1,'rgba(244,114,182,0)');
-        X.beginPath(); X.arc(CX,CY,r*1.1,0,Math.PI*2); X.fillStyle=gw; X.fill();
-      }
-
-      // Hide when scrolled past hero
-      window.addEventListener('scroll',function(){
-        var hero=document.getElementById('hero');
-        if(hero&&wrap) wrap.style.opacity=hero.getBoundingClientRect().bottom>50?'1':'0';
-      },{passive:true});
-
-      function initCrystal(){ resizeCrystal(); requestAnimationFrame(drawCrystal); }
-      if(document.readyState==='complete') initCrystal();
-      else window.addEventListener('load', initCrystal);
-    })();
-
-  </script>
+      </script>
 </body>
 </html>
