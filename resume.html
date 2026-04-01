@@ -82,12 +82,32 @@
         gap: clamp(28px, 6vh, 40px);
         z-index: 9998;
         list-style: none;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(244, 114, 182, 0.45) rgba(18, 18, 32, 0.95);
+      }
+      .nav-links::-webkit-scrollbar { width: 8px; }
+      .nav-links::-webkit-scrollbar-track { background: rgba(12, 12, 24, 0.9); }
+      .nav-links::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, rgba(244, 114, 182, 0.55), rgba(167, 139, 250, 0.45));
+        border-radius: 999px;
+        border: 2px solid rgba(7, 7, 15, 0.85);
       }
       nav.nav-mobile-open .nav-links { display: flex; }
       .nav-links .nav-close { display: none !important; }
       .nav-mobile-open .nav-mobile-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--pink); }
       .nav-mobile-open .nav-mobile-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0); }
       .nav-mobile-open .nav-mobile-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--pink); }
+
+      /* Native pointer + visible links in overlay (body/nav still use cursor:none above this breakpoint) */
+      html, body { cursor: auto !important; }
+      #cursor { display: none !important; }
+      a, button, .nav-logo, .nav-mobile-toggle, .nav-close,
+      .nav-links a, .nav-links button, .r-contact-row a, .r-download, .resume-page-end-nav a {
+        cursor: pointer !important;
+      }
+      input[type="text"], input[type="email"], input[type="search"], input[type="url"], textarea {
+        cursor: text !important;
+      }
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -97,10 +117,32 @@
       --text: #f0eef8; --text-dim: #9b97b2; --text-muted: #5a5672;
       --mono: 'DM Mono', monospace; --serif: 'Cormorant Garamond', serif; --sans: 'Outfit', sans-serif;
     }
-    html { scroll-behavior: smooth; }
-    body { background: transparent; color: var(--text); font-family: var(--sans); font-weight: 300; overflow-x: hidden; cursor: none; min-height: 100vh; }
-    #bg { position: fixed; inset: 0; z-index: -100; background: #07070f; pointer-events: none; }
-    #bg-canvas { position: fixed; inset: 0; z-index: -99; display: block; pointer-events: none; width: 100%; height: 100%; }
+    html {
+      scroll-behavior: smooth;
+      min-height: 100%;
+      min-height: 100dvh;
+      background: var(--bg);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(244, 114, 182, 0.45) rgba(18, 18, 32, 0.95);
+    }
+    html::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    html::-webkit-scrollbar-track {
+      background: rgba(12, 12, 24, 0.9);
+    }
+    html::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(244, 114, 182, 0.55), rgba(167, 139, 250, 0.45));
+      border-radius: 999px;
+      border: 2px solid rgba(7, 7, 15, 0.85);
+    }
+    html::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, rgba(244, 114, 182, 0.8), rgba(167, 139, 250, 0.65));
+    }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 300; overflow-x: hidden; cursor: none; min-height: 100%; min-height: 100dvh; }
+    #bg { position: fixed; inset: 0; width: 100vw; min-height: 100vh; min-height: 100dvh; height: 100vh; height: 100dvh; z-index: 0; background: #07070f; pointer-events: none; }
+    #bg-canvas { position: fixed; inset: 0; width: 100vw; min-height: 100vh; min-height: 100dvh; height: 100vh; height: 100dvh; z-index: 0; display: block; pointer-events: none; }
     #cursor {
       position: fixed; top: 0; left: 0; width: 10px; height: 10px;
       background: #f472b6; border-radius: 50%; pointer-events: none;
@@ -109,6 +151,32 @@
     }
     #cursor.is-hovering { width: 22px; height: 22px; background: transparent; border: 1.5px solid #f472b6; transform: translate(-6px,-6px) !important; }
     #cursor.is-nav { width: 28px; height: 28px; background: transparent; border: 1px solid rgba(244,114,182,0.5); }
+
+    /* Opening corner light (matches index — fades out, no smoke) */
+    @keyframes resumeLightIntroFade {
+      0% { opacity: 1; }
+      100% { opacity: 0; visibility: hidden; }
+    }
+    .resume-light-intro {
+      position: fixed; inset: 0; z-index: 99990;
+      pointer-events: none;
+      animation: resumeLightIntroFade 2.5s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    }
+    .resume-light-intro__layer { position: absolute; inset: 0; }
+    .resume-light-intro__layer--glow-tr {
+      background: radial-gradient(ellipse 90% 72% at 86% 5%, rgba(255, 255, 255, 0.44) 0%, rgba(252, 231, 243, 0.22) 30%, rgba(244, 114, 182, 0.08) 52%, transparent 74%);
+    }
+    .resume-light-intro__layer--glow-bl {
+      background: radial-gradient(ellipse 88% 78% at 10% 94%, rgba(245, 243, 255, 0.4) 0%, rgba(199, 210, 254, 0.17) 36%, rgba(99, 102, 241, 0.05) 56%, transparent 78%);
+    }
+    .resume-light-intro__layer--shine {
+      background: linear-gradient(125deg, rgba(255, 255, 255, 0.2) 0%, transparent 40%, transparent 60%, rgba(252, 231, 243, 0.1) 100%);
+      mix-blend-mode: screen;
+      opacity: 0.72;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .resume-light-intro { animation-duration: 0.01s; }
+    }
     
     .r-header { text-align: center; margin-bottom: 48px; border-bottom: 1px solid var(--border); padding-bottom: 32px; }
     .r-name { font-family: var(--serif); font-size: clamp(2.4rem,6vw,4rem); font-weight: 300; line-height: 1; background: linear-gradient(to bottom,#ffffff 0%,#fce4f0 45%,#f472b6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; }
@@ -126,7 +194,29 @@
       text-decoration: none; transition: all 0.3s; text-align: center;
     }
     .r-download:hover { background: var(--pink); color: var(--bg); }
-    .page { max-width: 780px; margin: 0 auto; padding: 120px 24px 80px; }
+    /* <div> not <nav> — global nav { position:fixed; top:0 } would pin this to the viewport top */
+    .resume-page-end-nav {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(16px, 4vw, 32px);
+      justify-content: center;
+      align-items: center;
+      margin-top: 28px;
+      padding: 16px 0 0;
+    }
+    .resume-page-end-nav a {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .resume-page-end-nav a:hover { color: var(--pink); }
+    .page { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; padding: 120px 24px 80px; }
     .resume-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 48px; margin-bottom: 24px; }
     .r-section-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pink); margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
     .r-block { margin-bottom: 28px; }
@@ -142,13 +232,35 @@
     .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
     .skill-pill { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); border: 1px solid var(--border); padding: 5px 12px; transition: all 0.3s; }
     .skill-pill:hover { border-color: var(--pink); color: var(--pink); }
-    .r-footer { text-align: center; padding: 32px 0; font-family: var(--mono); font-size: 0.68rem; color: var(--text-muted); letter-spacing: 0.08em; }
-    .r-footer a { color: var(--text-dim); text-decoration: none; transition: color 0.3s; }
-    .r-footer a:hover { color: var(--pink); }
-    @media (max-width: 600px) { .resume-card { padding: 28px 20px; } nav { padding: 14px 20px; } }
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 32px 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    footer p { font-family: var(--mono); font-size: 0.62rem; color: var(--text-muted); letter-spacing: 0.08em; }
+    footer span { color: var(--pink); }
+    footer a { color: var(--text-dim); text-decoration: none; transition: color 0.3s; }
+    footer a:hover { color: var(--pink); }
+    @media (max-width: 900px) {
+      footer { padding: 28px 32px; }
+    }
+    @media (max-width: 600px) {
+      .resume-card { padding: 28px 20px; }
+      nav { padding: 14px 20px; }
+      footer { padding: 24px 20px; flex-direction: column; gap: 10px; text-align: center; }
+    }
   </style>
 </head>
-<body>
+<body id="top">
+  <div class="resume-light-intro" aria-hidden="true">
+    <div class="resume-light-intro__layer resume-light-intro__layer--glow-tr"></div>
+    <div class="resume-light-intro__layer resume-light-intro__layer--glow-bl"></div>
+    <div class="resume-light-intro__layer resume-light-intro__layer--shine"></div>
+  </div>
   <div id="bg"></div>
   <canvas id="bg-canvas"></canvas>
 
@@ -275,6 +387,18 @@
       </div>
     </div>
 
+    <div class="resume-page-end-nav" role="navigation" aria-label="Page shortcuts">
+      <a href="#top">Back to top ↑</a>
+      <a href="index.html">Portfolio home</a>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>© 2026 <span>Jane Chavez</span>. Designed &amp; built with intention.</p>
+    <p>Front-End Developer · UI/UX Designer · Houston, TX</p>
+  </footer>
+
   <div id="cursor"></div>
   <script>
     (function() {
@@ -294,6 +418,7 @@
       document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeNav(); });
     })();
   </script>
+  <script src="bg-simple.js"></script>
   <script src="resume-fx.js"></script>
 </body>
 </html>

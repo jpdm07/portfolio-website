@@ -82,6 +82,15 @@
         gap: clamp(28px, 6vh, 40px);
         z-index: 9998;
         list-style: none;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(244, 114, 182, 0.45) rgba(18, 18, 32, 0.95);
+      }
+      .nav-links::-webkit-scrollbar { width: 8px; }
+      .nav-links::-webkit-scrollbar-track { background: rgba(12, 12, 24, 0.9); }
+      .nav-links::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, rgba(244, 114, 182, 0.55), rgba(167, 139, 250, 0.45));
+        border-radius: 999px;
+        border: 2px solid rgba(7, 7, 15, 0.85);
       }
       nav.nav-mobile-open .nav-links { display: flex; }
       /* Close via morphing hamburger (toggle stays above overlay); hide duplicate ✕ */
@@ -89,6 +98,18 @@
       .nav-mobile-open .nav-mobile-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--pink); }
       .nav-mobile-open .nav-mobile-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0); }
       .nav-mobile-open .nav-mobile-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--pink); }
+
+      /* Hide custom cursor; undo cursor:none (incl. .project-item inheritance) so native pointer works when resized narrow */
+      html, body { cursor: auto !important; }
+      #cursor { display: none !important; }
+      .project-item { cursor: pointer !important; }
+      a, button, .nav-logo, .nav-mobile-toggle, .nav-close, .project-header,
+      .nav-links a, .nav-links button, label[for], summary {
+        cursor: pointer !important;
+      }
+      input[type="text"], input[type="email"], input[type="search"], input[type="url"], textarea {
+        cursor: text !important;
+      }
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -110,84 +131,72 @@
       --sans: 'Outfit', sans-serif;
     }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+      min-height: 100%;
+      min-height: 100dvh;
+      /* Fallback when fixed layers stack above negative z-index (body filter would clip them) */
+      background: var(--bg);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(244, 114, 182, 0.45) rgba(18, 18, 32, 0.95);
+    }
+    html::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    html::-webkit-scrollbar-track {
+      background: rgba(12, 12, 24, 0.9);
+    }
+    html::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(244, 114, 182, 0.55), rgba(167, 139, 250, 0.45));
+      border-radius: 999px;
+      border: 2px solid rgba(7, 7, 15, 0.85);
+    }
+    html::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, rgba(244, 114, 182, 0.8), rgba(167, 139, 250, 0.65));
+    }
 
     body {
-      background: transparent;
+      background: var(--bg);
       color: var(--text);
       font-family: var(--sans);
       font-weight: 300;
       overflow-x: hidden;
       cursor: none;
+      min-height: 100%;
+      min-height: 100dvh;
     }
 
     /* ══════════════════════════════════════
-       BACKGROUND LAYER STACK (bottom → top)
-       z -100  #bg           solid dark fallback
-       z  -99  #bg-canvas    animated canvas
-       z  -98  .blob x3      drifting glows
-       z  -97  body::after   subtle tint
-       z  -96  body::before  grain noise
+       BACKGROUND — #bg + #bg-canvas at z-index 0; sections at 1
        ══════════════════════════════════════ */
 
+    /* z-index 0 (not negative): body { filter } from entrance anim creates a stacking context;
+       negative z-index children paint behind body's background and showed default white html. */
     #bg {
-      position: fixed; inset: 0;
-      z-index: -100;
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      min-height: 100vh;
+      min-height: 100dvh;
+      height: 100vh;
+      height: 100dvh;
+      z-index: 0;
       background: #07070f;
       pointer-events: none;
     }
 
     #bg-canvas {
-      position: fixed; inset: 0;
-      z-index: -99;
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      min-height: 100vh;
+      min-height: 100dvh;
+      height: 100vh;
+      height: 100dvh;
+      z-index: 0;
       display: block;
       pointer-events: none;
-      width: 100%; height: 100%;
-    }
-
-    .blob {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(120px);
-      pointer-events: none;
-      z-index: -98;
-    }
-    .blob-1 {
-      width: 750px; height: 750px;
-      background: radial-gradient(circle, rgba(244,114,182,0.22) 0%, transparent 65%);
-      top: -220px; right: -220px;
-      animation: blobDrift 22s ease-in-out infinite alternate;
-    }
-    .blob-2 {
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(139,92,246,0.18) 0%, transparent 65%);
-      bottom: 0; left: -200px;
-      animation: blobDrift 28s ease-in-out infinite alternate-reverse;
-    }
-    .blob-3 {
-      width: 380px; height: 380px;
-      background: radial-gradient(circle, rgba(244,114,182,0.15) 0%, transparent 65%);
-      top: 40%; left: 35%;
-      animation: blobDrift 36s ease-in-out infinite alternate;
-    }
-
-    /* Very subtle dark tint for readability — must NOT cover canvas */
-    body::after {
-      content: '';
-      position: fixed; inset: 0;
-      background: rgba(7,7,15,0.28);
-      pointer-events: none;
-      z-index: -97;
-    }
-
-    /* Grain noise */
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: -96;
-      opacity: 0.4;
     }
 
     /* ── Upgraded cursor — fixed ── */
@@ -207,12 +216,12 @@
                   box-shadow 0.25s ease,
                   opacity 0.2s ease;
     }
-    /* hover on links/buttons — expands to outlined glowing ring */
+    /* hover on links/buttons — ring + faint fill so it never “vanishes” on busy areas */
     #cursor.is-hovering {
       width: 38px; height: 38px;
-      background: transparent;
+      background: rgba(244, 114, 182, 0.14);
       border: 1.5px solid var(--pink);
-      box-shadow: 0 0 14px rgba(244,114,182,0.45), inset 0 0 8px rgba(244,114,182,0.1);
+      box-shadow: 0 0 16px rgba(244,114,182,0.5), 0 0 0 1px rgba(255,255,255,0.12), inset 0 0 10px rgba(244,114,182,0.08);
     }
     /* hover on project rows — diamond */
     #cursor.is-project {
@@ -222,12 +231,12 @@
       box-shadow: 0 0 14px rgba(244,114,182,0.6);
       /* rotation handled via JS so it doesn't clash with translate */
     }
-    /* hover on nav links — flat pill */
+    /* hover on nav links — visible pill (old 5px-tall bar read as invisible) */
     #cursor.is-nav {
-      width: 30px; height: 5px;
-      border-radius: 3px;
-      background: var(--pink);
-      box-shadow: 0 0 10px rgba(244,114,182,0.6);
+      width: 36px; height: 11px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, rgba(244,114,182,0.95), rgba(196,181,253,0.88));
+      box-shadow: 0 0 14px rgba(244,114,182,0.65), 0 0 0 1px rgba(255,255,255,0.2);
     }
 
     /* Nav */
@@ -535,9 +544,19 @@
     .contact-link.primary:hover { background: transparent; color: var(--pink); }
 
     /* Footer */
-    footer { padding: 32px 48px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 32px 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
     footer p { font-family: var(--mono); font-size: 0.62rem; color: var(--text-muted); letter-spacing: 0.08em; }
     footer span { color: var(--pink); }
+    footer a { color: var(--text-dim); text-decoration: none; transition: color 0.3s; }
+    footer a:hover { color: var(--pink); }
 
     /* Scroll reveal */
     .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
@@ -551,8 +570,6 @@
     @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes scrollLine { 0% { left: -100%; } 100% { left: 100%; } }
     @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
-    @keyframes blobDrift { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(40px, 30px) scale(1.08); } }
-
     @media (max-width: 900px) {
       #hero, #projects, #about, #contact { padding-left: 32px; padding-right: 32px; }
       .project-content { grid-template-columns: 1fr; }
@@ -563,9 +580,6 @@
 
     /* Mobile — hamburger menu, single column everything */
     @media (max-width: 640px) {
-      body { cursor: auto; }
-      #cursor { display: none; }
-
       nav { padding: 18px 20px; }
       nav.nav-mobile-open .nav-links li { width: auto; }
 
@@ -630,60 +644,255 @@
       .hero-name { font-size: 2.4rem; }
     }
 
-    /* ── Page fade-in entrance ── */
-    @keyframes siteFadeIn { from { opacity:0; } to { opacity:1; } }
-    body { animation: siteFadeIn 1.1s ease both; }
+    /* ── Opening light: corner illuminations that fade (no smoke / noise) ── */
+    /* Opacity only on body — filter on body breaks fixed bg layers. */
+    @keyframes bodyDreamWake {
+      0% { opacity: 0.88; }
+      100% { opacity: 1; }
+    }
+    @keyframes dreamLightIntroFade {
+      0% { opacity: 1; }
+      100% { opacity: 0; visibility: hidden; }
+    }
+    .dream-entrance {
+      position: fixed; inset: 0; z-index: 99990;
+      pointer-events: none;
+      animation: dreamLightIntroFade 2.5s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    }
+    .dream-entrance__layer {
+      position: absolute; inset: 0;
+    }
+    .dream-entrance__layer--glow-tr {
+      background: radial-gradient(ellipse 90% 72% at 86% 5%, rgba(255, 255, 255, 0.44) 0%, rgba(252, 231, 243, 0.22) 30%, rgba(244, 114, 182, 0.08) 52%, transparent 74%);
+    }
+    .dream-entrance__layer--glow-bl {
+      background: radial-gradient(ellipse 88% 78% at 10% 94%, rgba(245, 243, 255, 0.4) 0%, rgba(199, 210, 254, 0.17) 36%, rgba(99, 102, 241, 0.05) 56%, transparent 78%);
+    }
+    .dream-entrance__layer--shine {
+      background: linear-gradient(125deg, rgba(255, 255, 255, 0.2) 0%, transparent 40%, transparent 60%, rgba(252, 231, 243, 0.1) 100%);
+      mix-blend-mode: screen;
+      opacity: 0.72;
+    }
+    body {
+      animation: bodyDreamWake 2.5s ease-out both;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .dream-entrance { animation-duration: 0.01s; }
+      body { animation-duration: 0.01s; }
+    }
 
-    /* ── Crystal Gem SVG ── */
+    /* ── Hero gem (original: soft orb + decagon silhouette + slow spin) ── */
+    #crystal-wrap { --crystal-charge: 0; }
     .crystal-wrap {
       position: absolute; right: 6%; top: 50%;
       transform: translateY(-50%);
       width: min(300px, 32vw); height: min(300px, 32vw);
       pointer-events: none; z-index: 2;
     }
-    /* Float on outer wrapper, spin on inner SVG - separate transforms */
+    /* Soft halo — bright / icy, not a dark ball */
+    #crystal-wrap::before {
+      content: '';
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 88%; height: 88%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(7px);
+      opacity: calc(0.48 + var(--crystal-charge) * 0.28);
+      box-shadow:
+        0 0 calc(52px + var(--crystal-charge) * 64px) rgba(255, 255, 255, calc(0.32 + var(--crystal-charge) * 0.22)),
+        0 0 calc(96px + var(--crystal-charge) * 88px) rgba(252, 231, 243, calc(0.34 + var(--crystal-charge) * 0.24)),
+        0 0 calc(132px + var(--crystal-charge) * 100px) rgba(244, 114, 182, calc(0.22 + var(--crystal-charge) * 0.2)),
+        0 0 calc(160px + var(--crystal-charge) * 110px) rgba(199, 210, 254, calc(0.22 + var(--crystal-charge) * 0.18));
+    }
+    .crystal-drifter {
+      position: relative;
+      z-index: 1;
+      width: 100%; height: 100%;
+      animation: orbDrift 16s ease-in-out infinite;
+      will-change: transform;
+    }
     .crystal-scaler {
       width: 100%; height: 100%;
-      transition: transform 0.5s ease, filter 0.5s ease;
-      filter: drop-shadow(0 0 28px rgba(244,114,182,0.5)) drop-shadow(0 0 70px rgba(168,85,247,0.28));
+      transition: transform 0.55s ease;
     }
     .crystal-wrap.hovered .crystal-scaler {
-      transform: scale(1.08);
-      filter: drop-shadow(0 0 55px rgba(244,114,182,0.92)) drop-shadow(0 0 110px rgba(168,85,247,0.6));
+      transform: scale(calc(1.025 + var(--crystal-charge) * 0.055));
     }
     .crystal-floater {
       width: 100%; height: 100%;
-      animation: crystalFloat 7s ease-in-out infinite;
+      overflow: visible;
+      animation: orbFloat 8s ease-in-out infinite;
+      will-change: transform;
     }
-    .crystal-svg {
+    /* Gem sits in open space; soft color lives in .hero-orb__ambient only (no circular clip on the diamond) */
+    .hero-orb {
+      position: relative;
       width: 100%; height: 100%;
-      animation: crystalSpin 22s linear infinite;
+      overflow: visible;
     }
-    .c-face { transition: opacity 0.4s ease, fill 0.4s ease; }
-    .crystal-wrap.hovered .c-face { opacity: 0.72 !important; }
-    @keyframes crystalSpin {
+    .hero-orb__ambient {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 78%; height: 78%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.92;
+    }
+    .hero-orb__gem {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 104%; height: 104%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+    }
+    .hero-orb__ambient .hero-orb__blob {
+      position: absolute;
+      filter: blur(32px);
+      mix-blend-mode: screen;
+      opacity: 0.72;
+      will-change: transform;
+    }
+    .hero-orb__ambient .hero-orb__grain {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      opacity: 0.06;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.55'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-orb__blob--a {
+      width: 88%; height: 88%;
+      left: 6%; top: 6%;
+      border-radius: 50%;
+      background:
+        radial-gradient(ellipse 80% 70% at 32% 26%, rgba(255, 255, 255, 0.75) 0%, transparent 48%),
+        radial-gradient(ellipse 70% 65% at 58% 58%, rgba(196, 181, 253, 0.55) 0%, transparent 52%),
+        radial-gradient(ellipse 55% 50% at 72% 32%, rgba(244, 114, 182, 0.35) 0%, transparent 50%);
+      animation: crystalBlobA 16s ease-in-out infinite;
+    }
+    .hero-orb__blob--b {
+      width: 76%; height: 76%;
+      right: -4%; bottom: 4%;
+      border-radius: 50%;
+      background:
+        radial-gradient(ellipse 65% 60% at 42% 42%, rgba(167, 139, 250, 0.5) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 58% at 70% 66%, rgba(99, 102, 241, 0.42) 0%, transparent 52%);
+      animation: crystalBlobB 19s ease-in-out infinite;
+    }
+    .hero-orb__blob--c {
+      width: 62%; height: 62%;
+      left: 18%; bottom: 8%;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at 50% 48%, rgba(255, 255, 255, 0.35) 0%, rgba(224, 231, 255, 0.32) 45%, rgba(196, 181, 253, 0.2) 70%, transparent 78%);
+      animation: crystalBlobC 13s ease-in-out infinite;
+      mix-blend-mode: plus-lighter;
+      opacity: 0.5;
+      filter: blur(26px);
+    }
+    .hero-orb__ambient .hero-orb__shine {
+      position: absolute;
+      width: 42%; height: 24%;
+      left: 24%; top: 16%;
+      border-radius: 50%;
+      background:
+        radial-gradient(ellipse at 50% 40%, rgba(255, 255, 255, 0.5) 0%, rgba(244, 114, 182, 0.22) 38%, rgba(167, 139, 250, 0.18) 55%, transparent 72%);
+      filter: blur(14px);
+      mix-blend-mode: screen;
+      opacity: 0.5;
+      animation: orbShine 9s ease-in-out infinite;
+    }
+    .crystal-wrap.hovered .hero-orb__ambient .hero-orb__shine {
+      opacity: calc(0.5 + var(--crystal-charge) * 0.18);
+    }
+    .hero-orb__outline {
+      width: 100%; height: 100%;
+      max-width: 340px;
+      max-height: 340px;
+      pointer-events: none;
+      opacity: 1;
+      filter:
+        drop-shadow(0 0 4px rgba(255, 255, 255, 0.65))
+        drop-shadow(0 0 14px rgba(255, 255, 255, 0.35))
+        drop-shadow(0 0 26px rgba(244, 114, 182, 0.48))
+        drop-shadow(0 0 42px rgba(167, 139, 250, 0.38))
+        drop-shadow(0 0 56px rgba(192, 132, 252, 0.22));
+      transform-origin: 50% 50%;
+      animation: gemOutlineSpin 48s linear infinite;
+    }
+    .crystal-wrap.hovered .hero-orb__outline {
+      opacity: 1;
+      filter:
+        drop-shadow(0 0 6px rgba(255, 255, 255, 0.85))
+        drop-shadow(0 0 20px rgba(255, 255, 255, 0.45))
+        drop-shadow(0 0 36px rgba(244, 114, 182, calc(0.55 + var(--crystal-charge) * 0.2)))
+        drop-shadow(0 0 52px rgba(167, 139, 250, calc(0.48 + var(--crystal-charge) * 0.18)))
+        drop-shadow(0 0 72px rgba(244, 114, 182, calc(0.35 + var(--crystal-charge) * 0.15)));
+    }
+    .crystal-wrap.hovered .crystal-drifter,
+    .crystal-wrap.hovered .crystal-floater,
+    .crystal-wrap.hovered .hero-orb__ambient .hero-orb__blob,
+    .crystal-wrap.hovered .hero-orb__ambient .hero-orb__shine,
+    .crystal-wrap.hovered .hero-orb__outline {
+      animation-play-state: paused !important;
+    }
+    @supports not (mix-blend-mode: plus-lighter) {
+      .hero-orb__ambient .hero-orb__blob--c { mix-blend-mode: screen; opacity: 0.42; }
+    }
+    @keyframes orbFloat {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-12px); }
+    }
+    @keyframes orbDrift {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25%      { transform: translate(10px, -10px) rotate(0.8deg); }
+      50%      { transform: translate(-8px, 8px) rotate(-0.6deg); }
+      75%      { transform: translate(12px, 6px) rotate(0.5deg); }
+    }
+    @keyframes crystalBlobA {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50%      { transform: translate(6%, -4%) scale(1.06); }
+    }
+    @keyframes crystalBlobB {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50%      { transform: translate(-7%, 5%) scale(1.08); }
+    }
+    @keyframes crystalBlobC {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50%      { transform: translate(4%, 6%) scale(1.12); }
+    }
+    @keyframes orbShine {
+      0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.34; }
+      50%      { transform: translate(3px, -4px) scale(1.05); opacity: 0.48; }
+    }
+    @keyframes gemOutlineSpin {
       from { transform: rotate(0deg); }
       to   { transform: rotate(360deg); }
-    }
-    @keyframes crystalFloat {
-      0%,100% { transform: translateY(0px); }
-      50%      { transform: translateY(-18px); }
     }
     @media (max-width: 900px) { .crystal-wrap { display: none !important; } }
   </style>
 </head>
 <body>
-<!-- Page entrance fade -->
+  <div class="dream-entrance" id="dream-entrance" aria-hidden="true">
+    <div class="dream-entrance__layer dream-entrance__layer--glow-tr"></div>
+    <div class="dream-entrance__layer dream-entrance__layer--glow-bl"></div>
+    <div class="dream-entrance__layer dream-entrance__layer--shine"></div>
+  </div>
 
-  <!-- Animated canvas background -->
-  <canvas id="bg-canvas"></canvas>
-  <!-- Fixed background base -->
+  <!-- Fixed base first, then canvas on top (same z-index: later sibling paints above) -->
   <div id="bg"></div>
-
-  <!-- Drifting blobs -->
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
+  <canvas id="bg-canvas"></canvas>
 
   <!-- Cursor dot only -->
   <div id="cursor"></div>
@@ -712,60 +921,80 @@
       <a href="#projects" class="btn-primary"><span>View My Work</span></a>
       <a href="https://jpdm07.github.io/portfolio-website/Jane_Chavez_Resume_2026.pdf" class="btn-ghost" target="_blank">Download Résumé</a>
     </div>
-    <!-- Crystal gem SVG - desktop only -->
+    <!-- Hero ambient disk + faceted gem (desktop only) -->
     <div class="crystal-wrap" id="crystal-wrap" aria-hidden="true">
+      <div class="crystal-drifter">
       <div class="crystal-scaler">
       <div class="crystal-floater">
-      <svg class="crystal-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="cg1" cx="38%" cy="32%" r="58%">
-            <stop offset="0%" stop-color="#fce4f0" stop-opacity="0.95"/>
-            <stop offset="35%" stop-color="#f472b6" stop-opacity="0.65"/>
-            <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.3"/>
-          </radialGradient>
-          <radialGradient id="cg2" cx="62%" cy="68%" r="55%">
-            <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.55"/>
-            <stop offset="100%" stop-color="#bfdbfe" stop-opacity="0.1"/>
-          </radialGradient>
-          <radialGradient id="cg3" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22"/>
-            <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-          </radialGradient>
-          <radialGradient id="cg4" cx="35%" cy="30%" r="40%">
-            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.92"/>
-            <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
-        <circle cx="150" cy="150" r="142" fill="none" stroke="#f472b6" stroke-width="0.5" opacity="0.2"/>
-        <polygon points="150,150 60,165 105,240" fill="#a78bfa" opacity="0.35" class="c-face"/>
-        <polygon points="150,150 105,240 150,265" fill="#c4b5fd" opacity="0.3" class="c-face"/>
-        <polygon points="150,150 150,265 195,240" fill="#f472b6" opacity="0.28" class="c-face"/>
-        <polygon points="150,150 195,240 240,165" fill="#a78bfa" opacity="0.32" class="c-face"/>
-        <polygon points="150,150 240,165 240,135" fill="#bfdbfe" opacity="0.3" class="c-face"/>
-        <polygon points="150,150 240,135 195,60" fill="#f472b6" opacity="0.35" class="c-face"/>
-        <polygon points="150,150 195,60 150,35" fill="#fce4f0" opacity="0.4" class="c-face"/>
-        <polygon points="150,150 150,35 105,60" fill="#c4b5fd" opacity="0.38" class="c-face"/>
-        <polygon points="150,150 105,60 60,135" fill="#a78bfa" opacity="0.3" class="c-face"/>
-        <polygon points="150,150 60,135 60,165" fill="#bfdbfe" opacity="0.32" class="c-face"/>
-        <polygon points="60,135 60,165 105,240 150,265 195,240 240,165 240,135 195,60 150,35 105,60"
-          fill="none" stroke="#f472b6" stroke-width="0.6" opacity="0.4"/>
-        <polygon points="60,135 60,165 105,240 150,265 195,240 240,165 240,135 195,60 150,35 105,60"
-          fill="url(#cg1)" opacity="0.7"/>
-        <polygon points="60,135 60,165 105,240 150,265 195,240 240,165 240,135 195,60 150,35 105,60"
-          fill="url(#cg2)" opacity="0.4"/>
-        <polygon points="105,90 150,70 195,90 210,135 195,165 150,180 105,165 90,135"
-          fill="url(#cg3)" stroke="#fce4f0" stroke-width="0.8" opacity="0.6"/>
-        <line x1="150" y1="70" x2="150" y2="265" stroke="#fce4f0" stroke-width="0.4" opacity="0.2"/>
-        <line x1="60" y1="135" x2="240" y2="165" stroke="#f472b6" stroke-width="0.4" opacity="0.18"/>
-        <line x1="60" y1="165" x2="240" y2="135" stroke="#a78bfa" stroke-width="0.4" opacity="0.18"/>
-        <line x1="105" y1="60" x2="195" y2="240" stroke="#bfdbfe" stroke-width="0.4" opacity="0.15"/>
-        <line x1="195" y1="60" x2="105" y2="240" stroke="#f472b6" stroke-width="0.4" opacity="0.15"/>
-        <circle cx="108" cy="95" r="22" fill="url(#cg4)" opacity="0.8"/>
-        <circle cx="112" cy="99" r="7" fill="white" opacity="0.6"/>
-        <circle cx="108" cy="93" r="2.5" fill="white" opacity="0.95"/>
-        <circle cx="205" cy="190" r="5" fill="white" opacity="0.15"/>
-        <circle cx="205" cy="190" r="1.5" fill="white" opacity="0.4"/>
-      </svg>
+        <div class="hero-orb">
+          <div class="hero-orb__ambient" aria-hidden="true">
+            <div class="hero-orb__grain"></div>
+            <div class="hero-orb__blob hero-orb__blob--a"></div>
+            <div class="hero-orb__blob hero-orb__blob--b"></div>
+            <div class="hero-orb__blob hero-orb__blob--c"></div>
+            <div class="hero-orb__shine"></div>
+          </div>
+          <div class="hero-orb__gem">
+          <svg class="hero-orb__outline" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="hoFacetA" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+                <stop offset="32%" stop-color="#fbcfe8" stop-opacity="0.58"/>
+                <stop offset="62%" stop-color="#ddd6fe" stop-opacity="0.44"/>
+                <stop offset="100%" stop-color="#a78bfa" stop-opacity="0.34"/>
+              </linearGradient>
+              <linearGradient id="hoFacetB" x1="100%" y1="5%" x2="0%" y2="95%">
+                <stop offset="0%" stop-color="#fef3c7" stop-opacity="0.58"/>
+                <stop offset="38%" stop-color="#f9a8d4" stop-opacity="0.5"/>
+                <stop offset="100%" stop-color="#818cf8" stop-opacity="0.32"/>
+              </linearGradient>
+              <radialGradient id="hoGlint" cx="32%" cy="26%" r="38%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+                <stop offset="50%" stop-color="#fce7f3" stop-opacity="0.48"/>
+                <stop offset="100%" stop-color="#c084fc" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="hoGlintPink" cx="74%" cy="66%" r="32%">
+                <stop offset="0%" stop-color="#fda4af" stop-opacity="0.72"/>
+                <stop offset="100%" stop-color="#f472b6" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="hoRim" x1="50%" y1="0%" x2="50%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98"/>
+                <stop offset="45%" stop-color="#f9a8d4" stop-opacity="0.78"/>
+                <stop offset="100%" stop-color="#c4b5fd" stop-opacity="0.68"/>
+              </linearGradient>
+            </defs>
+            <g stroke-linejoin="round">
+              <polygon fill="url(#hoFacetA)" points="150,151.5 150,35 195,60"/>
+              <polygon fill="url(#hoFacetB)" points="150,151.5 195,60 240,135"/>
+              <polygon fill="url(#hoFacetA)" points="150,151.5 240,135 240,165"/>
+              <polygon fill="url(#hoFacetB)" points="150,151.5 240,165 195,240"/>
+              <polygon fill="url(#hoFacetA)" points="150,151.5 195,240 150,265"/>
+              <polygon fill="url(#hoFacetB)" points="150,151.5 150,265 105,240"/>
+              <polygon fill="url(#hoFacetA)" points="150,151.5 105,240 60,165"/>
+              <polygon fill="url(#hoFacetB)" points="150,151.5 60,165 60,135"/>
+              <polygon fill="url(#hoFacetA)" points="150,151.5 60,135 105,60"/>
+              <polygon fill="url(#hoFacetB)" points="150,151.5 105,60 150,35"/>
+            </g>
+            <g fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round">
+              <line x1="150" y1="151.5" x2="150" y2="35"/>
+              <line x1="150" y1="151.5" x2="195" y2="60"/>
+              <line x1="150" y1="151.5" x2="240" y2="135"/>
+              <line x1="150" y1="151.5" x2="240" y2="165"/>
+              <line x1="150" y1="151.5" x2="195" y2="240"/>
+              <line x1="150" y1="151.5" x2="150" y2="265"/>
+              <line x1="150" y1="151.5" x2="105" y2="240"/>
+              <line x1="150" y1="151.5" x2="60" y2="165"/>
+              <line x1="150" y1="151.5" x2="60" y2="135"/>
+              <line x1="150" y1="151.5" x2="105" y2="60"/>
+            </g>
+            <polygon fill="none" stroke="url(#hoRim)" stroke-width="1.25" stroke-linejoin="round"
+              points="60,135 60,165 105,240 150,265 195,240 240,165 240,135 195,60 150,35 105,60"/>
+            <ellipse cx="112" cy="92" rx="20" ry="11" fill="url(#hoGlint)" transform="rotate(-28 112 92)" opacity="0.88"/>
+            <ellipse cx="198" cy="188" rx="13" ry="8" fill="url(#hoGlintPink)" transform="rotate(18 198 188)" opacity="0.78"/>
+          </svg>
+          </div>
+        </div>
+      </div>
       </div>
       </div>
     </div>
@@ -1209,100 +1438,166 @@
 
   <!-- Footer -->
   <footer>
-    <p>© 2026 <span>Jane Chavez</span>. Designed & built with intention.</p>
+    <p>© 2026 <span>Jane Chavez</span>. Designed &amp; built with intention.</p>
     <p>Front-End Developer · UI/UX Designer · Houston, TX</p>
   </footer>
 
   <script>
-    // Declare glow canvas first
-    const glowCanvas = document.createElement('canvas');
-    const glowCtx = glowCanvas.getContext('2d');
-
-    function buildGlowCanvas() {
-      const W = glowCanvas.width, H = glowCanvas.height;
-      if (!W || !H) return;
-      glowCtx.clearRect(0, 0, W, H);
-      const vg1 = glowCtx.createRadialGradient(W*.82,H*.06,0,W*.82,H*.06,W*.5);
-      vg1.addColorStop(0,'rgba(244,114,182,0.32)'); vg1.addColorStop(1,'transparent');
-      glowCtx.fillStyle = vg1; glowCtx.fillRect(0,0,W,H);
-      const vg2 = glowCtx.createRadialGradient(W*.08,H*.9,0,W*.08,H*.9,W*.42);
-      vg2.addColorStop(0,'rgba(168,85,247,0.26)'); vg2.addColorStop(1,'transparent');
-      glowCtx.fillStyle = vg2; glowCtx.fillRect(0,0,W,H);
-    }
-
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-
-    function resize() {
-      canvas.width = glowCanvas.width = window.innerWidth;
-      canvas.height = glowCanvas.height = window.innerHeight;
-      buildGlowCanvas();
-    }
-    resize();
-    window.addEventListener('resize', resize);
-
-    // 45 particles
-    const particles = [];
-    for (let i = 0; i < 70; i++) {
-      const hue = Math.random() < .55 ? 330 : Math.random() < .6 ? 270 : 220;
-      particles.push({
-        x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight,
-        r: Math.random()*1.8+.5, vx: (Math.random()-.5)*.18, vy: (Math.random()-.5)*.18,
-        opacity: Math.random()*.6+.35, color: `hsla(${hue},90%,85%,`,
-        pulseOffset: Math.random()*Math.PI*2, pulseSpeed: .006+Math.random()*.01,
-      });
-    }
-
-    const lineData = [
-      {offset:0,    speed:.5,  amp:55, yBase:.12, hue:315, alpha:.07},
-      {offset:1.05, speed:.35, amp:75, yBase:.30, hue:325, alpha:.06},
-      {offset:2.10, speed:.6,  amp:50, yBase:.52, hue:280, alpha:.05},
-      {offset:3.14, speed:.4,  amp:65, yBase:.74, hue:340, alpha:.065},
-      {offset:4.20, speed:.28, amp:45, yBase:.90, hue:310, alpha:.05},
-    ];
-
-    let lastFrame = 0, elapsed = 0;
-    function draw(ts) {
-      requestAnimationFrame(draw);
-      const delta = ts - lastFrame;
-      if (delta < 33) return;
-      lastFrame = ts;
-      elapsed += delta * .001;
-      const W = canvas.width, H = canvas.height;
-      ctx.fillStyle = '#07070f';
-      ctx.fillRect(0,0,W,H);
-      for (const l of lineData) {
-        ctx.beginPath();
-        const yb = H * l.yBase;
-        for (let x = 0; x <= W; x += 6) {
-          const y = yb + Math.sin(x*.006 + elapsed*l.speed + l.offset)*l.amp
-                      + Math.sin(x*.012 + elapsed*l.speed*1.6 + l.offset*.7)*(l.amp*.4);
-          x===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    /* Index background (inlined so it always runs even if bg-simple.js fails to load) */
+    (function () {
+      var canvas = document.getElementById('bg-canvas');
+      if (!canvas || !canvas.getContext) return;
+      var ctx = canvas.getContext('2d');
+      var glowCanvas = document.createElement('canvas');
+      var glowCtx = glowCanvas.getContext('2d');
+      function buildGlow() {
+        var W = glowCanvas.width, H = glowCanvas.height;
+        if (!W || !H) return;
+        glowCtx.clearRect(0, 0, W, H);
+        glowCtx.globalCompositeOperation = 'source-over';
+        var g1 = glowCtx.createRadialGradient(W * 0.82, H * 0.06, 0, W * 0.82, H * 0.06, W * 0.36);
+        g1.addColorStop(0, 'rgba(244,114,182,0.15)');
+        g1.addColorStop(0.45, 'rgba(192,132,252,0.055)');
+        g1.addColorStop(1, 'transparent');
+        glowCtx.fillStyle = g1;
+        glowCtx.fillRect(0, 0, W, H);
+        var g2 = glowCtx.createRadialGradient(W * 0.1, H * 0.9, 0, W * 0.1, H * 0.9, W * 0.34);
+        g2.addColorStop(0, 'rgba(167,139,250,0.13)');
+        g2.addColorStop(0.5, 'rgba(99,102,241,0.042)');
+        g2.addColorStop(1, 'transparent');
+        glowCtx.fillStyle = g2;
+        glowCtx.fillRect(0, 0, W, H);
+      }
+      function drawAnimatedGlow(c, W, H, t) {
+        if (!W || !H) return;
+        c.save();
+        c.globalCompositeOperation = 'screen';
+        var r1 = Math.min(W, H) * 0.38;
+        var r2 = Math.min(W, H) * 0.34;
+        var ax = W * (0.78 + Math.sin(t * 0.12) * 0.06);
+        var ay = H * (0.09 + Math.cos(t * 0.1) * 0.04);
+        var g1 = c.createRadialGradient(ax, ay, 0, ax, ay, r1);
+        g1.addColorStop(0, 'rgba(253,164,203,0.16)');
+        g1.addColorStop(0.4, 'rgba(196,181,253,0.065)');
+        g1.addColorStop(1, 'rgba(0,0,0,0)');
+        c.fillStyle = g1;
+        c.fillRect(0, 0, W, H);
+        var bx = W * (0.14 + Math.cos(t * 0.1) * 0.05);
+        var by = H * (0.88 + Math.sin(t * 0.09) * 0.04);
+        var g2 = c.createRadialGradient(bx, by, 0, bx, by, r2);
+        g2.addColorStop(0, 'rgba(192,132,252,0.15)');
+        g2.addColorStop(0.45, 'rgba(129,140,248,0.055)');
+        g2.addColorStop(1, 'rgba(0,0,0,0)');
+        c.fillStyle = g2;
+        c.fillRect(0, 0, W, H);
+        c.restore();
+      }
+      var lineData = [
+        { offset: 0, speed: 0.5, amp: 58, yBase: 0.12, hue: 320, alpha: 0.078 },
+        { offset: 1.05, speed: 0.35, amp: 72, yBase: 0.3, hue: 328, alpha: 0.072 },
+        { offset: 2.1, speed: 0.58, amp: 48, yBase: 0.52, hue: 285, alpha: 0.064 },
+        { offset: 3.14, speed: 0.4, amp: 62, yBase: 0.74, hue: 312, alpha: 0.076 },
+        { offset: 4.2, speed: 0.28, amp: 44, yBase: 0.9, hue: 302, alpha: 0.068 }
+      ];
+      var particles = [];
+      function seedParticles(W, H) {
+        particles.length = 0;
+        for (var i = 0; i < 48; i++) {
+          var hr = Math.random();
+          var hue = hr < 0.55 ? 330 : hr < 0.72 ? 275 : 220;
+          particles.push({
+            x: Math.random() * W,
+            y: Math.random() * H,
+            r: Math.random() * 1.35 + 0.35,
+            vx: (Math.random() - 0.5) * 0.19,
+            vy: (Math.random() - 0.5) * 0.19,
+            opacity: Math.random() * 0.4 + 0.22,
+            hue: hue,
+            pulseOffset: Math.random() * Math.PI * 2,
+            pulseSpeed: 0.006 + Math.random() * 0.01
+          });
         }
-        ctx.strokeStyle = `hsla(${l.hue},85%,72%,${l.alpha})`;
-        ctx.lineWidth = 1.5; ctx.stroke();
       }
-      for (const p of particles) {
-        p.x += p.vx; p.y += p.vy;
-        if (p.x<-5) p.x=W+5; if (p.x>W+5) p.x=-5;
-        if (p.y<-5) p.y=H+5; if (p.y>H+5) p.y=-5;
-        const pulse = Math.sin(elapsed*p.pulseSpeed*5+p.pulseOffset)*.3+.7;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r*pulse, 0, Math.PI*2);
-        ctx.fillStyle = p.color+(p.opacity*pulse*3.2)+')';
-        ctx.fill();
+      function syncSize() {
+        var r = canvas.getBoundingClientRect();
+        var w = Math.max(1, Math.round(r.width));
+        var h = Math.max(1, Math.round(r.height));
+        if ((w <= 1 && h <= 1) || r.width < 10 || r.height < 10) {
+          w = Math.max(320, window.innerWidth || 800);
+          h = Math.max(240, window.innerHeight || 600);
+        }
+        canvas.width = glowCanvas.width = w;
+        canvas.height = glowCanvas.height = h;
+        buildGlow();
+        seedParticles(w, h);
       }
-      if (glowCanvas.width > 0 && glowCanvas.height > 0) ctx.drawImage(glowCanvas,0,0);
-    }
-    requestAnimationFrame(draw);
-    // Cursor
+      syncSize();
+      window.addEventListener('resize', function () { requestAnimationFrame(syncSize); });
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', function () { requestAnimationFrame(syncSize); });
+        window.visualViewport.addEventListener('scroll', function () { requestAnimationFrame(syncSize); });
+      }
+      var lastF = 0, elapsed = 0;
+      function draw(ts) {
+        requestAnimationFrame(draw);
+        var dt = ts - lastF;
+        if (dt < 32) return;
+        lastF = ts;
+        elapsed += dt * 0.001;
+        var W = canvas.width, H = canvas.height;
+        if (!W || !H) return;
+        ctx.fillStyle = '#07070f';
+        ctx.fillRect(0, 0, W, H);
+        if (glowCanvas.width > 0 && glowCanvas.height > 0) ctx.drawImage(glowCanvas, 0, 0);
+        drawAnimatedGlow(ctx, W, H, elapsed);
+        for (var li = 0; li < lineData.length; li++) {
+          var l = lineData[li];
+          ctx.beginPath();
+          var yb = H * l.yBase;
+          for (var x = 0; x <= W; x += 6) {
+            var y = yb + Math.sin(x * 0.006 + elapsed * l.speed + l.offset) * l.amp
+              + Math.sin(x * 0.012 + elapsed * l.speed * 1.6 + l.offset * 0.7) * (l.amp * 0.4);
+            if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+          ctx.strokeStyle = 'hsla(' + l.hue + ',85%,72%,' + l.alpha + ')';
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        }
+        for (var pi = 0; pi < particles.length; pi++) {
+          var p = particles[pi];
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < -8) p.x = W + 8;
+          if (p.x > W + 8) p.x = -8;
+          if (p.y < -8) p.y = H + 8;
+          if (p.y > H + 8) p.y = -8;
+          var pulse = Math.sin(elapsed * p.pulseSpeed * 5 + p.pulseOffset) * 0.3 + 0.7;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r * pulse, 0, Math.PI * 2);
+          ctx.fillStyle = 'hsla(' + p.hue + ',88%,82%,' + p.opacity * pulse * 3.65 + ')';
+          ctx.fill();
+        }
+      }
+      requestAnimationFrame(draw);
+    })();
+
+    // Cursor (hidden ≤768px via CSS — native pointer restored there)
     const cursor = document.getElementById('cursor');
+    const cursorNarrowMQ = window.matchMedia('(max-width: 768px)');
     let mx=0, my=0, cursorRotate=0;
     function moveCursor(x,y) {
+      if (!cursor || getComputedStyle(cursor).display === 'none') return;
       cursor.style.transform = `translate(${x-cursor.offsetWidth/2}px,${y-cursor.offsetHeight/2}px) rotate(${cursorRotate}deg)`;
+    }
+    function resetCursorDot() {
+      if (!cursor) return;
+      cursor.classList.remove('is-hovering','is-project','is-nav');
+      cursorRotate = 0;
     }
     document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; moveCursor(mx,my); });
     function setCursorState(state) {
+      if (!cursor) return;
+      if (cursorNarrowMQ.matches) { resetCursorDot(); return; }
       cursor.classList.remove('is-hovering','is-project','is-nav');
       if (state==='project') { cursorRotate=45; cursor.classList.add('is-project'); }
       else if (state==='nav') { cursorRotate=0; cursor.classList.add('is-nav'); }
@@ -1310,6 +1605,13 @@
       else cursorRotate=0;
       moveCursor(mx,my);
     }
+    function onCursorViewportChange() {
+      if (!cursor) return;
+      resetCursorDot();
+      if (!cursorNarrowMQ.matches) moveCursor(mx, my);
+    }
+    if (cursorNarrowMQ.addEventListener) cursorNarrowMQ.addEventListener('change', onCursorViewportChange);
+    else if (cursorNarrowMQ.addListener) cursorNarrowMQ.addListener(onCursorViewportChange);
     document.querySelectorAll('nav a').forEach(el => {
       el.addEventListener('mouseenter',()=>setCursorState('nav'));
       el.addEventListener('mouseleave',()=>setCursorState(''));
@@ -1475,24 +1777,62 @@
       if (sb) sb.addEventListener('click', window.sharePortfolio);
     });
 
-        // ── Crystal hover detection (works with pointer-events:none) ──
+    // ── Crystal hover + dwell “charge” (brighter the longer you stay) ──
     (function() {
       var cw = document.getElementById('crystal-wrap');
       if (!cw) return;
+      var charge = 0;
+      var raf = null;
+      var lastTs = 0;
+      var inside = false;
+      var CHARGE_MS = 2600;
+      var DECAY_MS = 320;
+
+      function setCharge(v) {
+        charge = Math.min(0.85, Math.max(0, v));
+        cw.style.setProperty('--crystal-charge', String(charge));
+      }
+
+      function tick(ts) {
+        if (!lastTs) lastTs = ts;
+        var dt = Math.min(48, ts - lastTs);
+        lastTs = ts;
+        if (inside) {
+          setCharge(charge + dt / CHARGE_MS);
+          if (charge < 0.848) raf = requestAnimationFrame(tick);
+          else { raf = null; lastTs = 0; }
+        } else {
+          setCharge(charge - dt / DECAY_MS);
+          if (charge > 0.004) raf = requestAnimationFrame(tick);
+          else {
+            setCharge(0);
+            raf = null;
+            lastTs = 0;
+          }
+        }
+      }
+
       function checkHover(e) {
         var rect = cw.getBoundingClientRect();
         if (!rect.width) return;
-        var cx = rect.left + rect.width  * 0.5;
-        var cy = rect.top  + rect.height * 0.5;
-        var dist = Math.sqrt((e.clientX-cx)*(e.clientX-cx) + (e.clientY-cy)*(e.clientY-cy));
-        var threshold = rect.width * 0.65;
-        if (dist < threshold) {
+        var cx = rect.left + rect.width * 0.5;
+        var cy = rect.top + rect.height * 0.5;
+        var r = Math.min(rect.width, rect.height) * 0.48;
+        var dx = e.clientX - cx, dy = e.clientY - cy;
+        var nowInside = (dx * dx + dy * dy) < r * r;
+        if (nowInside) {
           cw.classList.add('hovered');
+          if (!inside) lastTs = 0;
+          inside = true;
+          if (!raf) raf = requestAnimationFrame(tick);
         } else {
+          inside = false;
           cw.classList.remove('hovered');
+          if (charge > 0 && !raf) raf = requestAnimationFrame(tick);
         }
       }
-      document.addEventListener('mousemove', checkHover);
+
+      document.addEventListener('mousemove', checkHover, { passive: true });
     })();
 
 
