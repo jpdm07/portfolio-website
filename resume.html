@@ -97,6 +97,7 @@
       text-decoration: none; transition: all 0.3s; text-align: center;
     }
     .r-download:hover { background: var(--pink); color: var(--bg); }
+    .page { max-width: 860px; margin: 0 auto; padding: 140px 24px 80px; }
     .resume-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 48px; margin-bottom: 24px; }
     .r-section-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pink); margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
     .r-block { margin-bottom: 28px; }
@@ -142,7 +143,7 @@
       <h1 class="r-name">Jane Chavez</h1>
       <p class="r-tagline">Front-End Developer · UI/UX Designer</p>
       <div class="r-contact-row">
-        <a href="mailto:jpdm015@gmail.com"><span class="__cf_email__" data-cfemail="036973676e33323643646e626a6f2d606c6e">[email&#160;protected]</span></a>
+        <a href="mailto:jpdm015@gmail.com">jpdm015@gmail.com</a>
         <a href="https://www.linkedin.com/in/jane-c-699a9241" target="_blank">LinkedIn</a>
         <a href="https://github.com/jpdm07" target="_blank">GitHub</a>
         <a href="https://jpdm07.github.io/portfolio-website/" target="_blank">Portfolio</a>
@@ -244,23 +245,6 @@
         <p class="r-gpa">GPA 4.00</p>
       </div>
   <div id="cursor"></div>
-  <script>
-
-    // ── Nav toggle ──
-    (function() {
-      var toggle = document.querySelector('.nav-mobile-toggle');
-      var close  = document.querySelector('.nav-close');
-      var nav    = document.querySelector('nav');
-      function openNav()  { nav && nav.classList.add('nav-open'); }
-      function closeNav() { nav && nav.classList.remove('nav-open'); }
-      if (toggle) toggle.addEventListener('click', openNav);
-      if (close)  close.addEventListener('click',  closeNav);
-      document.querySelectorAll('.nav-links a').forEach(function(a) {
-        a.addEventListener('click', closeNav);
-      });
-    })();
-
-  </script>
   <script src="resume-fx.js"></script>
 </body>
 </html>

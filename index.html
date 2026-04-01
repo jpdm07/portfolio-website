@@ -608,15 +608,14 @@
     }
     .crystal-wrap.hovered .crystal-floater {
       filter: drop-shadow(0 0 55px rgba(244,114,182,0.92)) drop-shadow(0 0 110px rgba(168,85,247,0.6));
+      transform: scale(1.06);
     }
     .crystal-svg {
       width: 100%; height: 100%;
       animation: crystalSpin 22s linear infinite;
-      transition: animation-duration 0.8s ease;
     }
-    .crystal-wrap.hovered .crystal-svg { animation-duration: 6s; }
-    .c-face { transition: opacity 0.4s ease; }
-    .crystal-wrap.hovered .c-face { opacity: 0.65 !important; }
+    .c-face { transition: opacity 0.4s ease, fill 0.4s ease; }
+    .crystal-wrap.hovered .c-face { opacity: 0.72 !important; }
     @keyframes crystalSpin {
       from { transform: rotate(0deg); }
       to   { transform: rotate(360deg); }
@@ -1587,41 +1586,42 @@
     // ── Share portfolio ──
     function sharePortfolio() {
       var url = 'https://jpdm07.github.io/portfolio-website/';
-      var msg = "Check out Jane Chavez's portfolio! " + url;
       var btn = document.getElementById('share-btn');
-      function flashBtn(txt) {
-        if (!btn) return;
-        var orig = btn.textContent;
-        btn.textContent = txt;
-        setTimeout(function(){ btn.textContent = orig; }, 2500);
+
+      // Show toast notification
+      var toast = document.getElementById('share-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'share-toast';
+        toast.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:rgba(244,114,182,0.15);border:1px solid #f472b6;color:#f472b6;font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;padding:12px 28px;z-index:99999;opacity:0;transition:opacity 0.3s ease;pointer-events:none;backdrop-filter:blur(10px);';
+        document.body.appendChild(toast);
       }
-      // Mobile — native share sheet (includes SMS, WhatsApp, etc.)
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.style.opacity = '1';
+        setTimeout(function(){ toast.style.opacity = '0'; }, 2500);
+      }
+
+      // Mobile native share
       if (navigator.share) {
-        navigator.share({ title: "Jane Chavez | Portfolio", text: msg, url: url })
-          .catch(function(){});
+        navigator.share({ title: "Jane Chavez | Portfolio", url: url }).catch(function(){});
         return;
       }
-      // Any device — try opening SMS directly
-      var smsLink = document.createElement('a');
-      smsLink.href = 'sms:?&body=' + encodeURIComponent(msg);
-      smsLink.style.display = 'none';
-      document.body.appendChild(smsLink);
-      smsLink.click();
-      document.body.removeChild(smsLink);
-      // Also copy to clipboard as backup
+      // Desktop - copy to clipboard
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(url).then(function() {
-          flashBtn('Copied + SMS!');
-        }).catch(function() { flashBtn('Opening SMS...'); });
+        navigator.clipboard.writeText(url).then(function(){
+          showToast('Link copied to clipboard!');
+        }).catch(function(){ fallbackCopy(); });
       } else {
-        try {
-          var ta = document.createElement('textarea');
-          ta.value = url; ta.style.cssText = 'position:fixed;opacity:0';
-          document.body.appendChild(ta); ta.focus(); ta.select();
-          document.execCommand('copy');
-          document.body.removeChild(ta);
-          flashBtn('Copied + SMS!');
-        } catch(e) { flashBtn('Opening SMS...'); }
+        fallbackCopy();
+      }
+      function fallbackCopy() {
+        var ta = document.createElement('textarea');
+        ta.value = url; ta.style.cssText = 'position:fixed;opacity:0';
+        document.body.appendChild(ta); ta.focus(); ta.select();
+        try { document.execCommand('copy'); showToast('Link copied to clipboard!'); }
+        catch(e) { showToast('Copy: ' + url); }
+        document.body.removeChild(ta);
       }
     });
       } else if (navigator.clipboard) {
