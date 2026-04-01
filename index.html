@@ -594,9 +594,28 @@
       width: 100%; height: 100%; display: block;
     }
     @media (max-width: 900px) { .crystal-wrap { display: none !important; } }
+
+    /* ── Smoky entrance overlay ── */
+    #smoke-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none;
+      background: #07070f;
+      opacity: 1;
+      transition: opacity 1.8s cubic-bezier(0.4,0,0.2,1);
+    }
+    #smoke-overlay canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+    }
+    #smoke-overlay.done { opacity: 0; }
   </style>
 </head>
 <body>
+
+  <!-- Smoky entrance -->
+  <div id="smoke-overlay">
+    <canvas id="smoke-canvas"></canvas>
+  </div>
 
   <!-- Animated canvas background -->
   <canvas id="bg-canvas"></canvas>
@@ -1508,6 +1527,65 @@
       if (emailBtn) emailBtn.href = 'mailto:' + 'jpdm015' + '@' + 'gmail.com';
     });
 
+
+    // ── Smoky entrance effect ──
+    (function() {
+      var overlay = document.getElementById('smoke-overlay');
+      var sc = document.getElementById('smoke-canvas');
+      if (!overlay || !sc) return;
+      var sctx = sc.getContext('2d');
+      sc.width  = window.innerWidth;
+      sc.height = window.innerHeight;
+
+      // Smoke particles
+      var smokes = [];
+      for (var i = 0; i < 18; i++) {
+        smokes.push({
+          x: Math.random() * sc.width,
+          y: sc.height * 0.3 + Math.random() * sc.height * 0.5,
+          r: 80 + Math.random() * 180,
+          vx: (Math.random() - 0.5) * 0.6,
+          vy: -(0.3 + Math.random() * 0.5),
+          alpha: 0.06 + Math.random() * 0.09,
+          hue: Math.random() < 0.5 ? 300 : 260,
+        });
+      }
+
+      var startTime = performance.now();
+      var duration = 2200; // ms before fade begins
+
+      function drawSmoke(ts) {
+        var elapsed = ts - startTime;
+        sctx.clearRect(0, 0, sc.width, sc.height);
+
+        for (var i = 0; i < smokes.length; i++) {
+          var s = smokes[i];
+          s.x += s.vx; s.y += s.vy;
+          s.r += 0.4;
+          s.alpha *= 0.995;
+          if (s.y < -s.r) { s.y = sc.height + s.r; s.alpha = 0.07 + Math.random()*0.08; }
+
+          var g = sctx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.r);
+          g.addColorStop(0, 'hsla('+s.hue+',40%,55%,'+s.alpha+')');
+          g.addColorStop(0.5,'hsla('+s.hue+',30%,20%,'+(s.alpha*0.5)+')');
+          g.addColorStop(1, 'rgba(7,7,15,0)');
+          sctx.beginPath();
+          sctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+          sctx.fillStyle = g;
+          sctx.fill();
+        }
+
+        if (elapsed < duration) {
+          requestAnimationFrame(drawSmoke);
+        } else {
+          // Fade out the whole overlay
+          overlay.classList.add('done');
+          setTimeout(function(){ overlay.style.display='none'; }, 2000);
+        }
+      }
+      requestAnimationFrame(drawSmoke);
+    })();
+
     // ── Share portfolio button ──
     function sharePortfolio() {
       const url = 'https://jpdm07.github.io/portfolio-website/';
@@ -1524,224 +1602,246 @@
     }
 
 
+
+    // ── Smoky entrance effect ──
+    (function() {
+      var overlay = document.getElementById('smoke-overlay');
+      var sc = document.getElementById('smoke-canvas');
+      if (!overlay || !sc) return;
+      var sctx = sc.getContext('2d');
+      sc.width  = window.innerWidth;
+      sc.height = window.innerHeight;
+
+      // Smoke particles
+      var smokes = [];
+      for (var i = 0; i < 18; i++) {
+        smokes.push({
+          x: Math.random() * sc.width,
+          y: sc.height * 0.3 + Math.random() * sc.height * 0.5,
+          r: 80 + Math.random() * 180,
+          vx: (Math.random() - 0.5) * 0.6,
+          vy: -(0.3 + Math.random() * 0.5),
+          alpha: 0.06 + Math.random() * 0.09,
+          hue: Math.random() < 0.5 ? 300 : 260,
+        });
+      }
+
+      var startTime = performance.now();
+      var duration = 2200; // ms before fade begins
+
+      function drawSmoke(ts) {
+        var elapsed = ts - startTime;
+        sctx.clearRect(0, 0, sc.width, sc.height);
+
+        for (var i = 0; i < smokes.length; i++) {
+          var s = smokes[i];
+          s.x += s.vx; s.y += s.vy;
+          s.r += 0.4;
+          s.alpha *= 0.995;
+          if (s.y < -s.r) { s.y = sc.height + s.r; s.alpha = 0.07 + Math.random()*0.08; }
+
+          var g = sctx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.r);
+          g.addColorStop(0, 'hsla('+s.hue+',40%,55%,'+s.alpha+')');
+          g.addColorStop(0.5,'hsla('+s.hue+',30%,20%,'+(s.alpha*0.5)+')');
+          g.addColorStop(1, 'rgba(7,7,15,0)');
+          sctx.beginPath();
+          sctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+          sctx.fillStyle = g;
+          sctx.fill();
+        }
+
+        if (elapsed < duration) {
+          requestAnimationFrame(drawSmoke);
+        } else {
+          // Fade out the whole overlay
+          overlay.classList.add('done');
+          setTimeout(function(){ overlay.style.display='none'; }, 2000);
+        }
+      }
+      requestAnimationFrame(drawSmoke);
+    })();
+
+    // ── Share portfolio ──
+    function sharePortfolio() {
+      var url = 'https://jpdm07.github.io/portfolio-website/';
+      var text = 'Check out Jane Chavez\'s portfolio! ' + url;
+      // Try native share (mobile)
+      if (navigator.share) {
+        navigator.share({ title: 'Jane Chavez Portfolio', text: text, url: url });
+      } else {
+        // Open SMS with pre-filled text
+        window.open('sms:?body=' + encodeURIComponent(text));
+      }
+    }
+
     // ── Crystal Gem Orb ──
     (function() {
       var wrap = document.getElementById('crystal-wrap');
       var cv   = document.getElementById('crystal-canvas');
       if (!wrap || !cv) return;
-      var cx = cv.getContext('2d');
-      var W, H, cx2, cy2;
-      var mouseX = 0.5, mouseY = 0.5; // normalized
-      var hoverScale = 1;
+      var ctx2d = cv.getContext('2d');
+      var W = 0, H = 0, CX = 0, CY = 0;
+
+      var rawMX = window.innerWidth * 0.75;
+      var rawMY = window.innerHeight * 0.5;
+      var smMX = rawMX, smMY = rawMY;
+
+      document.addEventListener('mousemove', function(e) {
+        rawMX = e.clientX; rawMY = e.clientY;
+      });
 
       function resizeCrystal() {
         var rect = wrap.getBoundingClientRect();
-        W = cv.width  = rect.width  * (window.devicePixelRatio||1);
-        H = cv.height = rect.height * (window.devicePixelRatio||1);
-        cx2 = W/2; cy2 = H/2;
+        if (!rect.width || !rect.height) return;
+        W  = cv.width  = rect.width  * (window.devicePixelRatio || 1);
+        H  = cv.height = rect.height * (window.devicePixelRatio || 1);
+        CX = W/2; CY = H/2;
       }
 
-      document.addEventListener('mousemove', function(e) {
-        mouseX = e.clientX / window.innerWidth;
-        mouseY = e.clientY / window.innerHeight;
-        // Speed up on hover over hero area
-        var heroEl = document.getElementById('hero');
-        if (heroEl) {
-          var r = heroEl.getBoundingClientRect();
-          var inside = e.clientX > r.width * 0.5 && e.clientY > r.top && e.clientY < r.bottom;
-          hoverScale = inside ? 2.8 : 1;
-        }
-      });
+      var PAL = [
+        {h:320,s:60,l:83}, {h:280,s:52,l:80},
+        {h:210,s:58,l:80}, {h:300,s:48,l:86}, {h:240,s:55,l:82}
+      ];
 
-      // Crystal geometry - diamond/gem shape points
-      function getGemPoints(cx, cy, r, tilt) {
-        // Top crown facets
-        var crown = [];
-        var girdle = [];
-        var pavilion = [];
-        var n = 8; // 8-sided gem
-        for (var i=0; i<n; i++) {
-          var a = (i/n)*Math.PI*2 - Math.PI/2 + tilt;
-          // Girdle (widest ring)
-          girdle.push({
-            x: cx + Math.cos(a) * r,
-            y: cy + Math.sin(a) * r * 0.38
-          });
-          // Crown points (upper half)
-          var ac = ((i+0.5)/n)*Math.PI*2 - Math.PI/2 + tilt;
-          crown.push({
-            x: cx + Math.cos(ac) * r * 0.65,
-            y: cy + Math.sin(ac) * r * 0.22 - r*0.28
-          });
-          // Pavilion points (lower half)
-          pavilion.push({
-            x: cx + Math.cos(ac) * r * 0.5,
-            y: cy + Math.sin(ac) * r * 0.2 + r*0.22
-          });
-        }
-        return { crown, girdle, pavilion, n };
-      }
-
-      function lerpColor(a, b, t) {
-        return {
-          h: a.h + (b.h - a.h)*t,
-          s: a.s + (b.s - a.s)*t,
-          l: a.l + (b.l - a.l)*t
-        };
-      }
-
-      function hsl(col, alpha) {
-        return 'hsla('+Math.round(col.h)+','+Math.round(col.s)+'%,'+Math.round(col.l)+'%,'+(alpha||1)+')';
-      }
+      function lerp(a,b,t){ return a+(b-a)*t; }
+      function lerpCol(a,b,t){ return {h:lerp(a.h,b.h,t),s:lerp(a.s,b.s,t),l:lerp(a.l,b.l,t)}; }
+      function hsla(col,a){ return 'hsla('+Math.round(col.h)+','+Math.round(col.s)+'%,'+Math.round(col.l)+'%,'+(a||1)+')'; }
 
       var t = 0;
-      var spinSpeed = 0.003;
+      var curSpeed = 0.004;
+      var targetSpeed = 0.004;
 
       function drawCrystal(ts) {
         requestAnimationFrame(drawCrystal);
-        // Smoothly approach target speed
-        spinSpeed += (((hoverScale * 0.003) - spinSpeed)) * 0.04;
-        t += spinSpeed;
+        if (!W || !H) { resizeCrystal(); return; }
 
-        cx.clearRect(0,0,W,H);
+        t += curSpeed;
+        smMX = lerp(smMX, rawMX, 0.06);
+        smMY = lerp(smMY, rawMY, 0.06);
+        curSpeed = lerp(curSpeed, targetSpeed, 0.05);
 
-        var r = Math.min(W,H) * 0.42;
-        // Tilt gem slightly based on mouse
-        var tiltY = (mouseX - 0.5) * 0.5;
-        var tiltX = (mouseY - 0.5) * 0.3;
+        var rect = wrap.getBoundingClientRect();
+        var localMX = (smMX - rect.left) / rect.width;
+        var localMY = (smMY - rect.top)  / rect.height;
+        var near = localMX > -0.5 && localMX < 1.5 && localMY > -0.5 && localMY < 1.5;
+        targetSpeed = near ? 0.013 : 0.004;
 
-        var gem = getGemPoints(cx2, cy2, r, t + tiltY);
-        var n = gem.n;
+        var lightX = CX + (localMX - 0.5) * W * 1.1;
+        var lightY = CY + (localMY - 0.5) * H * 0.8 - H * 0.15;
 
-        // Pastel palette - pink/purple/blue
-        var palettes = [
-          {h:320, s:65, l:82}, // pastel pink
-          {h:280, s:55, l:80}, // pastel purple
-          {h:210, s:60, l:80}, // pastel blue
-          {h:300, s:50, l:85}, // light lavender
-        ];
+        ctx2d.clearRect(0, 0, W, H);
+        var r = Math.min(W, H) * 0.42;
+        var tiltA = (localMX - 0.5) * 0.7;
+        var tiltD = (localMY - 0.5) * 0.3;
 
-        // Light source moves with mouse
-        var lightX = cx2 + (mouseX - 0.5) * r * 0.8;
-        var lightY = cy2 + (mouseY - 0.5) * r * 0.5 - r*0.3;
+        var N = 8;
+        var girdle = [], crown = [];
+        for (var i = 0; i < N; i++) {
+          var a = (i/N)*Math.PI*2 - Math.PI/2 + t + tiltA;
+          girdle.push({x: CX+Math.cos(a)*r, y: CY+Math.sin(a)*r*(0.38+tiltD*0.1)});
+          var ac = ((i+0.5)/N)*Math.PI*2 - Math.PI/2 + t + tiltA;
+          crown.push({x: CX+Math.cos(ac)*r*0.55, y: CY+Math.sin(ac)*r*0.18 - r*0.38});
+        }
+        var culetY = CY + r*0.78 + tiltD*r*0.3;
 
-        // Draw crown facets (top)
-        for (var i=0; i<n; i++) {
-          var ni = (i+1)%n;
-          var g0 = gem.girdle[i];
-          var g1 = gem.girdle[ni];
-          var cr = gem.crown[i];
-
-          // Calculate how much this face points toward light
-          var faceMidX = (g0.x+g1.x+cr.x)/3;
-          var faceMidY = (g0.y+g1.y+cr.y)/3;
-          var dx = lightX - faceMidX;
-          var dy = lightY - faceMidY;
-          var dist = Math.sqrt(dx*dx+dy*dy);
-          var lit = Math.max(0, Math.min(1, 1 - dist/(r*2)));
-
-          // Pick color from palette based on face index + time
-          var palIdx = (i + Math.floor(t*0.8)) % palettes.length;
-          var palNext = (palIdx+1) % palettes.length;
-          var palT = (Math.sin(t*0.7 + i*0.8)+1)/2;
-          var col = lerpColor(palettes[palIdx], palettes[palNext], palT);
-
-          // Brighten lit faces
-          var litCol = {h: col.h, s: col.s - lit*10, l: Math.min(95, col.l + lit*18)};
-          var alpha = 0.55 + lit * 0.35;
-
-          cx.beginPath();
-          cx.moveTo(g0.x, g0.y);
-          cx.lineTo(cr.x, cr.y);
-          cx.lineTo(g1.x, g1.y);
-          cx.closePath();
-          cx.fillStyle = hsl(litCol, alpha);
-          cx.fill();
-          cx.strokeStyle = hsl({h:col.h, s:col.s, l:col.l+15}, 0.5);
-          cx.lineWidth = 0.8;
-          cx.stroke();
+        // Pavilion
+        for (var i = 0; i < N; i++) {
+          var ni=(i+1)%N;
+          var g0=girdle[i], g1=girdle[ni];
+          var mx2=(g0.x+g1.x)/2;
+          var dx=lightX-mx2, dy=lightY-culetY;
+          var lit=Math.max(0,Math.min(1,1-Math.sqrt(dx*dx+dy*dy)/(r*2.2)));
+          var col=PAL[(i+2)%PAL.length];
+          var fc={h:col.h,s:col.s,l:Math.min(93,col.l+lit*18)};
+          ctx2d.beginPath();
+          ctx2d.moveTo(g0.x,g0.y); ctx2d.lineTo(CX,culetY); ctx2d.lineTo(g1.x,g1.y);
+          ctx2d.closePath();
+          ctx2d.fillStyle=hsla(fc,0.42+lit*0.3);
+          ctx2d.fill();
+          ctx2d.strokeStyle=hsla({h:col.h,s:35,l:92},0.25);
+          ctx2d.lineWidth=0.6; ctx2d.stroke();
         }
 
-        // Draw pavilion facets (bottom)
-        // Bottom culet point
-        var culetY = cy2 + r * 0.72 + tiltX * r * 0.2;
-        for (var i=0; i<n; i++) {
-          var ni = (i+1)%n;
-          var g0 = gem.girdle[i];
-          var g1 = gem.girdle[ni];
-
-          var dx = lightX - (g0.x+g1.x)/2;
-          var dy = lightY - culetY;
-          var dist = Math.sqrt(dx*dx+dy*dy);
-          var lit = Math.max(0, Math.min(1, 1 - dist/(r*2.5)));
-
-          var palIdx = (i+2+Math.floor(t*0.5))%palettes.length;
-          var col = palettes[palIdx];
-          var litCol = {h:col.h, s:col.s-5, l:Math.min(92, col.l+lit*12)};
-
-          cx.beginPath();
-          cx.moveTo(g0.x, g0.y);
-          cx.lineTo(cx2, culetY);
-          cx.lineTo(g1.x, g1.y);
-          cx.closePath();
-          cx.fillStyle = hsl(litCol, 0.45 + lit*0.25);
-          cx.fill();
-          cx.strokeStyle = hsl({h:col.h, s:40, l:90}, 0.3);
-          cx.lineWidth = 0.6;
-          cx.stroke();
+        // Crown
+        for (var i = 0; i < N; i++) {
+          var ni=(i+1)%N;
+          var g0=girdle[i],g1=girdle[ni],cr=crown[i];
+          var mx2=(g0.x+g1.x+cr.x)/3, my2=(g0.y+g1.y+cr.y)/3;
+          var dx=lightX-mx2, dy=lightY-my2;
+          var lit=Math.max(0,Math.min(1,1-Math.sqrt(dx*dx+dy*dy)/(r*1.8)));
+          var palT=(Math.sin(t*0.8+i*0.9)+1)/2;
+          var col=lerpCol(PAL[i%PAL.length],PAL[(i+1)%PAL.length],palT);
+          col.l=Math.min(94,col.l+lit*22);
+          col.s=Math.max(28,col.s-lit*8);
+          ctx2d.beginPath();
+          ctx2d.moveTo(g0.x,g0.y); ctx2d.lineTo(cr.x,cr.y); ctx2d.lineTo(g1.x,g1.y);
+          ctx2d.closePath();
+          ctx2d.fillStyle=hsla(col,0.55+lit*0.35);
+          ctx2d.fill();
+          ctx2d.strokeStyle=hsla({h:col.h,s:col.s,l:col.l+10},0.45+lit*0.2);
+          ctx2d.lineWidth=0.8; ctx2d.stroke();
         }
 
-        // Table facet (flat top of gem)
-        cx.beginPath();
-        var tableR = r * 0.38;
-        for (var i=0; i<n; i++) {
-          var a = (i/n)*Math.PI*2 - Math.PI/2 + t + tiltY;
-          var px = cx2 + Math.cos(a)*tableR;
-          var py = cy2 + Math.sin(a)*tableR*0.35 - r*0.45;
-          if(i===0) cx.moveTo(px,py); else cx.lineTo(px,py);
+        // Table facet
+        ctx2d.beginPath();
+        var tR=r*0.35;
+        for (var i=0;i<N;i++){
+          var a=(i/N)*Math.PI*2-Math.PI/2+t+tiltA;
+          var px=CX+Math.cos(a)*tR, py=CY+Math.sin(a)*tR*0.32-r*0.5;
+          i===0?ctx2d.moveTo(px,py):ctx2d.lineTo(px,py);
         }
-        cx.closePath();
-        var tableGrad = cx.createRadialGradient(lightX, lightY-r*0.3, 0, cx2, cy2-r*0.4, tableR*1.5);
-        tableGrad.addColorStop(0, 'rgba(255,245,255,0.75)');
-        tableGrad.addColorStop(0.5, 'rgba(220,190,255,0.35)');
-        tableGrad.addColorStop(1, 'rgba(180,160,255,0.15)');
-        cx.fillStyle = tableGrad;
-        cx.fill();
-        cx.strokeStyle = 'rgba(255,240,255,0.6)';
-        cx.lineWidth = 1;
-        cx.stroke();
+        ctx2d.closePath();
+        var tg=ctx2d.createRadialGradient(lightX,lightY-r*0.1,0,CX,CY-r*0.45,tR*2);
+        tg.addColorStop(0,'rgba(255,248,255,0.88)');
+        tg.addColorStop(0.5,'rgba(220,195,255,0.4)');
+        tg.addColorStop(1,'rgba(190,170,255,0.12)');
+        ctx2d.fillStyle=tg; ctx2d.fill();
+        ctx2d.strokeStyle='rgba(255,245,255,0.7)'; ctx2d.lineWidth=1; ctx2d.stroke();
 
-        // Specular highlight - moves with mouse
-        var spx = cx2 + (mouseX-0.5)*r*0.5 - r*0.15;
-        var spy = cy2 + (mouseY-0.5)*r*0.3 - r*0.38;
-        var spGrad = cx.createRadialGradient(spx,spy,0,spx,spy,r*0.18);
-        spGrad.addColorStop(0, 'rgba(255,255,255,0.9)');
-        spGrad.addColorStop(0.4, 'rgba(255,240,255,0.3)');
-        spGrad.addColorStop(1, 'rgba(255,255,255,0)');
-        cx.beginPath();
-        cx.arc(spx, spy, r*0.18, 0, Math.PI*2);
-        cx.fillStyle = spGrad;
-        cx.fill();
+        // Specular — follows mouse
+        var spx=CX+(localMX-0.5)*r*0.8-r*0.08;
+        var spy=CY+(localMY-0.5)*r*0.55-r*0.44;
+        var spR=near?r*0.24:r*0.14;
+        var sg=ctx2d.createRadialGradient(spx,spy,0,spx,spy,spR);
+        sg.addColorStop(0,'rgba(255,255,255,0.95)');
+        sg.addColorStop(0.35,'rgba(255,245,255,0.45)');
+        sg.addColorStop(1,'rgba(255,255,255,0)');
+        ctx2d.beginPath(); ctx2d.arc(spx,spy,spR,0,Math.PI*2);
+        ctx2d.fillStyle=sg; ctx2d.fill();
+
+        // Rainbow dispersion streaks on hover
+        if (near) {
+          var streaks=[{h:0,a:0.12},{h:30,a:0.1},{h:200,a:0.1},{h:270,a:0.12}];
+          for (var si=0;si<streaks.length;si++) {
+            var sk=streaks[si];
+            var sx=spx+(Math.cos(t*2+si*1.57)*r*0.3);
+            var sy=spy+(Math.sin(t*2+si*1.57)*r*0.2);
+            var stg=ctx2d.createRadialGradient(sx,sy,0,sx,sy,r*0.1);
+            stg.addColorStop(0,'hsla('+sk.h+',100%,85%,'+sk.a+')');
+            stg.addColorStop(1,'hsla('+sk.h+',100%,85%,0)');
+            ctx2d.beginPath(); ctx2d.arc(sx,sy,r*0.1,0,Math.PI*2);
+            ctx2d.fillStyle=stg; ctx2d.fill();
+          }
+        }
 
         // Outer glow
-        var glow = cx.createRadialGradient(cx2,cy2,r*0.5,cx2,cy2,r*1.1);
+        var glow=ctx2d.createRadialGradient(CX,CY,r*0.5,CX,CY,r*1.1);
         glow.addColorStop(0,'rgba(244,114,182,0)');
-        glow.addColorStop(0.8,'rgba(168,85,247,0.06)');
+        glow.addColorStop(0.8,'rgba(168,85,247,0.07)');
         glow.addColorStop(1,'rgba(244,114,182,0)');
-        cx.beginPath(); cx.arc(cx2,cy2,r*1.1,0,Math.PI*2);
-        cx.fillStyle=glow; cx.fill();
+        ctx2d.beginPath(); ctx2d.arc(CX,CY,r*1.1,0,Math.PI*2);
+        ctx2d.fillStyle=glow; ctx2d.fill();
       }
 
       window.addEventListener('resize', resizeCrystal);
-      if (document.readyState==='complete') { resizeCrystal(); requestAnimationFrame(drawCrystal); }
-      else window.addEventListener('load', function(){ resizeCrystal(); requestAnimationFrame(drawCrystal); });
-
-      // Hide when scrolled past hero
       window.addEventListener('scroll', function(){
-        if (!wrap) return;
-        var hero = document.getElementById('hero');
-        if (hero) wrap.style.opacity = hero.getBoundingClientRect().bottom > 50 ? '1' : '0';
-      }, {passive:true});
+        var hero=document.getElementById('hero');
+        if(hero && wrap) wrap.style.opacity=hero.getBoundingClientRect().bottom>50?'1':'0';
+      },{passive:true});
+
+      function init() { resizeCrystal(); requestAnimationFrame(drawCrystal); }
+      if (document.readyState==='complete') init();
+      else window.addEventListener('load', init);
     })();
 
   </script>
