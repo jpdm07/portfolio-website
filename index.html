@@ -599,6 +599,11 @@
       width: min(300px, 32vw); height: min(300px, 32vw);
       pointer-events: none; z-index: 2;
     }
+    .crystal-wrap.hovered .crystal-svg {
+      animation-duration: 7s, 3s;
+      filter: drop-shadow(0 0 50px rgba(244,114,182,0.85)) drop-shadow(0 0 100px rgba(168,85,247,0.55));
+    }
+    .crystal-wrap.hovered .c-face { opacity: 0.62 !important; }
     .crystal-svg {
       width: 100%; height: 100%;
       animation: crystalSpin 24s linear infinite, crystalFloat 7s ease-in-out infinite;
@@ -812,7 +817,7 @@
                 <li>Custom HTR logo and brand identity in warm orange and teal.</li>
               </ul>
               <h4>Outcome</h4>
-              <p>Built a working prototype of a nonprofit animal rescue website on a custom domain. Demonstrates hands-on WordPress and Elementor skills including layout design, branding, and form integration.</p>
+              <p>Built a working prototype nonprofit rescue site on a custom domain, informed by real UX observations from volunteering with Sierra Overlook Animal Rescue. Demonstrates hands-on WordPress and Elementor skills including layout design, branding, and form integration.</p>
               <div class="project-links">
                 <a href="https://janechavez.org" target="_blank" class="project-link">View Live Site ↗</a>
               </div>
@@ -1594,8 +1599,32 @@
       var url = 'https://jpdm07.github.io/portfolio-website/';
       var msg = "Check out Jane Chavez's portfolio! " + url;
       var btn = document.querySelector('[onclick="sharePortfolio()"]');
+      function flashBtn(txt) {
+        if (!btn) return;
+        var orig = btn.textContent;
+        btn.textContent = txt;
+        setTimeout(function(){ btn.textContent = orig; }, 2200);
+      }
       if (navigator.share) {
-        navigator.share({ title: 'Jane Chavez Portfolio', text: msg, url: url });
+        navigator.share({ title: "Jane Chavez | Portfolio", text: msg, url: url })
+          .catch(function(){});
+      } else if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function(){ flashBtn('Link Copied!'); }).catch(function(){
+          window.open('sms:?body=' + encodeURIComponent(msg));
+        });
+      } else {
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.focus(); ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          flashBtn('Link Copied!');
+        } catch(e) {
+          window.open('sms:?body=' + encodeURIComponent(msg));
+        }
+      }
+    });
       } else if (navigator.clipboard) {
         navigator.clipboard.writeText(url).then(function() {
           if (btn) { var o=btn.textContent; btn.textContent='Link Copied!'; setTimeout(function(){btn.textContent=o;},2000); }
@@ -1608,6 +1637,24 @@
       }
     }
 
-      </script>
+    
+    // ── Crystal hover detection ──
+    (function() {
+      var cw = document.getElementById('crystal-wrap');
+      if (!cw) return;
+      document.addEventListener('mousemove', function(e) {
+        var rect = cw.getBoundingClientRect();
+        var cx = rect.left + rect.width/2;
+        var cy = rect.top  + rect.height/2;
+        var dist = Math.sqrt(Math.pow(e.clientX-cx,2)+Math.pow(e.clientY-cy,2));
+        if (dist < rect.width * 0.7) {
+          cw.classList.add('hovered');
+        } else {
+          cw.classList.remove('hovered');
+        }
+      });
+    })();
+
+  </script>
 </body>
 </html>
