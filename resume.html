@@ -676,26 +676,27 @@
 
   <div id="cursor"></div>
 
+  <div id="cursor"></div>
+
   <script>
-    // ── Glow canvas declared first ──
+    // GLOW CANVAS - declared before everything
     const glowCanvas = document.createElement('canvas');
     const glowCtx = glowCanvas.getContext('2d');
-
     function buildGlowCanvas() {
       const W = glowCanvas.width, H = glowCanvas.height;
       if (!W || !H) return;
       glowCtx.clearRect(0,0,W,H);
-      const vg1 = glowCtx.createRadialGradient(W*.82,H*.06,0,W*.82,H*.06,W*.5);
-      vg1.addColorStop(0,'rgba(244,114,182,0.18)'); vg1.addColorStop(1,'transparent');
-      glowCtx.fillStyle=vg1; glowCtx.fillRect(0,0,W,H);
-      const vg2 = glowCtx.createRadialGradient(W*.08,H*.9,0,W*.08,H*.9,W*.42);
-      vg2.addColorStop(0,'rgba(168,85,247,0.14)'); vg2.addColorStop(1,'transparent');
-      glowCtx.fillStyle=vg2; glowCtx.fillRect(0,0,W,H);
+      const g1 = glowCtx.createRadialGradient(W*.82,H*.06,0,W*.82,H*.06,W*.5);
+      g1.addColorStop(0,'rgba(244,114,182,0.18)'); g1.addColorStop(1,'transparent');
+      glowCtx.fillStyle=g1; glowCtx.fillRect(0,0,W,H);
+      const g2 = glowCtx.createRadialGradient(W*.08,H*.9,0,W*.08,H*.9,W*.42);
+      g2.addColorStop(0,'rgba(168,85,247,0.14)'); g2.addColorStop(1,'transparent');
+      glowCtx.fillStyle=g2; glowCtx.fillRect(0,0,W,H);
     }
 
+    // MAIN CANVAS
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
-
     function resize() {
       canvas.width = glowCanvas.width = window.innerWidth;
       canvas.height = glowCanvas.height = window.innerHeight;
@@ -704,42 +705,43 @@
     resize();
     window.addEventListener('resize', resize);
 
+    // PARTICLES
     const particles = [];
-    for (let i = 0; i < 45; i++) {
-      const hue = Math.random()<.55?330:Math.random()<.6?270:220;
+    for (let i=0; i<45; i++) {
+      const h = Math.random()<.55?330:Math.random()<.6?270:220;
       particles.push({
         x:Math.random()*window.innerWidth, y:Math.random()*window.innerHeight,
         r:Math.random()*1.4+.35, vx:(Math.random()-.5)*.18, vy:(Math.random()-.5)*.18,
-        opacity:Math.random()*.55+.22, color:`hsla(${hue},90%,85%,`,
-        pulseOffset:Math.random()*Math.PI*2, pulseSpeed:.006+Math.random()*.01,
+        opacity:Math.random()*.55+.22, color:'hsla('+h+',90%,85%,',
+        pulseOffset:Math.random()*Math.PI*2, pulseSpeed:.006+Math.random()*.01
       });
     }
 
-    const lineData = [
-      {offset:0,    speed:.5,  amp:55, yBase:.12, hue:315, alpha:.07},
-      {offset:1.05, speed:.35, amp:75, yBase:.30, hue:325, alpha:.06},
-      {offset:2.10, speed:.6,  amp:50, yBase:.52, hue:280, alpha:.05},
-      {offset:3.14, speed:.4,  amp:65, yBase:.74, hue:340, alpha:.065},
-      {offset:4.20, speed:.28, amp:45, yBase:.90, hue:310, alpha:.05},
+    // AURORA LINES
+    const lines = [
+      {o:0,    s:.5,  a:55, y:.12, h:315, al:.07},
+      {o:1.05, s:.35, a:75, y:.30, h:325, al:.06},
+      {o:2.10, s:.6,  a:50, y:.52, h:280, al:.05},
+      {o:3.14, s:.4,  a:65, y:.74, h:340, al:.065},
+      {o:4.20, s:.28, a:45, y:.90, h:310, al:.05}
     ];
 
-    let lastFrame=0, elapsed=0;
+    // DRAW LOOP
+    let lastF=0, elapsed=0;
     function draw(ts) {
       requestAnimationFrame(draw);
-      const delta = ts - lastFrame;
-      if (delta < 33) return;
-      lastFrame = ts; elapsed += delta*.001;
+      const dt = ts-lastF; if(dt<33) return;
+      lastF=ts; elapsed+=dt*.001;
       const W=canvas.width, H=canvas.height;
       ctx.fillStyle='#07070f'; ctx.fillRect(0,0,W,H);
-      for (const l of lineData) {
+      for (const l of lines) {
         ctx.beginPath();
-        const yb = H*l.yBase;
+        const yb=H*l.y;
         for (let x=0; x<=W; x+=6) {
-          const y = yb + Math.sin(x*.006+elapsed*l.speed+l.offset)*l.amp
-                      + Math.sin(x*.012+elapsed*l.speed*1.6+l.offset*.7)*(l.amp*.4);
+          const y=yb+Math.sin(x*.006+elapsed*l.s+l.o)*l.a+Math.sin(x*.012+elapsed*l.s*1.6+l.o*.7)*(l.a*.4);
           x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
         }
-        ctx.strokeStyle=`hsla(${l.hue},85%,72%,${l.alpha})`;
+        ctx.strokeStyle='hsla('+l.h+',85%,72%,'+l.al+')';
         ctx.lineWidth=1.5; ctx.stroke();
       }
       for (const p of particles) {
@@ -754,27 +756,27 @@
     }
     requestAnimationFrame(draw);
 
-    // ── Cursor ──
-    document.addEventListener('DOMContentLoaded', () => {
-      const cursor = document.getElementById('cursor');
-      if (!cursor) return;
-      cursor.style.transform = 'translate(-20px,-20px)';
-      document.addEventListener('mousemove', e => {
-        cursor.style.transform = `translate(${e.clientX-5}px,${e.clientY-5}px)`;
+    // CURSOR
+    document.addEventListener('DOMContentLoaded', function() {
+      var cur = document.getElementById('cursor');
+      if (!cur) return;
+      cur.style.transform = 'translate(-20px,-20px)';
+      document.addEventListener('mousemove', function(e) {
+        cur.style.transform = 'translate('+(e.clientX-5)+'px,'+(e.clientY-5)+'px)';
       });
-      document.querySelectorAll('nav a').forEach(el => {
-        el.addEventListener('mouseenter', () => cursor.classList.add('is-nav'));
-        el.addEventListener('mouseleave', () => cursor.classList.remove('is-nav'));
+      document.querySelectorAll('nav a').forEach(function(el) {
+        el.addEventListener('mouseenter', function() { cur.classList.add('is-nav'); });
+        el.addEventListener('mouseleave', function() { cur.classList.remove('is-nav'); });
       });
-      document.querySelectorAll('a:not(nav a)').forEach(el => {
-        el.addEventListener('mouseenter', () => cursor.classList.add('is-hovering'));
-        el.addEventListener('mouseleave', () => cursor.classList.remove('is-hovering'));
+      document.querySelectorAll('a:not(nav a)').forEach(function(el) {
+        el.addEventListener('mouseenter', function() { cur.classList.add('is-hovering'); });
+        el.addEventListener('mouseleave', function() { cur.classList.remove('is-hovering'); });
       });
     });
 
-    // ── Nav shrink ──
-    const nav = document.querySelector('nav');
-    window.addEventListener('scroll', () => {
+    // NAV SHRINK
+    var nav = document.querySelector('nav');
+    window.addEventListener('scroll', function() {
       if (window.scrollY>60) {
         nav.style.background='rgba(7,7,15,0.96)';
         nav.style.backdropFilter='blur(20px)';
@@ -784,8 +786,27 @@
         nav.style.backdropFilter='';
         nav.style.padding='';
       }
+    }, {passive:true});
+
+    // MOBILE NAV
+    var toggle = document.querySelector('.nav-mobile-toggle');
+    if (toggle) {
+      toggle.addEventListener('click', function() {
+        document.querySelector('nav').classList.toggle('nav-mobile-open');
+      });
+      document.querySelectorAll('.nav-links a').forEach(function(a) {
+        a.addEventListener('click', function() {
+          document.querySelector('nav').classList.remove('nav-mobile-open');
+        });
+      });
     }
+
+    // EMAIL - JS encoded so Cloudflare cannot touch it
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('a[href*="jpdm015"]').forEach(function(el) {
+        el.href = 'mailto:' + 'jpdm015' + '@' + 'gmail.com';
+      });
+    });
   </script>
-  <div id="cursor"></div>
 </body>
 </html>

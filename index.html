@@ -481,6 +481,9 @@
     @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
     @keyframes blobDrift { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(40px, 30px) scale(1.08); } }
 
+    /* Hero orb responsive */
+    @media (max-width: 768px) { #hero-orb { display: none; } }
+
     /* Glow divider */
     .glow-line { height: 1px; background: linear-gradient(to right, transparent, var(--pink), transparent); opacity: 0.35; }
 
@@ -634,6 +637,7 @@
 
   <!-- Hero -->
   <section id="hero">
+    <canvas id="hero-orb" style="position:absolute;right:8%;top:50%;transform:translateY(-50%);width:min(340px,38vw);height:min(340px,38vw);pointer-events:none;opacity:0.85;z-index:1;"></canvas>
     <p class="hero-eyebrow">Front-End Developer · UI/UX Designer</p>
     <h1 class="hero-name">Jane<br> <em>Chavez</em></h1>
     <p class="hero-desc">Building responsive, accessible web interfaces with strong attention to user experience, visual hierarchy, and clean structure.</p>
@@ -1073,6 +1077,7 @@
         <a href="#" id="contact-email" class="contact-link primary">Get In Touch ↗</a>
         <a href="https://www.linkedin.com/in/jane-c-699a9241" target="_blank" class="contact-link">LinkedIn ↗</a>
         <a href="https://github.com/jpdm07" target="_blank" class="contact-link">GitHub ↗</a>
+        <button onclick="sharePortfolio()" class="contact-link" style="cursor:none;background:transparent;font-family:var(--mono);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;border:1px solid var(--border);color:var(--text-dim);padding:14px 24px;transition:border-color 0.3s,color 0.3s;" onmouseenter="this.style.borderColor='var(--pink)';this.style.color='var(--pink)'" onmouseleave="this.style.borderColor='';this.style.color=''">Share ↗</button>
       </div>
     </div>
   </section>
@@ -1513,6 +1518,110 @@
       const emailBtn = document.getElementById('contact-email');
       if (emailBtn) emailBtn.href = 'mailto:' + 'jpdm015' + '@' + 'gmail.com';
     });
+
+    // ── Share portfolio button ──
+    function sharePortfolio() {
+      const url = 'https://jpdm07.github.io/portfolio-website/';
+      if (navigator.share) {
+        navigator.share({ title: 'Jane Chavez Portfolio', url });
+      } else {
+        navigator.clipboard.writeText(url).then(() => {
+          const btn = document.querySelector('[onclick="sharePortfolio()"]');
+          const orig = btn.textContent;
+          btn.textContent = 'Link Copied!';
+          setTimeout(() => { btn.textContent = orig; }, 2000);
+        });
+      }
+    }
+
+    // ── 3D floating crystal orb on hero ──
+    (function() {
+      const orb = document.getElementById('hero-orb');
+      if (!orb) return;
+      const oc = orb.getContext('2d');
+      let W, H;
+      function resizeOrb() {
+        W = orb.width  = orb.offsetWidth  * window.devicePixelRatio;
+        H = orb.height = orb.offsetHeight * window.devicePixelRatio;
+      }
+      resizeOrb();
+      window.addEventListener('resize', resizeOrb);
+
+      let t = 0;
+      let mx = 0.5, my = 0.5; // normalized mouse
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX / window.innerWidth;
+        my = e.clientY / window.innerHeight;
+      });
+
+      function drawOrb(ts) {
+        requestAnimationFrame(drawOrb);
+        t = ts * 0.001;
+        oc.clearRect(0, 0, W, H);
+        const cx = W/2, cy = H/2;
+        const r  = Math.min(W, H) * 0.38;
+
+        // Tilt based on mouse
+        const tiltX = (my - 0.5) * 0.4;
+        const tiltY = (mx - 0.5) * 0.4;
+
+        // Draw faceted crystal faces
+        const faces = 12;
+        for (let i = 0; i < faces; i++) {
+          const angle = (i / faces) * Math.PI * 2 + t * 0.3 + tiltY;
+          const nextAngle = ((i+1) / faces) * Math.PI * 2 + t * 0.3 + tiltY;
+          const pulse = 1 + Math.sin(t * 1.2 + i * 0.5) * 0.04;
+
+          const x1 = cx + Math.cos(angle) * r * pulse;
+          const y1 = cy + Math.sin(angle) * r * pulse * (1 - Math.abs(tiltX) * 0.3);
+          const x2 = cx + Math.cos(nextAngle) * r * pulse;
+          const y2 = cy + Math.sin(nextAngle) * r * pulse * (1 - Math.abs(tiltX) * 0.3);
+
+          // Inner point — offset for depth
+          const innerR = r * (0.15 + Math.sin(t * 0.7 + i) * 0.05);
+          const innerAngle = angle + Math.PI / faces + t * 0.5;
+          const ix = cx + Math.cos(innerAngle) * innerR;
+          const iy = cy + Math.sin(innerAngle) * innerR;
+
+          // Color — pink to violet shift per face + time
+          const hue = 300 + Math.sin(t * 0.4 + i * 0.6) * 40;
+          const light = 55 + Math.sin(t * 0.8 + i) * 15;
+          const alpha = 0.08 + Math.abs(Math.sin(t * 0.5 + i * 0.4)) * 0.18;
+
+          oc.beginPath();
+          oc.moveTo(x1, y1);
+          oc.lineTo(ix, iy);
+          oc.lineTo(x2, y2);
+          oc.closePath();
+          oc.fillStyle = `hsla(${hue},80%,${light}%,${alpha})`;
+          oc.fill();
+          oc.strokeStyle = `hsla(${hue},80%,${light+10}%,${alpha * 1.8})`;
+          oc.lineWidth = 0.5;
+          oc.stroke();
+        }
+
+        // Outer ring glow
+        const grd = oc.createRadialGradient(cx, cy, r*0.6, cx, cy, r*1.15);
+        grd.addColorStop(0, 'rgba(244,114,182,0)');
+        grd.addColorStop(0.7, 'rgba(244,114,182,0.04)');
+        grd.addColorStop(1, 'rgba(244,114,182,0)');
+        oc.beginPath();
+        oc.arc(cx, cy, r*1.15, 0, Math.PI*2);
+        oc.fillStyle = grd;
+        oc.fill();
+
+        // Center bright spark
+        const spark = oc.createRadialGradient(cx, cy, 0, cx, cy, r*0.25);
+        spark.addColorStop(0, `rgba(255,255,255,${0.12 + Math.sin(t*2)*0.06})`);
+        spark.addColorStop(1, 'rgba(255,255,255,0)');
+        oc.beginPath();
+        oc.arc(cx, cy, r*0.25, 0, Math.PI*2);
+        oc.fillStyle = spark;
+        oc.fill();
+      }
+      requestAnimationFrame(drawOrb);
+    })();
+
   </script>
 </body>
 </html>
