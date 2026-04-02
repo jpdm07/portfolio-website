@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jane Chavez — Front-End Developer & UI/UX Designer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Jane Chavez | Front-End Developer &amp; UI/UX Designer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -12,11 +12,6 @@
   <style>
 
     /* ── Navigation ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 48px; transition: all 0.4s ease;
-    }
     .nav-logo {
       font-family: var(--serif); font-size: 1.3rem; font-weight: 600;
       text-decoration: none; cursor: none;
@@ -51,19 +46,65 @@
     .nav-close:hover { color: var(--pink); }
     /* Mobile */
     @media (max-width: 768px) {
-      nav { padding: 16px 24px; }
-      .nav-mobile-toggle { display: flex; }
+      /*
+        nav { backdrop-filter } makes fixed descendants attach to the nav strip
+        (not the viewport) — menu looks clipped. Disable blur on small screens.
+      */
+      nav {
+        padding: 16px 24px;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+      }
+      .nav-mobile-toggle { display: flex; position: relative; z-index: 10000; }
       .nav-links {
         display: none; position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(7,7,15,0.98);
+        inset: 0;
+        width: 100%;
+        min-height: 100vh;
+        min-height: 100dvh;
+        box-sizing: border-box;
+        padding:
+          max(80px, calc(env(safe-area-inset-top, 0px) + 56px))
+          24px
+          max(28px, env(safe-area-inset-bottom, 0px));
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        background: rgba(7,7,15,0.97);
         flex-direction: column; align-items: center;
-        justify-content: center; gap: 48px; z-index: 99999;
-        list-style: none; margin: 0; padding: 0;
+        justify-content: flex-start;
+        gap: clamp(28px, 6vh, 40px);
+        z-index: 9998;
+        list-style: none;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(244, 114, 182, 0.45) rgba(18, 18, 32, 0.95);
+      }
+      .nav-links::-webkit-scrollbar { width: 8px; }
+      .nav-links::-webkit-scrollbar-track { background: rgba(12, 12, 24, 0.9); }
+      .nav-links::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, rgba(244, 114, 182, 0.55), rgba(167, 139, 250, 0.45));
+        border-radius: 999px;
+        border: 2px solid rgba(7, 7, 15, 0.85);
       }
       nav.nav-mobile-open .nav-links { display: flex; }
-      .nav-links .nav-close { position: fixed; top: 20px; right: 20px; display: none; z-index: 999999; }
-      nav.nav-mobile-open .nav-links .nav-close { display: block; }
+      /* Close via morphing hamburger (toggle stays above overlay); hide duplicate ✕ */
+      .nav-links .nav-close { display: none !important; }
+      .nav-mobile-open .nav-mobile-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--pink); }
+      .nav-mobile-open .nav-mobile-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+      .nav-mobile-open .nav-mobile-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--pink); }
+
+      /* Hide custom cursor; undo cursor:none (incl. .project-item inheritance) so native pointer works when resized narrow */
+      html, body { cursor: auto !important; }
+      #cursor { display: none !important; }
+      .project-item { cursor: pointer !important; }
+      a, button, .nav-logo, .nav-mobile-toggle, .nav-close, .project-header,
+      .nav-links a, .nav-links button, label[for], summary {
+        cursor: pointer !important;
+      }
+      input[type="text"], input[type="email"], input[type="search"], input[type="url"], textarea {
+        cursor: text !important;
+      }
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -85,84 +126,73 @@
       --sans: 'Outfit', sans-serif;
     }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: max(100px, calc(env(safe-area-inset-top, 0px) + 80px));
+      min-height: 100%;
+      min-height: 100dvh;
+      /* Fallback when fixed layers stack above negative z-index (body filter would clip them) */
+      background: var(--bg);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(244, 114, 182, 0.45) rgba(18, 18, 32, 0.95);
+    }
+    html::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    html::-webkit-scrollbar-track {
+      background: rgba(12, 12, 24, 0.9);
+    }
+    html::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(244, 114, 182, 0.55), rgba(167, 139, 250, 0.45));
+      border-radius: 999px;
+      border: 2px solid rgba(7, 7, 15, 0.85);
+    }
+    html::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, rgba(244, 114, 182, 0.8), rgba(167, 139, 250, 0.65));
+    }
 
     body {
-      background: transparent;
+      background: var(--bg);
       color: var(--text);
       font-family: var(--sans);
       font-weight: 300;
       overflow-x: hidden;
       cursor: none;
+      min-height: 100%;
+      min-height: 100dvh;
     }
 
     /* ══════════════════════════════════════
-       BACKGROUND LAYER STACK (bottom → top)
-       z -100  #bg           solid dark fallback
-       z  -99  #bg-canvas    animated canvas
-       z  -98  .blob x3      drifting glows
-       z  -97  body::after   subtle tint
-       z  -96  body::before  grain noise
+       BACKGROUND — #bg + #bg-canvas at z-index 0; sections at 1
        ══════════════════════════════════════ */
 
+    /* z-index 0 (not negative): body { filter } from entrance anim creates a stacking context;
+       negative z-index children paint behind body's background and showed default white html. */
     #bg {
-      position: fixed; inset: 0;
-      z-index: -100;
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      min-height: 100vh;
+      min-height: 100dvh;
+      height: 100vh;
+      height: 100dvh;
+      z-index: 0;
       background: #07070f;
       pointer-events: none;
     }
 
     #bg-canvas {
-      position: fixed; inset: 0;
-      z-index: -99;
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      min-height: 100vh;
+      min-height: 100dvh;
+      height: 100vh;
+      height: 100dvh;
+      z-index: 0;
       display: block;
       pointer-events: none;
-      width: 100%; height: 100%;
-    }
-
-    .blob {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(120px);
-      pointer-events: none;
-      z-index: -98;
-    }
-    .blob-1 {
-      width: 750px; height: 750px;
-      background: radial-gradient(circle, rgba(244,114,182,0.22) 0%, transparent 65%);
-      top: -220px; right: -220px;
-      animation: blobDrift 22s ease-in-out infinite alternate;
-    }
-    .blob-2 {
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(139,92,246,0.18) 0%, transparent 65%);
-      bottom: 0; left: -200px;
-      animation: blobDrift 28s ease-in-out infinite alternate-reverse;
-    }
-    .blob-3 {
-      width: 380px; height: 380px;
-      background: radial-gradient(circle, rgba(244,114,182,0.15) 0%, transparent 65%);
-      top: 40%; left: 35%;
-      animation: blobDrift 36s ease-in-out infinite alternate;
-    }
-
-    /* Very subtle dark tint for readability — must NOT cover canvas */
-    body::after {
-      content: '';
-      position: fixed; inset: 0;
-      background: rgba(7,7,15,0.28);
-      pointer-events: none;
-      z-index: -97;
-    }
-
-    /* Grain noise */
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: -96;
-      opacity: 0.4;
     }
 
     /* ── Upgraded cursor — fixed ── */
@@ -182,12 +212,12 @@
                   box-shadow 0.25s ease,
                   opacity 0.2s ease;
     }
-    /* hover on links/buttons — expands to outlined glowing ring */
+    /* hover on links/buttons — ring + faint fill so it never “vanishes” on busy areas */
     #cursor.is-hovering {
       width: 38px; height: 38px;
-      background: transparent;
+      background: rgba(244, 114, 182, 0.14);
       border: 1.5px solid var(--pink);
-      box-shadow: 0 0 14px rgba(244,114,182,0.45), inset 0 0 8px rgba(244,114,182,0.1);
+      box-shadow: 0 0 16px rgba(244,114,182,0.5), 0 0 0 1px rgba(255,255,255,0.12), inset 0 0 10px rgba(244,114,182,0.08);
     }
     /* hover on project rows — diamond */
     #cursor.is-project {
@@ -197,23 +227,30 @@
       box-shadow: 0 0 14px rgba(244,114,182,0.6);
       /* rotation handled via JS so it doesn't clash with translate */
     }
-    /* hover on nav links — flat pill */
+    /* hover on nav links — visible pill (old 5px-tall bar read as invisible) */
     #cursor.is-nav {
-      width: 30px; height: 5px;
-      border-radius: 3px;
-      background: var(--pink);
-      box-shadow: 0 0 10px rgba(244,114,182,0.6);
+      width: 36px; height: 11px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, rgba(244,114,182,0.95), rgba(196,181,253,0.88));
+      box-shadow: 0 0 14px rgba(244,114,182,0.65), 0 0 0 1px rgba(255,255,255,0.2);
     }
 
-    /* Nav */
+    /* Nav — pointer-events: only the bar’s real controls hit-test; transparent
+       gradient area must not steal clicks from content scrolled underneath. */
     nav {
       position: fixed; top: 0; left: 0; right: 0;
-      z-index: 100;
+      z-index: 500;
       display: flex; align-items: center; justify-content: space-between;
       padding: 24px 48px;
       background: linear-gradient(to bottom, rgba(7,7,15,0.9), transparent);
       backdrop-filter: blur(2px);
       transition: padding 0.3s, background 0.3s;
+      pointer-events: none;
+    }
+    nav .nav-logo,
+    nav .nav-links,
+    nav .nav-mobile-toggle {
+      pointer-events: auto;
     }
 
     /* ── Mobile nav close button ── */
@@ -257,8 +294,22 @@
       opacity: 0; animation: fadeUp 0.9s ease 0.7s forwards;
     }
     .hero-ctas {
-      display: flex; gap: 20px; align-items: center;
+      display: flex;
+      gap: clamp(12px, 2.2vw, 20px);
+      align-items: stretch;
+      width: 100%;
+      max-width: min(560px, 100%);
       opacity: 0; animation: fadeUp 0.9s ease 0.9s forwards;
+    }
+    .hero-ctas .btn-primary,
+    .hero-ctas .btn-ghost {
+      flex: 1 1 0;
+      min-width: 0;
+      box-sizing: border-box;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
     .btn-primary {
       padding: 14px 32px; background: transparent;
@@ -286,6 +337,7 @@
     .btn-ghost::after { content: '↓'; font-size: 0.9rem; }
     .hero-scroll-indicator {
       position: absolute; bottom: 40px; left: 48px;
+      z-index: 4;
       display: flex; align-items: center; gap: 12px;
       opacity: 0; animation: fadeUp 1s ease 1.2s forwards;
     }
@@ -350,8 +402,9 @@
       transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s;
     }
     .project-item.open .project-arrow { transform: rotate(45deg); color: var(--pink); }
-    .project-body { max-height: 0; overflow: hidden; transition: max-height 0.6s cubic-bezier(0.77, 0, 0.175, 1); }
-    .project-item.open .project-body { max-height: 2000px; }
+    .project-body { max-height: 0; overflow: hidden; transition: max-height 0.65s cubic-bezier(0.77, 0, 0.175, 1); }
+    /* Tall enough for long write-ups + image stacks (e.g. portfolio 003 before/after shots) */
+    .project-item.open .project-body { max-height: 12000px; }
     .project-content { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; padding: 0 36px 48px; }
     .project-text h4 {
       font-family: var(--mono); font-size: 0.65rem; color: var(--pink);
@@ -366,7 +419,7 @@
       line-height: 1.75; padding-left: 16px; position: relative;
     }
     .project-text ul li::before {
-      content: '—'; position: absolute; left: 0; color: var(--pink); font-size: 0.7rem;
+      content: '•'; position: absolute; left: 0; color: var(--pink); font-size: 0.75rem; line-height: 1.75;
     }
     .project-links { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
     .project-link {
@@ -377,6 +430,73 @@
       transition: background 0.3s, color 0.3s;
     }
     .project-link:hover { background: var(--pink); color: var(--bg); }
+
+    .project-evolution {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 22px 0 6px;
+    }
+    .project-evolution-card {
+      border: 1px solid rgba(244,114,182,0.18);
+      border-radius: 10px;
+      padding: 14px 16px;
+      background: rgba(0,0,0,0.18);
+    }
+    .project-evolution-label {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 8px;
+    }
+    .project-evolution-card p {
+      font-size: 0.84rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+      margin: 0;
+    }
+    .project-evolution-card .project-link { margin-top: 12px; display: inline-block; }
+    .project-evolution-note {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+      margin: 14px 0 0;
+    }
+    .project-evolution-note a {
+      color: var(--pink);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .project-evolution-note a:hover { color: #fff; }
+
+    .browser-screen-placeholder > .evolution-shot-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+
+    /* Project 003: two mockups stacked in the right column */
+    .project-mockup--003-col {
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 40px;
+    }
+    .project-mockup-003-block {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .project-mockup-003-block .mockup-stack {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+    }
 
     /* Device mockup */
     .project-mockup { display: flex; align-items: center; justify-content: center; position: relative; }
@@ -430,6 +550,24 @@
       display: block;
       overflow: hidden; position: relative;
     }
+    /* Project 003: real screenshots; bias desktop crop so the crystal (right) stays in frame */
+    .portfolio-mockup-desktop-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+      display: block;
+    }
+    .portfolio-mockup-mobile-img {
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: top center !important;
+    }
     .phone-screen img {
       position: absolute !important;
       top: 50% !important;
@@ -440,6 +578,12 @@
       object-fit: cover !important;
       object-position: center center !important;
       display: block !important;
+    }
+    .phone-screen img.portfolio-mockup-mobile-img {
+      object-position: top center !important;
+    }
+    .phone-screen img.evolution-shot-img {
+      object-position: top center !important;
     }
 
     /* About */
@@ -481,7 +625,7 @@
     }
     .contact-headline em { color: var(--pink); font-style: italic; }
     .contact-sub { font-size: 0.92rem; color: var(--text-dim); line-height: 1.75; margin-bottom: 48px; max-width: 440px; }
-    .contact-links { display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-start; }
+    .contact-links { display: flex; gap: 12px; flex-wrap: nowrap; justify-content: flex-start; }
     .contact-link {
       font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em;
       text-transform: uppercase; text-decoration: none;
@@ -495,11 +639,45 @@
     .contact-link.primary { background: var(--pink); border-color: var(--pink); color: var(--bg); }
     .contact-link.primary:hover { background: transparent; color: var(--pink); }
 
-    /* Footer */
-    footer { padding: 32px 48px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-    footer p { font-family: var(--mono); font-size: 0.62rem; color: var(--text-muted); letter-spacing: 0.08em; }
-    footer span { color: var(--pink); }
+    .page-end-nav {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 48px 12px;
+      text-align: center;
+    }
+    .page-end-nav a {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .page-end-nav a:hover { color: var(--pink); }
 
+    /* Footer */
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 32px 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .footer-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    footer p { font-family: var(--mono); font-size: 0.62rem; color: var(--text-muted); letter-spacing: 0.08em; margin: 0; }
+    footer span { color: var(--pink); }
+    footer a { color: var(--text-dim); text-decoration: none; transition: color 0.3s; }
+    footer a:hover { color: var(--pink); }
     /* Scroll reveal */
     .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
     .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -512,9 +690,11 @@
     @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes scrollLine { 0% { left: -100%; } 100% { left: 100%; } }
     @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
-    @keyframes blobDrift { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(40px, 30px) scale(1.08); } }
+    @media (max-width: 900px) {
+      .page-end-nav { padding-left: 32px; padding-right: 32px; }
       #hero, #projects, #about, #contact { padding-left: 32px; padding-right: 32px; }
       .project-content { grid-template-columns: 1fr; }
+      .project-evolution { grid-template-columns: 1fr; }
       .about-grid { grid-template-columns: 1fr; gap: 48px; }
       .mockup-stack { max-width: 320px; }
       footer { padding: 28px 32px; }
@@ -522,36 +702,13 @@
 
     /* Mobile — hamburger menu, single column everything */
     @media (max-width: 640px) {
-      body { cursor: auto; }
-      #cursor { display: none; }
-
       nav { padding: 18px 20px; }
-      /* Full-screen overlay — above everything */
-      .nav-mobile-open
-      .nav-mobile-open .nav-links li { width: auto; }
-      .nav-mobile-open
-      .nav-mobile-open
-      /* X animation */
-      .nav-mobile-open .nav-mobile-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--pink); }
-      .nav-mobile-open .nav-mobile-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-      .nav-mobile-open .nav-mobile-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--pink); }
+      nav.nav-mobile-open .nav-links li { width: auto; }
 
+      .page-end-nav { padding: 22px 20px 10px; }
       #hero { padding: 0 20px; }
       .hero-name { font-size: 3rem; }
       .hero-desc { font-size: 0.92rem; }
-      .hero-ctas { flex-direction: column; align-items: stretch; gap: 12px; width: 100%; max-width: 320px; }
-      .btn-primary, .btn-ghost {
-        width: 100%;
-        display: flex; align-items: center; justify-content: center;
-        padding: 16px 24px;
-        text-align: center;
-        font-size: 0.68rem;
-      }
-      .btn-ghost {
-        border: 1px solid var(--border);
-        color: var(--text-dim);
-      }
-      .btn-ghost::after { content: '↓'; margin-left: 8px; }
       /* Hero — center everything, name on one line */
       #hero { align-items: center; text-align: center; }
       .hero-name { font-size: 2.6rem; white-space: nowrap; }
@@ -559,8 +716,32 @@
       .hero-name br { display: none; }
       .hero-eyebrow { text-align: center; }
       .hero-desc { text-align: center; margin-left: auto; margin-right: auto; }
-      .hero-ctas { margin-left: auto; margin-right: auto; }
-      .hero-scroll-indicator { left: 50%; transform: translateX(-50%); }
+      .hero-ctas {
+        flex-direction: column;
+        align-items: center;
+        align-self: center;
+        margin-left: auto;
+        margin-right: auto;
+        gap: 12px;
+        width: 100%;
+        max-width: min(320px, calc(100vw - 40px));
+      }
+      .hero-ctas .btn-primary,
+      .hero-ctas .btn-ghost {
+        flex: none;
+        width: 100%;
+        max-width: 100%;
+        display: flex; align-items: center; justify-content: center;
+        padding: 16px 24px;
+        text-align: center;
+        font-size: 0.68rem;
+        box-sizing: border-box;
+      }
+      .hero-ctas .btn-ghost {
+        border: 1px solid var(--border);
+        color: var(--text-dim);
+      }
+      .hero-ctas .btn-ghost::after { content: '↓'; margin-left: 8px; }
       .hero-scroll-indicator { left: 20px; display: none; }
 
       #projects, #about, #contact { padding: 80px 20px; }
@@ -576,82 +757,387 @@
       .about-bio { font-size: 1.15rem; }
 
       .contact-headline { font-size: 2rem; }
-      .contact-links { flex-direction: column; align-items: stretch; gap: 12px; }
+      .contact-links { flex-direction: column; align-items: stretch; }
       .contact-link { justify-content: center; }
 
-      footer { padding: 24px 20px; flex-direction: column; gap: 10px; text-align: center; }
+      footer { padding: 24px 20px; text-align: center; }
+      .footer-copy { align-items: center; }
     }
 
     @media (max-width: 400px) {
       .hero-name { font-size: 2.4rem; }
     }
+
+    /* ── Opening light: corner illuminations that fade (no smoke / noise) ── */
+    /* Opacity only on body — filter on body breaks fixed bg layers. */
+    @keyframes bodyDreamWake {
+      0% { opacity: 0.9; }
+      45% { opacity: 0.97; }
+      100% { opacity: 1; }
+    }
+    @keyframes dreamLightIntroFade {
+      0% { opacity: 1; }
+      28% { opacity: 0.9; }
+      55% { opacity: 0.5; }
+      78% { opacity: 0.18; }
+      100% { opacity: 0; visibility: hidden; }
+    }
+    .dream-entrance {
+      position: fixed; inset: 0; z-index: 99990;
+      pointer-events: none;
+      animation: dreamLightIntroFade 3.4s cubic-bezier(0.25, 0.46, 0.2, 1) forwards;
+    }
+    /* If the intro animation fails to run (some dev servers / strict modes), force the overlay off */
+    .dream-entrance.dream-entrance--hidden {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      animation: none !important;
+    }
+    .dream-entrance__layer {
+      position: absolute; inset: 0;
+    }
+    .dream-entrance__layer--glow-tr {
+      background: radial-gradient(ellipse 90% 72% at 86% 5%, rgba(255, 255, 255, 0.44) 0%, rgba(252, 231, 243, 0.22) 30%, rgba(244, 114, 182, 0.08) 52%, transparent 74%);
+    }
+    .dream-entrance__layer--glow-bl {
+      background: radial-gradient(ellipse 88% 78% at 10% 94%, rgba(245, 243, 255, 0.4) 0%, rgba(199, 210, 254, 0.17) 36%, rgba(99, 102, 241, 0.05) 56%, transparent 78%);
+    }
+    .dream-entrance__layer--shine {
+      background: linear-gradient(125deg, rgba(255, 255, 255, 0.2) 0%, transparent 40%, transparent 60%, rgba(252, 231, 243, 0.1) 100%);
+      mix-blend-mode: screen;
+      opacity: 0.72;
+    }
+    body {
+      animation: bodyDreamWake 3.4s cubic-bezier(0.33, 0.11, 0.02, 1) both;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .dream-entrance { animation-duration: 0.01s; }
+      body { animation-duration: 0.01s; }
     }
 
-    /* ── Page fade-in entrance ── */
-    
-      to   { opacity: 1; }
-    } } }
-
-    @keyframes siteFadeIn { from { opacity:0; } to { opacity:1; } }
-    body { animation: siteFadeIn 1.1s ease both; }
-
-    /* ── Crystal Gem SVG ── */
+    /* ── Hero gem (draggable within #hero; soft orb + faceted diamond) ── */
+    #crystal-wrap { --crystal-charge: 0; }
+    .crystal-stage {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
     .crystal-wrap {
-      position: absolute; right: 6%; top: 50%;
-      transform: translateY(-50%);
-      width: min(300px, 32vw); height: min(300px, 32vw);
-      pointer-events: none; z-index: 2;
+      position: absolute;
+      /* Default sits in right half; JS clamps drag to stay right of hero midpoint */
+      left: var(--crystal-x-pct, 86%);
+      top: var(--crystal-y-pct, 50%);
+      transform: translate(-50%, -50%);
+      width: min(300px, 32vw);
+      height: min(300px, 32vw);
+      pointer-events: auto;
+      touch-action: none;
+      z-index: 2;
+      cursor: grab;
+      -webkit-user-select: none;
+      user-select: none;
     }
-    /* Float on outer wrapper, spin on inner SVG - separate transforms */
+    .crystal-wrap.is-dragging { cursor: grabbing; }
+    /* Soft halo — bright / icy, not a dark ball */
+    #crystal-wrap::before {
+      content: '';
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 88%; height: 88%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(7px);
+      opacity: calc(0.48 + var(--crystal-charge) * 0.28);
+      box-shadow:
+        0 0 calc(52px + var(--crystal-charge) * 64px) rgba(255, 255, 255, calc(0.32 + var(--crystal-charge) * 0.22)),
+        0 0 calc(96px + var(--crystal-charge) * 88px) rgba(252, 231, 243, calc(0.34 + var(--crystal-charge) * 0.24)),
+        0 0 calc(132px + var(--crystal-charge) * 100px) rgba(244, 114, 182, calc(0.22 + var(--crystal-charge) * 0.2)),
+        0 0 calc(160px + var(--crystal-charge) * 110px) rgba(199, 210, 254, calc(0.22 + var(--crystal-charge) * 0.18));
+    }
+    .crystal-drifter {
+      position: relative;
+      z-index: 1;
+      width: 100%; height: 100%;
+      animation: orbDrift 16s ease-in-out infinite;
+      will-change: transform;
+    }
     .crystal-scaler {
       width: 100%; height: 100%;
-      transition: transform 0.5s ease, filter 0.5s ease;
-      filter: drop-shadow(0 0 28px rgba(244,114,182,0.5)) drop-shadow(0 0 70px rgba(168,85,247,0.28));
+      transition: transform 0.55s ease;
     }
     .crystal-wrap.hovered .crystal-scaler {
-      transform: scale(1.08);
-      filter: drop-shadow(0 0 55px rgba(244,114,182,0.92)) drop-shadow(0 0 110px rgba(168,85,247,0.6));
+      transform: scale(calc(1.025 + var(--crystal-charge) * 0.055));
     }
     .crystal-floater {
       width: 100%; height: 100%;
-      animation: crystalFloat 7s ease-in-out infinite;
+      overflow: visible;
+      animation: orbFloat 8s ease-in-out infinite;
+      will-change: transform;
     }
-    .crystal-svg {
+    /* Gem sits in open space; soft color lives in .hero-orb__ambient only (no circular clip on the diamond) */
+    .hero-orb {
+      position: relative;
       width: 100%; height: 100%;
-      animation: crystalSpin 22s linear infinite;
+      overflow: visible;
     }
-    .c-face { transition: opacity 0.4s ease, fill 0.4s ease; }
-    .crystal-wrap.hovered .c-face { opacity: 0.72 !important; }
-    @keyframes crystalSpin {
+    .hero-orb__ambient {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 78%; height: 78%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.92;
+    }
+    .hero-orb__gem {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 104%; height: 104%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+    }
+    .hero-orb__ambient .hero-orb__blob {
+      position: absolute;
+      filter: blur(32px);
+      mix-blend-mode: screen;
+      opacity: 0.72;
+      will-change: transform;
+    }
+    .hero-orb__ambient .hero-orb__grain {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      opacity: 0.06;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.55'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-orb__blob--a {
+      width: 88%; height: 88%;
+      left: 6%; top: 6%;
+      border-radius: 50%;
+      background:
+        radial-gradient(ellipse 80% 70% at 32% 26%, rgba(255, 255, 255, 0.75) 0%, transparent 48%),
+        radial-gradient(ellipse 70% 65% at 58% 58%, rgba(196, 181, 253, 0.55) 0%, transparent 52%),
+        radial-gradient(ellipse 55% 50% at 72% 32%, rgba(244, 114, 182, 0.35) 0%, transparent 50%);
+      animation: crystalBlobA 16s ease-in-out infinite;
+    }
+    .hero-orb__blob--b {
+      width: 76%; height: 76%;
+      right: -4%; bottom: 4%;
+      border-radius: 50%;
+      background:
+        radial-gradient(ellipse 65% 60% at 42% 42%, rgba(167, 139, 250, 0.5) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 58% at 70% 66%, rgba(99, 102, 241, 0.42) 0%, transparent 52%);
+      animation: crystalBlobB 19s ease-in-out infinite;
+    }
+    .hero-orb__blob--c {
+      width: 62%; height: 62%;
+      left: 18%; bottom: 8%;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at 50% 48%, rgba(255, 255, 255, 0.35) 0%, rgba(224, 231, 255, 0.32) 45%, rgba(196, 181, 253, 0.2) 70%, transparent 78%);
+      animation: crystalBlobC 13s ease-in-out infinite;
+      mix-blend-mode: plus-lighter;
+      opacity: 0.5;
+      filter: blur(26px);
+    }
+    .hero-orb__ambient .hero-orb__shine {
+      position: absolute;
+      width: 42%; height: 24%;
+      left: 24%; top: 16%;
+      border-radius: 50%;
+      background:
+        radial-gradient(ellipse at 50% 40%, rgba(255, 255, 255, 0.5) 0%, rgba(244, 114, 182, 0.22) 38%, rgba(167, 139, 250, 0.18) 55%, transparent 72%);
+      filter: blur(14px);
+      mix-blend-mode: screen;
+      opacity: 0.5;
+      animation: orbShine 9s ease-in-out infinite;
+    }
+    .crystal-wrap.hovered .hero-orb__ambient .hero-orb__shine {
+      opacity: calc(0.5 + var(--crystal-charge) * 0.18);
+    }
+    .hero-orb__outline {
+      width: 100%; height: 100%;
+      max-width: 340px;
+      max-height: 340px;
+      pointer-events: none;
+      opacity: 1;
+      filter:
+        drop-shadow(0 0 4px rgba(255, 255, 255, 0.65))
+        drop-shadow(0 0 14px rgba(255, 255, 255, 0.35))
+        drop-shadow(0 0 26px rgba(244, 114, 182, 0.48))
+        drop-shadow(0 0 42px rgba(167, 139, 250, 0.38))
+        drop-shadow(0 0 56px rgba(192, 132, 252, 0.22));
+      transform-origin: 50% 50%;
+      animation: gemOutlineSpin 48s linear infinite;
+    }
+    .crystal-wrap.hovered .hero-orb__outline {
+      opacity: 1;
+      filter:
+        drop-shadow(0 0 6px rgba(255, 255, 255, 0.85))
+        drop-shadow(0 0 20px rgba(255, 255, 255, 0.45))
+        drop-shadow(0 0 36px rgba(244, 114, 182, calc(0.55 + var(--crystal-charge) * 0.2)))
+        drop-shadow(0 0 52px rgba(167, 139, 250, calc(0.48 + var(--crystal-charge) * 0.18)))
+        drop-shadow(0 0 72px rgba(244, 114, 182, calc(0.35 + var(--crystal-charge) * 0.15)));
+    }
+    .crystal-wrap.hovered .crystal-drifter,
+    .crystal-wrap.hovered .crystal-floater,
+    .crystal-wrap.hovered .hero-orb__ambient .hero-orb__blob,
+    .crystal-wrap.hovered .hero-orb__ambient .hero-orb__shine,
+    .crystal-wrap.hovered .hero-orb__outline,
+    .crystal-wrap.is-dragging .crystal-drifter,
+    .crystal-wrap.is-dragging .crystal-floater,
+    .crystal-wrap.is-dragging .hero-orb__ambient .hero-orb__blob,
+    .crystal-wrap.is-dragging .hero-orb__ambient .hero-orb__shine,
+    .crystal-wrap.is-dragging .hero-orb__outline {
+      animation-play-state: paused !important;
+    }
+    /* Diamond sparkles — layer brightens & twinkles faster as --crystal-charge builds */
+    #crystal-wrap .gem-sparkles {
+      opacity: calc(0.4 + var(--crystal-charge) * 0.6);
+      transition: opacity 0.22s ease;
+    }
+    #crystal-wrap .gem-sparkles--hot {
+      opacity: calc(0.04 + var(--crystal-charge) * 0.94);
+      transition: opacity 0.25s ease;
+    }
+    .hero-orb__outline .gem-spark,
+    .hero-orb__outline .gem-spark-hot {
+      pointer-events: none;
+      animation: gemSparkle 2.65s ease-in-out infinite;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    .hero-orb__outline .gem-spark-hot {
+      animation-name: gemSparkleCharge;
+      animation-duration: 1.55s;
+    }
+    #crystal-wrap.hovered .hero-orb__outline .gem-spark {
+      animation-duration: calc(3.05s - var(--crystal-charge) * 2s);
+    }
+    #crystal-wrap.hovered .hero-orb__outline .gem-spark-hot {
+      animation-duration: calc(2.15s - var(--crystal-charge) * 1.3s);
+    }
+    .hero-orb__outline .gem-sparkles .gem-spark:nth-child(1) { animation-delay: 0s; }
+    .hero-orb__outline .gem-sparkles .gem-spark:nth-child(2) { animation-delay: 0.16s; }
+    .hero-orb__outline .gem-sparkles .gem-spark:nth-child(3) { animation-delay: 0.32s; }
+    .hero-orb__outline .gem-sparkles .gem-spark:nth-child(4) { animation-delay: 0.48s; }
+    .hero-orb__outline .gem-sparkles .gem-spark:nth-child(5) { animation-delay: 0.64s; }
+    .hero-orb__outline .gem-sparkles .gem-spark:nth-child(6) { animation-delay: 0.8s; }
+    .hero-orb__outline .gem-sparkles .gem-spark:nth-child(7) { animation-delay: 0.96s; }
+    .hero-orb__outline .gem-sparkles .gem-spark:nth-child(8) { animation-delay: 1.12s; }
+    .hero-orb__outline .gem-sparkles .gem-spark:nth-child(9) { animation-delay: 1.28s; }
+    .hero-orb__outline .gem-sparkles .gem-spark:nth-child(10) { animation-delay: 1.44s; }
+    .hero-orb__outline .gem-sparkles .gem-spark:nth-child(11) { animation-delay: 1.6s; }
+    .hero-orb__outline .gem-sparkles .gem-spark:nth-child(12) { animation-delay: 1.76s; }
+    .hero-orb__outline .gem-sparkles--hot .gem-spark-hot:nth-child(1) { animation-delay: 0.08s; }
+    .hero-orb__outline .gem-sparkles--hot .gem-spark-hot:nth-child(2) { animation-delay: 0.22s; }
+    .hero-orb__outline .gem-sparkles--hot .gem-spark-hot:nth-child(3) { animation-delay: 0.36s; }
+    .hero-orb__outline .gem-sparkles--hot .gem-spark-hot:nth-child(4) { animation-delay: 0.5s; }
+    .hero-orb__outline .gem-sparkles--hot .gem-spark-hot:nth-child(5) { animation-delay: 0.64s; }
+    .hero-orb__outline .gem-sparkles--hot .gem-spark-hot:nth-child(6) { animation-delay: 0.78s; }
+    .hero-orb__outline .gem-sparkles--hot .gem-spark-hot:nth-child(7) { animation-delay: 0.92s; }
+    .hero-orb__outline .gem-sparkles--hot .gem-spark-hot:nth-child(8) { animation-delay: 1.06s; }
+    @keyframes gemSparkle {
+      0%, 100% { opacity: 0.22; transform: scale(0.42); }
+      38% { opacity: 1; transform: scale(1.18); }
+      52% { opacity: 0.88; transform: scale(0.92); }
+    }
+    @keyframes gemSparkleCharge {
+      0%, 100% { opacity: 0.15; transform: scale(0.35); }
+      35% { opacity: 1; transform: scale(1.35); }
+      50% { opacity: 0.95; transform: scale(1.05); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #crystal-wrap .gem-sparkles,
+      #crystal-wrap .gem-sparkles--hot { opacity: 0.75; transition: none; }
+      .hero-orb__outline .gem-spark,
+      .hero-orb__outline .gem-spark-hot {
+        animation: none;
+        opacity: 0.7;
+        transform: scale(0.9);
+      }
+    }
+    @supports not (mix-blend-mode: plus-lighter) {
+      .hero-orb__ambient .hero-orb__blob--c { mix-blend-mode: screen; opacity: 0.42; }
+    }
+    @keyframes orbFloat {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-12px); }
+    }
+    @keyframes orbDrift {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25%      { transform: translate(10px, -10px) rotate(0.8deg); }
+      50%      { transform: translate(-8px, 8px) rotate(-0.6deg); }
+      75%      { transform: translate(12px, 6px) rotate(0.5deg); }
+    }
+    @keyframes crystalBlobA {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50%      { transform: translate(6%, -4%) scale(1.06); }
+    }
+    @keyframes crystalBlobB {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50%      { transform: translate(-7%, 5%) scale(1.08); }
+    }
+    @keyframes crystalBlobC {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50%      { transform: translate(4%, 6%) scale(1.12); }
+    }
+    @keyframes orbShine {
+      0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.34; }
+      50%      { transform: translate(3px, -4px) scale(1.05); opacity: 0.48; }
+    }
+    @keyframes gemOutlineSpin {
       from { transform: rotate(0deg); }
       to   { transform: rotate(360deg); }
     }
-    @keyframes crystalFloat {
-      0%,100% { transform: translateY(0px); }
-      50%      { transform: translateY(-18px); }
+    /* Hero crystal: large desktop only (1280px+), hidden below */
+    @media (max-width: 1279px) {
+      .crystal-stage {
+        display: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+      }
     }
-    @media (max-width: 900px) { .crystal-wrap { display: none !important; } }
   </style>
 </head>
-<body>
-<!-- Page entrance fade -->
+<body id="top">
+  <div class="dream-entrance" id="dream-entrance" aria-hidden="true">
+    <div class="dream-entrance__layer dream-entrance__layer--glow-tr"></div>
+    <div class="dream-entrance__layer dream-entrance__layer--glow-bl"></div>
+    <div class="dream-entrance__layer dream-entrance__layer--shine"></div>
+  </div>
+  <script>
+    (function () {
+      var el = document.getElementById('dream-entrance');
+      if (!el) return;
+      function hide() { el.classList.add('dream-entrance--hidden'); }
+      el.addEventListener('animationend', hide);
+      window.setTimeout(hide, 4500);
+    })();
+  </script>
 
-  <!-- Animated canvas background -->
-  <canvas id="bg-canvas"></canvas>
-  <!-- Fixed background base -->
+  <!-- Fixed base first, then canvas on top (same z-index: later sibling paints above) -->
   <div id="bg"></div>
-
-  <!-- Drifting blobs -->
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
+  <canvas id="bg-canvas"></canvas>
 
   <!-- Cursor dot only -->
   <div id="cursor"></div>
 
   <!-- Nav -->
   <nav>
-    <a href="#" class="nav-logo">J<span>C</span></a>
+    <a href="#hero" class="nav-logo">J<span>C</span></a>
     <ul class="nav-links">
       <button class="nav-close" aria-label="Close menu">✕</button>
       <li><a href="#projects">Work</a></li>
@@ -668,67 +1154,146 @@
   <section id="hero">
     <p class="hero-eyebrow">Front-End Developer · UI/UX Designer</p>
     <h1 class="hero-name">Jane<br> <em>Chavez</em></h1>
-    <p class="hero-desc">Building responsive, accessible web interfaces with strong attention to user experience, visual hierarchy, and clean structure.</p>
+    <p class="hero-desc">I build responsive, accessible sites and care a lot about clear hierarchy, readable type, and structure that actually helps people get things done.</p>
     <div class="hero-ctas">
       <a href="#projects" class="btn-primary"><span>View My Work</span></a>
-      <a href="https://jpdm07.github.io/portfolio-website/Jane_Chavez_Resume_2026.pdf" class="btn-ghost" target="_blank">Download Résumé</a>
+      <a href="Jane_Chavez_Resume_2026.pdf" class="btn-ghost" target="_blank">Download Résumé</a>
     </div>
-    <!-- Crystal gem SVG - desktop only -->
+    <!-- Hero ambient disk + faceted gem — draggable within this section (desktop only) -->
+    <div class="crystal-stage" id="crystal-stage" aria-hidden="true">
     <div class="crystal-wrap" id="crystal-wrap" aria-hidden="true">
+      <div class="crystal-drifter">
       <div class="crystal-scaler">
       <div class="crystal-floater">
-      <svg class="crystal-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="cg1" cx="38%" cy="32%" r="58%">
-            <stop offset="0%" stop-color="#fce4f0" stop-opacity="0.95"/>
-            <stop offset="35%" stop-color="#f472b6" stop-opacity="0.65"/>
-            <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.3"/>
-          </radialGradient>
-          <radialGradient id="cg2" cx="62%" cy="68%" r="55%">
-            <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.55"/>
-            <stop offset="100%" stop-color="#bfdbfe" stop-opacity="0.1"/>
-          </radialGradient>
-          <radialGradient id="cg3" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22"/>
-            <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-          </radialGradient>
-          <radialGradient id="cg4" cx="35%" cy="30%" r="40%">
-            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.92"/>
-            <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
-        <circle cx="150" cy="150" r="142" fill="none" stroke="#f472b6" stroke-width="0.5" opacity="0.2"/>
-        <polygon points="150,150 60,165 105,240" fill="#a78bfa" opacity="0.35" class="c-face"/>
-        <polygon points="150,150 105,240 150,265" fill="#c4b5fd" opacity="0.3" class="c-face"/>
-        <polygon points="150,150 150,265 195,240" fill="#f472b6" opacity="0.28" class="c-face"/>
-        <polygon points="150,150 195,240 240,165" fill="#a78bfa" opacity="0.32" class="c-face"/>
-        <polygon points="150,150 240,165 240,135" fill="#bfdbfe" opacity="0.3" class="c-face"/>
-        <polygon points="150,150 240,135 195,60" fill="#f472b6" opacity="0.35" class="c-face"/>
-        <polygon points="150,150 195,60 150,35" fill="#fce4f0" opacity="0.4" class="c-face"/>
-        <polygon points="150,150 150,35 105,60" fill="#c4b5fd" opacity="0.38" class="c-face"/>
-        <polygon points="150,150 105,60 60,135" fill="#a78bfa" opacity="0.3" class="c-face"/>
-        <polygon points="150,150 60,135 60,165" fill="#bfdbfe" opacity="0.32" class="c-face"/>
-        <polygon points="60,135 60,165 105,240 150,265 195,240 240,165 240,135 195,60 150,35 105,60"
-          fill="none" stroke="#f472b6" stroke-width="0.6" opacity="0.4"/>
-        <polygon points="60,135 60,165 105,240 150,265 195,240 240,165 240,135 195,60 150,35 105,60"
-          fill="url(#cg1)" opacity="0.7"/>
-        <polygon points="60,135 60,165 105,240 150,265 195,240 240,165 240,135 195,60 150,35 105,60"
-          fill="url(#cg2)" opacity="0.4"/>
-        <polygon points="105,90 150,70 195,90 210,135 195,165 150,180 105,165 90,135"
-          fill="url(#cg3)" stroke="#fce4f0" stroke-width="0.8" opacity="0.6"/>
-        <line x1="150" y1="70" x2="150" y2="265" stroke="#fce4f0" stroke-width="0.4" opacity="0.2"/>
-        <line x1="60" y1="135" x2="240" y2="165" stroke="#f472b6" stroke-width="0.4" opacity="0.18"/>
-        <line x1="60" y1="165" x2="240" y2="135" stroke="#a78bfa" stroke-width="0.4" opacity="0.18"/>
-        <line x1="105" y1="60" x2="195" y2="240" stroke="#bfdbfe" stroke-width="0.4" opacity="0.15"/>
-        <line x1="195" y1="60" x2="105" y2="240" stroke="#f472b6" stroke-width="0.4" opacity="0.15"/>
-        <circle cx="108" cy="95" r="22" fill="url(#cg4)" opacity="0.8"/>
-        <circle cx="112" cy="99" r="7" fill="white" opacity="0.6"/>
-        <circle cx="108" cy="93" r="2.5" fill="white" opacity="0.95"/>
-        <circle cx="205" cy="190" r="5" fill="white" opacity="0.15"/>
-        <circle cx="205" cy="190" r="1.5" fill="white" opacity="0.4"/>
-      </svg>
+        <div class="hero-orb">
+          <div class="hero-orb__ambient" aria-hidden="true">
+            <div class="hero-orb__grain"></div>
+            <div class="hero-orb__blob hero-orb__blob--a"></div>
+            <div class="hero-orb__blob hero-orb__blob--b"></div>
+            <div class="hero-orb__blob hero-orb__blob--c"></div>
+            <div class="hero-orb__shine"></div>
+          </div>
+          <div class="hero-orb__gem">
+          <svg class="hero-orb__outline" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="hoFacetA" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+                <stop offset="32%" stop-color="#fbcfe8" stop-opacity="0.58"/>
+                <stop offset="62%" stop-color="#ddd6fe" stop-opacity="0.44"/>
+                <stop offset="100%" stop-color="#a78bfa" stop-opacity="0.34"/>
+              </linearGradient>
+              <linearGradient id="hoFacetB" x1="100%" y1="5%" x2="0%" y2="95%">
+                <stop offset="0%" stop-color="#fef3c7" stop-opacity="0.58"/>
+                <stop offset="38%" stop-color="#f9a8d4" stop-opacity="0.5"/>
+                <stop offset="100%" stop-color="#818cf8" stop-opacity="0.32"/>
+              </linearGradient>
+              <radialGradient id="hoGlint" cx="32%" cy="26%" r="38%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+                <stop offset="50%" stop-color="#fce7f3" stop-opacity="0.48"/>
+                <stop offset="100%" stop-color="#c084fc" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="hoGlintPink" cx="74%" cy="66%" r="32%">
+                <stop offset="0%" stop-color="#fda4af" stop-opacity="0.72"/>
+                <stop offset="100%" stop-color="#f472b6" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="hoRim" x1="50%" y1="0%" x2="50%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98"/>
+                <stop offset="45%" stop-color="#f9a8d4" stop-opacity="0.78"/>
+                <stop offset="100%" stop-color="#c4b5fd" stop-opacity="0.68"/>
+              </linearGradient>
+              <linearGradient id="hoInnerBright" x1="20%" y1="0%" x2="80%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+                <stop offset="35%" stop-color="#fdf4ff" stop-opacity="0.55"/>
+                <stop offset="70%" stop-color="#e9d5ff" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#a78bfa" stop-opacity="0.2"/>
+              </linearGradient>
+              <radialGradient id="hoCore" cx="38%" cy="32%" r="55%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+                <stop offset="25%" stop-color="#fce7f3" stop-opacity="0.45"/>
+                <stop offset="55%" stop-color="#c4b5fd" stop-opacity="0.22"/>
+                <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+              </radialGradient>
+              <filter id="hoSparkBlur" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="0.9" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <!-- Inner crown facets (depth) -->
+            <g stroke-linejoin="round" opacity="0.92">
+              <polygon fill="url(#hoInnerBright)" points="150,151.5 150,62 172,74"/>
+              <polygon fill="url(#hoFacetB)" points="150,151.5 172,74 210,118"/>
+              <polygon fill="url(#hoInnerBright)" points="150,151.5 210,118 228,151.5"/>
+              <polygon fill="url(#hoFacetA)" points="150,151.5 228,151.5 210,186"/>
+              <polygon fill="url(#hoInnerBright)" points="150,151.5 210,186 172,230"/>
+              <polygon fill="url(#hoFacetB)" points="150,151.5 172,230 150,242"/>
+              <polygon fill="url(#hoInnerBright)" points="150,151.5 150,242 128,230"/>
+              <polygon fill="url(#hoFacetA)" points="150,151.5 128,230 90,186"/>
+              <polygon fill="url(#hoInnerBright)" points="150,151.5 90,186 72,151.5"/>
+              <polygon fill="url(#hoFacetB)" points="150,151.5 72,151.5 90,118"/>
+              <polygon fill="url(#hoInnerBright)" points="150,151.5 90,118 128,74"/>
+              <polygon fill="url(#hoFacetA)" points="150,151.5 128,74 150,62"/>
+            </g>
+            <g stroke-linejoin="round">
+              <polygon fill="url(#hoFacetA)" points="150,151.5 150,35 195,60"/>
+              <polygon fill="url(#hoFacetB)" points="150,151.5 195,60 240,135"/>
+              <polygon fill="url(#hoFacetA)" points="150,151.5 240,135 240,165"/>
+              <polygon fill="url(#hoFacetB)" points="150,151.5 240,165 195,240"/>
+              <polygon fill="url(#hoFacetA)" points="150,151.5 195,240 150,265"/>
+              <polygon fill="url(#hoFacetB)" points="150,151.5 150,265 105,240"/>
+              <polygon fill="url(#hoFacetA)" points="150,151.5 105,240 60,165"/>
+              <polygon fill="url(#hoFacetB)" points="150,151.5 60,165 60,135"/>
+              <polygon fill="url(#hoFacetA)" points="150,151.5 60,135 105,60"/>
+              <polygon fill="url(#hoFacetB)" points="150,151.5 105,60 150,35"/>
+            </g>
+            <g fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="0.55" stroke-linejoin="round" stroke-linecap="round">
+              <line x1="150" y1="151.5" x2="150" y2="35"/>
+              <line x1="150" y1="151.5" x2="195" y2="60"/>
+              <line x1="150" y1="151.5" x2="240" y2="135"/>
+              <line x1="150" y1="151.5" x2="240" y2="165"/>
+              <line x1="150" y1="151.5" x2="195" y2="240"/>
+              <line x1="150" y1="151.5" x2="150" y2="265"/>
+              <line x1="150" y1="151.5" x2="105" y2="240"/>
+              <line x1="150" y1="151.5" x2="60" y2="165"/>
+              <line x1="150" y1="151.5" x2="60" y2="135"/>
+              <line x1="150" y1="151.5" x2="105" y2="60"/>
+            </g>
+            <ellipse cx="150" cy="151.5" rx="48" ry="44" fill="url(#hoCore)" opacity="0.42" style="mix-blend-mode: screen;"/>
+            <polygon fill="none" stroke="url(#hoRim)" stroke-width="1.25" stroke-linejoin="round"
+              points="60,135 60,165 105,240 150,265 195,240 240,165 240,135 195,60 150,35 105,60"/>
+            <ellipse cx="112" cy="92" rx="20" ry="11" fill="url(#hoGlint)" transform="rotate(-28 112 92)" opacity="0.88"/>
+            <ellipse cx="198" cy="188" rx="13" ry="8" fill="url(#hoGlintPink)" transform="rotate(18 198 188)" opacity="0.78"/>
+            <!-- Sparkle glints — inset inside decagon only (toward center from rim) -->
+            <g class="gem-sparkles" pointer-events="none" filter="url(#hoSparkBlur)">
+              <circle class="gem-spark" cx="150" cy="76" r="2.4" fill="#ffffff"/>
+              <circle class="gem-spark" cx="179" cy="92" r="2.1" fill="#fffef8"/>
+              <circle class="gem-spark" cx="209" cy="130" r="2.3" fill="#fce7f3"/>
+              <circle class="gem-spark" cx="209" cy="173" r="2.2" fill="#e9d5ff"/>
+              <circle class="gem-spark" cx="179" cy="209" r="2.4" fill="#ddd6fe"/>
+              <circle class="gem-spark" cx="150" cy="225" r="2.3" fill="#fbcfe8"/>
+              <circle class="gem-spark" cx="121" cy="209" r="2.1" fill="#ffffff"/>
+              <circle class="gem-spark" cx="91" cy="173" r="2.3" fill="#fdf4ff"/>
+              <circle class="gem-spark" cx="91" cy="130" r="2.2" fill="#fffbeb"/>
+              <circle class="gem-spark" cx="121" cy="92" r="2.1" fill="#ffffff"/>
+              <circle class="gem-spark" cx="162" cy="112" r="1.9" fill="#fef3c7"/>
+              <circle class="gem-spark" cx="188" cy="152" r="2" fill="#e9d5ff"/>
+            </g>
+            <g class="gem-sparkles--hot" pointer-events="none" filter="url(#hoSparkBlur)">
+              <circle class="gem-spark-hot" cx="165" cy="108" r="1.4" fill="#ffffff"/>
+              <circle class="gem-spark-hot" cx="192" cy="138" r="1.35" fill="#fffbeb"/>
+              <circle class="gem-spark-hot" cx="192" cy="166" r="1.45" fill="#fce7f3"/>
+              <circle class="gem-spark-hot" cx="165" cy="196" r="1.35" fill="#e9d5ff"/>
+              <circle class="gem-spark-hot" cx="135" cy="196" r="1.4" fill="#ffffff"/>
+              <circle class="gem-spark-hot" cx="108" cy="166" r="1.35" fill="#fdf4ff"/>
+              <circle class="gem-spark-hot" cx="108" cy="138" r="1.4" fill="#ffffff"/>
+              <circle class="gem-spark-hot" cx="135" cy="108" r="1.3" fill="#fef9c3"/>
+            </g>
+          </svg>
+          </div>
+        </div>
       </div>
       </div>
+      </div>
+    </div>
     </div>
 
     <div class="hero-scroll-indicator">
@@ -749,7 +1314,7 @@
 
     <div class="projects-grid">
 
-      <!-- #1 — CaloriEat (most impactful: full-stack capstone, SDLC, team) -->
+      <!-- #1 — CaloriEat (capstone team project, dashboards + Chart.js) -->
       <div class="project-item reveal" onclick="toggleProject(this)">
         <div class="project-header">
           <div class="project-meta">
@@ -765,19 +1330,19 @@
           <div class="project-content">
             <div class="project-text">
               <h4>Problem</h4>
-              <p>Designed and developed a full-stack calorie tracking web application allowing users to log meals, track macronutrients, record weigh-ins, set goals, and visualize progress through interactive dashboards.</p>
+              <p>Capstone team project: a calorie tracking web app where users can log meals, track macros, record weigh-ins, set goals, and see progress on interactive dashboards (Chart.js).</p>
               <h4>My Role</h4>
               <ul>
-                <li>Led project vision development and requirements analysis.</li>
-                <li>Designed Use Case, Data Flow, and State Chart diagrams.</li>
-                <li>Contributed to backend/database structure and system testing.</li>
-                <li>Participated in Client-Side MVC architecture design.</li>
-                <li>Integrated Chart.js for progress visualization.</li>
+                <li>Helped shape product direction and requirements with the team.</li>
+                <li>Drew use case, data flow, and state chart diagrams.</li>
+                <li>Worked on backend/database pieces and testing, not just the UI.</li>
+                <li>Helped design the client-side MVC structure.</li>
+                <li>Hooked up Chart.js for nutrition and weekly progress views.</li>
               </ul>
               <h4>Outcome</h4>
-              <p>Delivered a fully functional web application demonstrating complete SDLC principles — from requirements gathering to deployment. Showcases architecture design, documentation, and collaborative development.</p>
+              <p>We shipped a working app end to end: requirements through deployment, with documentation and a clear split of responsibilities. Good practice in collaboration, not just solo coding.</p>
               <div class="project-links">
-                <a href="https://jpdm07.github.io/CaloriEat/" target="_blank" class="project-link">View Live App ↗</a>
+                <a href="https://jpdm07.github.io/CaloriEat/welcome.html" target="_blank" rel="noopener noreferrer" class="project-link">View Live App ↗</a>
                 <a href="https://github.com/jpdm07/CaloriEat" target="_blank" class="project-link">Source Code ↗</a>
               </div>
             </div>
@@ -789,12 +1354,12 @@
                     <div class="browser-url"></div>
                   </div>
                   <div class="browser-screen-placeholder">
-                    <img src="https://jpdm07.github.io/portfolio-website/images/calorieat-screenshot.png" alt="CaloriEat Dashboard" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'">
+                    <img src="images/calorieat-screenshot.png" alt="CaloriEat welcome — sign in or try as guest" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'">
                   </div>
                 </div>
                 <div class="phone-frame">
                   <div class="phone-notch"><div class="phone-notch-dot"></div></div>
-                  <div class="phone-screen"><img src="https://jpdm07.github.io/portfolio-website/images/calorieat-screenshot.png" alt="" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;object-fit:cover;object-position:center center;" onerror="this.style.display='none'"></div>
+                  <div class="phone-screen"><img src="images/calorieat-screenshot-mobile.png" alt="" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.style.display='none'"></div>
                 </div>
               </div>
             </div>
@@ -818,17 +1383,17 @@
           <div class="project-content">
             <div class="project-text">
               <h4>Context</h4>
-              <p>Built a full nonprofit animal rescue website from scratch using WordPress and Elementor. Designed and developed all pages including homepage, about, and contact — demonstrating real-world Elementor proficiency.</p>
+              <p>Nonprofit-style rescue site built in WordPress with Elementor: I laid out the main pages (home, about, contact) and handled visuals, not just dropping in a template.</p>
               <h4>What I Built</h4>
               <ul>
-                <li>Custom hero section with background image, headline and CTA button.</li>
-                <li>What We Do section with 3-column icon layout — Rescue, Rehabilitate, Rehome.</li>
+                <li>Hero with background image, headline, and primary CTA.</li>
+                <li>“What we do” block: three columns for rescue, rehabilitate, and rehome.</li>
                 <li>Meet Our Animals section with pet profiles and Adopt Me buttons.</li>
                 <li>Contact page with SureForms contact form and location info.</li>
                 <li>Custom HTR logo and brand identity in warm orange and teal.</li>
               </ul>
               <h4>Outcome</h4>
-              <p>Built a working prototype nonprofit rescue site on a custom domain, informed by real UX observations from volunteering with Sierra Overlook Animal Rescue. Demonstrates hands-on WordPress and Elementor skills including layout design, branding, and form integration.</p>
+              <p>Live on a custom domain as a working prototype. Ideas pulled from volunteering (Sierra Overlook Animal Rescue, Wix site), then applied here in WordPress: layout, branding, pet sections, and a contact form (SureForms).</p>
               <div class="project-links">
                 <a href="https://janechavez.org" target="_blank" class="project-link">View Live Site ↗</a>
                 <a href="soar-case-study.html" class="project-link">Case Study ↗</a>
@@ -914,7 +1479,7 @@
             <h3 class="project-name">This Portfolio Website</h3>
           </div>
           <div style="display:flex;align-items:center;gap:16px;">
-            <div class="project-tags"><span class="tag">HTML/CSS/JS</span><span class="tag">Bootstrap</span></div>
+            <div class="project-tags"><span class="tag">HTML / CSS</span><span class="tag">JavaScript</span><span class="tag">GitHub Pages</span><span class="tag">Was Bootstrap 5</span></div>
             <span class="project-arrow">+</span>
           </div>
         </div>
@@ -922,83 +1487,74 @@
           <div class="project-content">
             <div class="project-text">
               <h4>Problem</h4>
-              <p>Needed a professional platform to present my UI/UX and front-end skills to potential employers, demonstrating both design thinking and technical implementation in one cohesive product.</p>
+              <p>I needed one place that showed how I think about UX and that I can actually build what I design, without hiding behind a page builder. I also wanted it to feel like my space: something that reflects my taste and how I like to present myself, not a generic layout that could belong to anyone.</p>
               <h4>My Role</h4>
               <ul>
-                <li>Designed overall layout, typography, and visual hierarchy.</li>
-                <li>Built a responsive front-end using HTML, CSS, and Bootstrap 5.</li>
-                <li>Ensured accessibility, cross-browser compatibility, and performance best practices.</li>
-                <li>Created low- and high-fidelity wireframes in Figma before building.</li>
+                <li>Owned layout, type, and visual hierarchy start to finish.</li>
+                <li>The first live versions ran on Bootstrap 5, which got me online fast but never quite felt like my handwriting. I removed Bootstrap and rewrote spacing, type, and components in my own CSS so the site could match my Figma direction and read as something I customized, not something I rented from a framework.</li>
+                <li>Semantic HTML, heavy custom CSS (grid, flex, motion, breakpoints), and plain JavaScript. No React on this site.</li>
+                <li>JS for the canvas background, opening transition, scroll bits, mobile nav, résumé page behavior, cursor quirks on desktop, and the draggable gem in the hero (vanilla, kept readable on purpose).</li>
+                <li>Tried to keep accessibility and performance in mind (reduced motion, reasonable canvas work).</li>
+                <li>Started from low- and high-fi wireframes in Figma.</li>
               </ul>
+              <h4>Before and after (same repo)</h4>
+              <div class="project-evolution">
+                <div class="project-evolution-card">
+                  <div class="project-evolution-label">Then</div>
+                  <p>Early versions used Bootstrap 5. The mockup on the right matches the framed screenshots on my other projects: real desktop and narrow-viewport captures from the archived build. For a live HTML preview or the raw source file, use the links below.</p>
+                </div>
+                <div class="project-evolution-card">
+                  <div class="project-evolution-label">Now</div>
+                  <p>Dropped the Bootstrap CSS/JS bundles, rebuilt the shell (nav, sections, project rows, buttons) by hand, then layered in the canvas background, entrance animation, and the smaller JS touches I actually want on the page. The new look gives me room to express myself: color, motion, and little details that feel closer to how I’d design if we were sitting down together.</p>
+                </div>
+              </div>
+              <div class="project-links" style="margin-top: 20px;">
+                <a href="https://jpdm07.github.io/portfolio-website/legacy-bootstrap-demo/" target="_blank" rel="noopener" class="project-link">Older Bootstrap demo ↗</a>
+                <a href="https://github.com/jpdm07/portfolio-website/blob/ee5bb017ade517b4df4e9c907e7df64e8c4486a4/index.html" target="_blank" rel="noopener" class="project-link">Bootstrap-era source ↗</a>
+              </div>
+              <p class="project-evolution-note">If you want the whole rewrite in one place, GitHub shows it as <a href="https://github.com/jpdm07/portfolio-website/commit/4511d9c194170ef31f328258c1c2cfa73a03e981" target="_blank" rel="noopener">this single revamp commit</a> (diff is big on purpose).</p>
               <h4>Outcome</h4>
-              <p>Launched a professional, responsive portfolio demonstrating end-to-end UI/UX design and front-end development capabilities. Received positive feedback from peers and mentors on usability and visual clarity.</p>
+              <p>Hosted on GitHub Pages. Classmates and mentors said it was easy to read and felt polished. For me it’s proof the JavaScript here is real work, not just static layout, and the whole thing finally feels like something I’d stand behind as mine.</p>
               <div class="project-links">
-                <a href="https://jpdm07.github.io/portfolio-website/" target="_blank" class="project-link">View Live ↗</a>
+                <a href="index.html" target="_blank" rel="noopener" class="project-link">View Live ↗</a>
                 <a href="https://github.com/jpdm07/portfolio-website" target="_blank" class="project-link">Source Code ↗</a>
               </div>
             </div>
-            <div class="project-mockup">
-              <div class="mockup-stack">
-                <div class="browser-frame">
-                  <div class="browser-bar">
-                    <div class="browser-dots"><span></span><span></span><span></span></div>
-                    <div class="browser-url"></div>
+            <div class="project-mockup project-mockup--003-col">
+              <div class="project-mockup-003-block" aria-label="Bootstrap-era portfolio in device frames">
+                <div class="mockup-stack">
+                  <div class="browser-frame">
+                    <div class="browser-bar">
+                      <div class="browser-dots"><span></span><span></span><span></span></div>
+                      <div class="browser-url"></div>
+                    </div>
+                    <div class="browser-screen-placeholder">
+                      <img src="images/portfolio-bootstrap-before-desktop.png" alt="Earlier portfolio on desktop: light Bootstrap layout, hero, pale blue buttons" class="evolution-shot-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                    </div>
                   </div>
-                  <div class="browser-screen-placeholder" style="background:#07070f;padding:0;overflow:hidden;position:relative;">
-                    <!-- Updated mini hero replica matching current design -->
-                    <!-- Grid lines -->
-                    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.018) 1px,transparent 1px);background-size:28px 28px;"></div>
-                    <!-- Pink glow top right -->
-                    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 85% 5%,rgba(244,114,182,0.2) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 5% 90%,rgba(139,92,246,0.14) 0%,transparent 60%);"></div>
-                    <!-- Aurora wave hint -->
-                    <div style="position:absolute;top:30%;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(244,114,182,0.25),transparent);"></div>
-                    <div style="position:absolute;top:55%;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(168,85,247,0.2),transparent);"></div>
-                    <div style="position:relative;z-index:2;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;height:100%;">
-                      <!-- Nav -->
-                      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid rgba(255,255,255,0.06);">
-                        <span style="font-family:'Cormorant Garamond',serif;font-size:9px;font-weight:600;background:linear-gradient(to bottom,#fff,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">JC</span>
-                        <div style="display:flex;gap:7px;">
-                          <span style="font-size:4.5px;color:rgba(155,151,178,0.6);font-family:'DM Mono',monospace;letter-spacing:0.08em;">WORK</span>
-                          <span style="font-size:4.5px;color:rgba(155,151,178,0.6);font-family:'DM Mono',monospace;letter-spacing:0.08em;">ABOUT</span>
-                          <span style="font-size:4.5px;color:rgba(155,151,178,0.6);font-family:'DM Mono',monospace;letter-spacing:0.08em;">CONTACT</span>
-                          <span style="font-size:4.5px;color:#f472b6;font-family:'DM Mono',monospace;letter-spacing:0.08em;">RÉSUMÉ</span>
-                        </div>
-                      </div>
-                      <!-- Hero -->
-                      <div style="margin-top:2px;">
-                        <div style="font-size:5px;color:#f472b6;font-family:'DM Mono',monospace;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:5px;">Front-End Developer · UI/UX Designer</div>
-                        <div style="font-family:'Cormorant Garamond',serif;line-height:0.92;margin-bottom:7px;background:linear-gradient(to bottom,#ffffff 0%,#fce4f0 45%,#f472b6 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:inline-block;">
-                          <div style="font-size:20px;font-weight:300;letter-spacing:-0.02em;">Jane</div>
-                          <div style="font-size:20px;font-weight:300;font-style:italic;letter-spacing:-0.02em;">Chavez</div>
-                        </div>
-                        <div style="font-size:5px;color:rgba(155,151,178,0.75);line-height:1.6;max-width:150px;margin-bottom:9px;">Building responsive, accessible web interfaces with strong attention to user experience.</div>
-                        <div style="display:flex;gap:6px;align-items:center;">
-                          <div style="border:1px solid #f472b6;padding:3px 8px;font-size:4.5px;color:#f472b6;font-family:'DM Mono',monospace;letter-spacing:0.1em;">VIEW MY WORK</div>
-                          <div style="font-size:4.5px;color:rgba(155,151,178,0.6);font-family:'DM Mono',monospace;letter-spacing:0.1em;">DOWNLOAD RÉSUMÉ ↓</div>
-                        </div>
-                      </div>
+                  <div class="phone-frame">
+                    <div class="phone-notch"><div class="phone-notch-dot"></div></div>
+                    <div class="phone-screen">
+                      <img src="images/portfolio-bootstrap-before-mobile.png" alt="" class="evolution-shot-img evolution-shot-img--phone" loading="lazy" decoding="async" onerror="this.style.display='none'">
                     </div>
                   </div>
                 </div>
-                <div class="phone-frame">
-                  <div class="phone-notch"><div class="phone-notch-dot"></div></div>
-                  <div class="phone-screen" style="display:flex;flex-direction:column;background:#07070f;position:relative;overflow:hidden;">
-                    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 85% 5%,rgba(244,114,182,0.22) 0%,transparent 60%);"></div>
-                    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);background-size:18px 18px;"></div>
-                    <div style="position:relative;z-index:2;padding:6px 5px;display:flex;flex-direction:column;height:100%;align-items:center;text-align:center;">
-                      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,0.06);width:100%;">
-                        <span style="font-family:'Cormorant Garamond',serif;font-size:6px;font-weight:600;background:linear-gradient(to bottom,#fff,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">JC</span>
-                        <span style="font-size:5px;color:rgba(155,151,178,0.6);font-family:'DM Mono',monospace;">≡</span>
-                      </div>
-                      <div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;">
-                        <div style="font-size:3.5px;color:#f472b6;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Front-End · UI/UX</div>
-                        <div style="font-family:'Cormorant Garamond',serif;line-height:0.92;margin-bottom:5px;background:linear-gradient(to bottom,#ffffff,#fce4f0,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:inline-block;text-align:center;">
-                          <div style="font-size:12px;font-weight:300;">Jane Chavez</div>
-                        </div>
-                        <div style="font-size:3px;color:rgba(155,151,178,0.7);line-height:1.5;margin-bottom:5px;text-align:center;">Building responsive, accessible web interfaces.</div>
-                        <div style="border:1px solid #f472b6;padding:2px 4px;font-size:3px;color:#f472b6;font-family:'DM Mono',monospace;letter-spacing:0.08em;width:80%;text-align:center;">VIEW WORK</div>
-                        <div style="border:1px solid rgba(255,255,255,0.1);padding:2px 4px;font-size:3px;color:rgba(155,151,178,0.6);font-family:'DM Mono',monospace;letter-spacing:0.08em;width:80%;text-align:center;margin-top:3px;">RÉSUMÉ ↓</div>
-                      </div>
+              </div>
+              <div class="project-mockup-003-block" aria-label="Current portfolio in device frames">
+                <div class="mockup-stack">
+                  <div class="browser-frame">
+                    <div class="browser-bar">
+                      <div class="browser-dots"><span></span><span></span><span></span></div>
+                      <div class="browser-url"></div>
+                    </div>
+                    <div class="browser-screen-placeholder portfolio-mockup-desktop" style="background:#07070f;padding:0;overflow:hidden;position:relative;">
+                      <img src="images/portfolio-current-desktop.png" alt="Current portfolio hero on desktop, including grid background and crystal" class="portfolio-mockup-desktop-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                    </div>
+                  </div>
+                  <div class="phone-frame">
+                    <div class="phone-notch"><div class="phone-notch-dot"></div></div>
+                    <div class="phone-screen">
+                      <img src="images/portfolio-current-mobile.png" alt="" class="portfolio-mockup-mobile-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
                     </div>
                   </div>
                 </div>
@@ -1024,16 +1580,16 @@
           <div class="project-content">
             <div class="project-text">
               <h4>Problem</h4>
-              <p>Needed to strengthen my UI/UX portfolio by creating a polished, modern hero section demonstrating visual hierarchy, spacing, and device mockup integration — recruiter-ready and production-quality.</p>
+              <p>I wanted one strong hero treatment I could show in interviews: clear type, spacing, and a device mockup that looks intentional, not thrown together.</p>
               <h4>My Role</h4>
               <ul>
-                <li>Designed full desktop hero layout in Figma.</li>
-                <li>Established typography scale and spacing system.</li>
-                <li>Integrated project screenshot into device mockup.</li>
-                <li>Applied responsive layout principles and exported high-res assets.</li>
+                <li>Desktop hero layout in Figma.</li>
+                <li>Typography scale and spacing I could reuse elsewhere.</li>
+                <li>Dropped a project screenshot into phone/desktop frames.</li>
+                <li>Thought about how it would reflow and exported assets at usable resolution.</li>
               </ul>
               <h4>Outcome</h4>
-              <p>Produced a clean, high-fidelity UI hero section demonstrating Figma proficiency and UI design fundamentals. Strengthens portfolio toward UI/UX-focused roles.</p>
+              <p>A tight Figma file plus prototype links. Good shorthand for “I can own UI craft” when people ask for design samples.</p>
               <div class="project-links">
                 <a href="https://www.figma.com/proto/qhk0PTd7kBe39rhb9lrMKr/Hero-Section?node-id=0-1&t=eog5D9QeQcq6Pt3I-1" target="_blank" class="project-link">View Design ↗</a>
                 <a href="https://www.figma.com/proto/qhk0PTd7kBe39rhb9lrMKr/Hero-Section?node-id=7-666&t=WuJhF99nIzxijAJd-1&scaling=contain&content-scaling=fixed&page-id=0%3A1" target="_blank" class="project-link">View Prototype ↗</a>
@@ -1047,12 +1603,12 @@
                     <div class="browser-url"></div>
                   </div>
                   <div class="browser-screen-placeholder">
-                    <img src="https://jpdm07.github.io/portfolio-website/images/figma-hero.png" alt="Figma Hero Section" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'">
+                    <img src="images/figma-hero.png" alt="Figma Hero Section" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'">
                   </div>
                 </div>
                 <div class="phone-frame">
                   <div class="phone-notch"><div class="phone-notch-dot"></div></div>
-                  <div class="phone-screen"><img src="https://jpdm07.github.io/portfolio-website/images/figma-hero.png" alt="" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;object-fit:cover;object-position:center center;" onerror="this.style.display='none'"></div>
+                  <div class="phone-screen"><img src="images/figma-hero.png" alt="" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;object-fit:cover;object-position:center center;" onerror="this.style.display='none'"></div>
                 </div>
               </div>
             </div>
@@ -1060,7 +1616,7 @@
         </div>
       </div>
 
-      <!-- #5 — WoofDog (fun concept, frontend skills) -->
+      <!-- #5 — WoofDog (Udemy + Bootstrap concept demo) -->
       <div class="project-item reveal reveal-delay-4" onclick="toggleProject(this)">
         <div class="project-header">
           <div class="project-meta">
@@ -1068,7 +1624,7 @@
             <h3 class="project-name">WoofDog: Dog Dating App</h3>
           </div>
           <div style="display:flex;align-items:center;gap:16px;">
-            <div class="project-tags"><span class="tag">Front-End</span><span class="tag">JavaScript</span></div>
+            <div class="project-tags"><span class="tag">Front-End</span><span class="tag">Bootstrap</span><span class="tag">JavaScript</span></div>
             <span class="project-arrow">+</span>
           </div>
         </div>
@@ -1077,15 +1633,15 @@
             <div class="project-text">
               <h4>Problem</h4>
               <p>Many dog owners want a fun, safe way to meet other dog owners for socializing, playdates, and community events. This concept app explores that space with a playful, engaging UI.</p>
+              <p><strong>Context:</strong> I learned this build through a <strong>Udemy</strong> course. The page uses <strong>Bootstrap</strong> for layout, grid, and components, with HTML, CSS, and JavaScript on top—so it’s clear which tools shaped this piece versus hand-rolled projects elsewhere on the site.</p>
               <h4>My Role</h4>
               <ul>
-                <li>Designed and implemented the full front-end user interface.</li>
-                <li>Developed interactive elements to simulate user interactions.</li>
-                <li>Ensured responsive design and intuitive UX across devices.</li>
-                <li>Created mockups and high-fidelity prototypes to refine interactions.</li>
+                <li>Worked through the Udemy project end to end and kept Bootstrap in the stack for structure and styling.</li>
+                <li>Added swipe-style and other interactions in JavaScript (demo / prototype level).</li>
+                <li>Tuned responsive behavior using Bootstrap’s grid and utilities, then iterated in code until the UI felt fun and clear.</li>
               </ul>
               <h4>Outcome</h4>
-              <p>Delivered a prototype front-end demonstrating ability to build engaging, responsive web applications. Highlights creative design thinking alongside technical execution.</p>
+              <p>A playful live demo that shows I can follow a structured course, use Bootstrap in a real layout, and still ship something cohesive in the browser.</p>
               <div class="project-links">
                 <a href="https://jpdm07.github.io/woofdog/" target="_blank" class="project-link">View Live App ↗</a>
                 <a href="https://github.com/jpdm07/woofdog" target="_blank" class="project-link">Source Code ↗</a>
@@ -1099,12 +1655,12 @@
                     <div class="browser-url"></div>
                   </div>
                   <div class="browser-screen-placeholder">
-                    <img src="https://jpdm07.github.io/portfolio-website/images/woofdog-screenshot.png" alt="WoofDog App" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'">
+                    <img src="images/woofdog-screenshot.png" alt="WoofDog App" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'">
                   </div>
                 </div>
                 <div class="phone-frame">
                   <div class="phone-notch"><div class="phone-notch-dot"></div></div>
-                  <div class="phone-screen"><img src="https://jpdm07.github.io/portfolio-website/images/woofdog-screenshot.png" alt="" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;object-fit:cover;object-position:center center;" onerror="this.style.display='none'"></div>
+                  <div class="phone-screen"><img src="images/woofdog-screenshot.png" alt="" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;object-fit:cover;object-position:center center;" onerror="this.style.display='none'"></div>
                 </div>
               </div>
             </div>
@@ -1126,8 +1682,8 @@
     </div>
     <div class="about-grid">
       <div class="about-bio reveal">
-        <p>I'm <em>Jane Chavez</em>, a UI/UX Designer and Front-End Developer with an M.S. in Software Engineering from the University of Houston–Clear Lake.</p>
-        <p style="margin-top:1.2em;">I believe the best interfaces are the ones users never have to think about. <em>Simple. Intuitive. Purposeful.</em></p>
+        <p>I'm <em>Jane Chavez</em>, a UI/UX designer and front-end developer. I finished my M.S. in Software Engineering at University of Houston-Clear Lake.</p>
+        <p style="margin-top:1.2em;">Best interfaces, in my book, are the ones people don’t have to fight. <em>Simple. Intuitive. On purpose.</em></p>
       </div>
       <div class="about-details">
         <div class="about-block reveal reveal-delay-1">
@@ -1142,7 +1698,7 @@
         </div>
         <div class="about-block reveal reveal-delay-2">
           <h4>Education</h4>
-          <p style="font-size:0.88rem;color:var(--text-dim);line-height:1.7;">M.S. Software Engineering<br>University of Houston–Clear Lake<br><span style="color:var(--text-muted);">Graduated December 2025</span></p>
+          <p style="font-size:0.88rem;color:var(--text-dim);line-height:1.7;">M.S. Software Engineering<br>University of Houston-Clear Lake<br><span style="color:var(--text-muted);">Graduated December 2025</span></p>
         </div>
         <div class="about-block reveal reveal-delay-3">
           <blockquote class="about-quote">"User-focused. Simple. Intuitive. Every pixel with purpose."</blockquote>
@@ -1159,7 +1715,7 @@
       <div class="reveal">
         <h2 class="contact-headline">Let's build something <em>great</em> together.</h2>
       </div>
-      <p class="contact-sub reveal reveal-delay-1">I'm actively seeking entry-level front-end and UI/UX roles. If you're looking for someone who cares deeply about both design and code, I'd love to connect.</p>
+      <p class="contact-sub reveal reveal-delay-1">I'm looking for entry-level front-end or UI/UX work. If you want someone who actually cares about both the pixels and the markup behind them, say hi.</p>
       <div class="contact-links reveal reveal-delay-2">
         <a href="#" id="contact-email" class="contact-link primary">Get In Touch ↗</a>
         <a href="https://www.linkedin.com/in/jane-c-699a9241" target="_blank" class="contact-link">LinkedIn ↗</a>
@@ -1169,102 +1725,174 @@
     </div>
   </section>
 
+  <div class="page-end-nav" role="navigation" aria-label="End of page">
+    <a href="#top">Back to top ↑</a>
+  </div>
+
   <!-- Footer -->
   <footer>
-    <p>© 2026 <span>Jane Chavez</span>. Designed & built with intention.</p>
-    <p>Front-End Developer · UI/UX Designer · Houston, TX</p>
+    <div class="footer-copy">
+      <p>© 2025 <span>Jane Chavez</span>. Built this site myself, by hand.</p>
+      <p>Front-End Developer · UI/UX Designer · Houston, TX</p>
+    </div>
   </footer>
 
   <script>
-    // Declare glow canvas first
-    const glowCanvas = document.createElement('canvas');
-    const glowCtx = glowCanvas.getContext('2d');
-
-    function buildGlowCanvas() {
-      const W = glowCanvas.width, H = glowCanvas.height;
-      if (!W || !H) return;
-      glowCtx.clearRect(0, 0, W, H);
-      const vg1 = glowCtx.createRadialGradient(W*.82,H*.06,0,W*.82,H*.06,W*.5);
-      vg1.addColorStop(0,'rgba(244,114,182,0.32)'); vg1.addColorStop(1,'transparent');
-      glowCtx.fillStyle = vg1; glowCtx.fillRect(0,0,W,H);
-      const vg2 = glowCtx.createRadialGradient(W*.08,H*.9,0,W*.08,H*.9,W*.42);
-      vg2.addColorStop(0,'rgba(168,85,247,0.26)'); vg2.addColorStop(1,'transparent');
-      glowCtx.fillStyle = vg2; glowCtx.fillRect(0,0,W,H);
-    }
-
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-
-    function resize() {
-      canvas.width = glowCanvas.width = window.innerWidth;
-      canvas.height = glowCanvas.height = window.innerHeight;
-      buildGlowCanvas();
-    }
-    resize();
-    window.addEventListener('resize', resize);
-
-    // 45 particles
-    const particles = [];
-    for (let i = 0; i < 70; i++) {
-      const hue = Math.random() < .55 ? 330 : Math.random() < .6 ? 270 : 220;
-      particles.push({
-        x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight,
-        r: Math.random()*1.8+.5, vx: (Math.random()-.5)*.18, vy: (Math.random()-.5)*.18,
-        opacity: Math.random()*.6+.35, color: `hsla(${hue},90%,85%,`,
-        pulseOffset: Math.random()*Math.PI*2, pulseSpeed: .006+Math.random()*.01,
-      });
-    }
-
-    const lineData = [
-      {offset:0,    speed:.5,  amp:55, yBase:.12, hue:315, alpha:.07},
-      {offset:1.05, speed:.35, amp:75, yBase:.30, hue:325, alpha:.06},
-      {offset:2.10, speed:.6,  amp:50, yBase:.52, hue:280, alpha:.05},
-      {offset:3.14, speed:.4,  amp:65, yBase:.74, hue:340, alpha:.065},
-      {offset:4.20, speed:.28, amp:45, yBase:.90, hue:310, alpha:.05},
-    ];
-
-    let lastFrame = 0, elapsed = 0;
-    function draw(ts) {
-      requestAnimationFrame(draw);
-      const delta = ts - lastFrame;
-      if (delta < 33) return;
-      lastFrame = ts;
-      elapsed += delta * .001;
-      const W = canvas.width, H = canvas.height;
-      ctx.fillStyle = '#07070f';
-      ctx.fillRect(0,0,W,H);
-      for (const l of lineData) {
-        ctx.beginPath();
-        const yb = H * l.yBase;
-        for (let x = 0; x <= W; x += 6) {
-          const y = yb + Math.sin(x*.006 + elapsed*l.speed + l.offset)*l.amp
-                      + Math.sin(x*.012 + elapsed*l.speed*1.6 + l.offset*.7)*(l.amp*.4);
-          x===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    /* Index background (inlined so it always runs even if bg-simple.js fails to load) */
+    (function () {
+      var canvas = document.getElementById('bg-canvas');
+      if (!canvas || !canvas.getContext) return;
+      var ctx = canvas.getContext('2d');
+      var glowCanvas = document.createElement('canvas');
+      var glowCtx = glowCanvas.getContext('2d');
+      function buildGlow() {
+        var W = glowCanvas.width, H = glowCanvas.height;
+        if (!W || !H) return;
+        glowCtx.clearRect(0, 0, W, H);
+        glowCtx.globalCompositeOperation = 'source-over';
+        var g1 = glowCtx.createRadialGradient(W * 0.82, H * 0.06, 0, W * 0.82, H * 0.06, W * 0.36);
+        g1.addColorStop(0, 'rgba(244,114,182,0.15)');
+        g1.addColorStop(0.45, 'rgba(192,132,252,0.055)');
+        g1.addColorStop(1, 'transparent');
+        glowCtx.fillStyle = g1;
+        glowCtx.fillRect(0, 0, W, H);
+        var g2 = glowCtx.createRadialGradient(W * 0.1, H * 0.9, 0, W * 0.1, H * 0.9, W * 0.34);
+        g2.addColorStop(0, 'rgba(167,139,250,0.13)');
+        g2.addColorStop(0.5, 'rgba(99,102,241,0.042)');
+        g2.addColorStop(1, 'transparent');
+        glowCtx.fillStyle = g2;
+        glowCtx.fillRect(0, 0, W, H);
+      }
+      function drawAnimatedGlow(c, W, H, t) {
+        if (!W || !H) return;
+        c.save();
+        c.globalCompositeOperation = 'screen';
+        var r1 = Math.min(W, H) * 0.38;
+        var r2 = Math.min(W, H) * 0.34;
+        var ax = W * (0.78 + Math.sin(t * 0.12) * 0.06);
+        var ay = H * (0.09 + Math.cos(t * 0.1) * 0.04);
+        var g1 = c.createRadialGradient(ax, ay, 0, ax, ay, r1);
+        g1.addColorStop(0, 'rgba(253,164,203,0.16)');
+        g1.addColorStop(0.4, 'rgba(196,181,253,0.065)');
+        g1.addColorStop(1, 'rgba(0,0,0,0)');
+        c.fillStyle = g1;
+        c.fillRect(0, 0, W, H);
+        var bx = W * (0.14 + Math.cos(t * 0.1) * 0.05);
+        var by = H * (0.88 + Math.sin(t * 0.09) * 0.04);
+        var g2 = c.createRadialGradient(bx, by, 0, bx, by, r2);
+        g2.addColorStop(0, 'rgba(192,132,252,0.15)');
+        g2.addColorStop(0.45, 'rgba(129,140,248,0.055)');
+        g2.addColorStop(1, 'rgba(0,0,0,0)');
+        c.fillStyle = g2;
+        c.fillRect(0, 0, W, H);
+        c.restore();
+      }
+      var lineData = [
+        { offset: 0, speed: 0.5, amp: 58, yBase: 0.12, hue: 320, alpha: 0.078 },
+        { offset: 1.05, speed: 0.35, amp: 72, yBase: 0.3, hue: 328, alpha: 0.072 },
+        { offset: 2.1, speed: 0.58, amp: 48, yBase: 0.52, hue: 285, alpha: 0.064 },
+        { offset: 3.14, speed: 0.4, amp: 62, yBase: 0.74, hue: 312, alpha: 0.076 },
+        { offset: 4.2, speed: 0.28, amp: 44, yBase: 0.9, hue: 302, alpha: 0.068 }
+      ];
+      var particles = [];
+      function seedParticles(W, H) {
+        particles.length = 0;
+        for (var i = 0; i < 48; i++) {
+          var hr = Math.random();
+          var hue = hr < 0.55 ? 330 : hr < 0.72 ? 275 : 220;
+          particles.push({
+            x: Math.random() * W,
+            y: Math.random() * H,
+            r: Math.random() * 1.35 + 0.35,
+            vx: (Math.random() - 0.5) * 0.19,
+            vy: (Math.random() - 0.5) * 0.19,
+            opacity: Math.random() * 0.4 + 0.22,
+            hue: hue,
+            pulseOffset: Math.random() * Math.PI * 2,
+            pulseSpeed: 0.006 + Math.random() * 0.01
+          });
         }
-        ctx.strokeStyle = `hsla(${l.hue},85%,72%,${l.alpha})`;
-        ctx.lineWidth = 1.5; ctx.stroke();
       }
-      for (const p of particles) {
-        p.x += p.vx; p.y += p.vy;
-        if (p.x<-5) p.x=W+5; if (p.x>W+5) p.x=-5;
-        if (p.y<-5) p.y=H+5; if (p.y>H+5) p.y=-5;
-        const pulse = Math.sin(elapsed*p.pulseSpeed*5+p.pulseOffset)*.3+.7;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r*pulse, 0, Math.PI*2);
-        ctx.fillStyle = p.color+(p.opacity*pulse*3.2)+')';
-        ctx.fill();
+      function syncSize() {
+        var r = canvas.getBoundingClientRect();
+        var w = Math.max(1, Math.round(r.width));
+        var h = Math.max(1, Math.round(r.height));
+        if ((w <= 1 && h <= 1) || r.width < 10 || r.height < 10) {
+          w = Math.max(320, window.innerWidth || 800);
+          h = Math.max(240, window.innerHeight || 600);
+        }
+        canvas.width = glowCanvas.width = w;
+        canvas.height = glowCanvas.height = h;
+        buildGlow();
+        seedParticles(w, h);
       }
-      if (glowCanvas.width > 0 && glowCanvas.height > 0) ctx.drawImage(glowCanvas,0,0);
-    }
-    requestAnimationFrame(draw);
-    // Cursor
+      syncSize();
+      window.addEventListener('resize', function () { requestAnimationFrame(syncSize); });
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', function () { requestAnimationFrame(syncSize); });
+        window.visualViewport.addEventListener('scroll', function () { requestAnimationFrame(syncSize); });
+      }
+      var lastF = 0, elapsed = 0;
+      function draw(ts) {
+        requestAnimationFrame(draw);
+        var dt = ts - lastF;
+        if (dt < 32) return;
+        lastF = ts;
+        elapsed += dt * 0.001;
+        var W = canvas.width, H = canvas.height;
+        if (!W || !H) return;
+        ctx.fillStyle = '#07070f';
+        ctx.fillRect(0, 0, W, H);
+        if (glowCanvas.width > 0 && glowCanvas.height > 0) ctx.drawImage(glowCanvas, 0, 0);
+        drawAnimatedGlow(ctx, W, H, elapsed);
+        for (var li = 0; li < lineData.length; li++) {
+          var l = lineData[li];
+          ctx.beginPath();
+          var yb = H * l.yBase;
+          for (var x = 0; x <= W; x += 6) {
+            var y = yb + Math.sin(x * 0.006 + elapsed * l.speed + l.offset) * l.amp
+              + Math.sin(x * 0.012 + elapsed * l.speed * 1.6 + l.offset * 0.7) * (l.amp * 0.4);
+            if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+          ctx.strokeStyle = 'hsla(' + l.hue + ',85%,72%,' + l.alpha + ')';
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        }
+        for (var pi = 0; pi < particles.length; pi++) {
+          var p = particles[pi];
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < -8) p.x = W + 8;
+          if (p.x > W + 8) p.x = -8;
+          if (p.y < -8) p.y = H + 8;
+          if (p.y > H + 8) p.y = -8;
+          var pulse = Math.sin(elapsed * p.pulseSpeed * 5 + p.pulseOffset) * 0.3 + 0.7;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r * pulse, 0, Math.PI * 2);
+          ctx.fillStyle = 'hsla(' + p.hue + ',88%,82%,' + p.opacity * pulse * 3.65 + ')';
+          ctx.fill();
+        }
+      }
+      requestAnimationFrame(draw);
+    })();
+
+    // Cursor (hidden ≤768px via CSS — native pointer restored there)
     const cursor = document.getElementById('cursor');
+    const cursorNarrowMQ = window.matchMedia('(max-width: 768px)');
     let mx=0, my=0, cursorRotate=0;
     function moveCursor(x,y) {
+      if (!cursor || getComputedStyle(cursor).display === 'none') return;
       cursor.style.transform = `translate(${x-cursor.offsetWidth/2}px,${y-cursor.offsetHeight/2}px) rotate(${cursorRotate}deg)`;
+    }
+    function resetCursorDot() {
+      if (!cursor) return;
+      cursor.classList.remove('is-hovering','is-project','is-nav');
+      cursorRotate = 0;
     }
     document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; moveCursor(mx,my); });
     function setCursorState(state) {
+      if (!cursor) return;
+      if (cursorNarrowMQ.matches) { resetCursorDot(); return; }
       cursor.classList.remove('is-hovering','is-project','is-nav');
       if (state==='project') { cursorRotate=45; cursor.classList.add('is-project'); }
       else if (state==='nav') { cursorRotate=0; cursor.classList.add('is-nav'); }
@@ -1272,6 +1900,13 @@
       else cursorRotate=0;
       moveCursor(mx,my);
     }
+    function onCursorViewportChange() {
+      if (!cursor) return;
+      resetCursorDot();
+      if (!cursorNarrowMQ.matches) moveCursor(mx, my);
+    }
+    if (cursorNarrowMQ.addEventListener) cursorNarrowMQ.addEventListener('change', onCursorViewportChange);
+    else if (cursorNarrowMQ.addListener) cursorNarrowMQ.addListener(onCursorViewportChange);
     document.querySelectorAll('nav a').forEach(el => {
       el.addEventListener('mouseenter',()=>setCursorState('nav'));
       el.addEventListener('mouseleave',()=>setCursorState(''));
@@ -1299,6 +1934,7 @@
     // Nav shrink
     const nav = document.querySelector('nav');
     window.addEventListener('scroll',()=>{
+      if (!nav) return;
       if (window.scrollY>60) { nav.style.background='rgba(7,7,15,0.96)'; nav.style.backdropFilter='blur(20px)'; nav.style.padding='14px 48px'; }
       else { nav.style.background=''; nav.style.backdropFilter=''; nav.style.padding=''; }
     },{passive:true});
@@ -1386,12 +2022,11 @@
 
     // Set email link dynamically to prevent Cloudflare obfuscation
     document.addEventListener('DOMContentLoaded', () => {
-      const emailBtn = document.getElementById('contact-email');
-      if (emailBtn) {
-        const u = 'jpdm015';
-        const d = 'gmail.com';
-        emailBtn.href = 'mailto:' + u + '@' + d;
-      }
+      const u = 'jpdm015';
+      const d = 'gmail.com';
+      const mailto = 'mailto:' + u + '@' + d;
+      const contactEmail = document.getElementById('contact-email');
+      if (contactEmail) contactEmail.href = mailto;
     });
 
 
@@ -1437,30 +2072,216 @@
       if (sb) sb.addEventListener('click', window.sharePortfolio);
     });
 
-        // ── Crystal hover detection (works with pointer-events:none) ──
+    // ── Crystal: drag within #hero + hover “charge” (≥1280px viewport only) ──
     (function() {
+      var hero = document.getElementById('hero');
       var cw = document.getElementById('crystal-wrap');
-      if (!cw) return;
-      function checkHover(e) {
-        var rect = cw.getBoundingClientRect();
-        if (!rect.width) return;
-        var cx = rect.left + rect.width  * 0.5;
-        var cy = rect.top  + rect.height * 0.5;
-        var dist = Math.sqrt((e.clientX-cx)*(e.clientX-cx) + (e.clientY-cy)*(e.clientY-cy));
-        var threshold = rect.width * 0.65;
-        if (dist < threshold) {
-          cw.classList.add('hovered');
-        } else {
-          cw.classList.remove('hovered');
+      if (!cw || !hero) return;
+
+      var mqDesktop = window.matchMedia('(min-width: 1280px)');
+      function crystalActive() {
+        return mqDesktop.matches;
+      }
+
+      var charge = 0;
+      var raf = null;
+      var lastTs = 0;
+      var inside = false;
+      var CHARGE_MS = 2600;
+      var DECAY_MS = 320;
+
+      var dragging = false;
+      var grabOx = 0;
+      var grabOy = 0;
+      var CRYSTAL_HOME_X = 86;
+      var CRYSTAL_HOME_Y = 50;
+      var homeAnimRaf = null;
+
+      function cancelCrystalHomeAnim() {
+        if (homeAnimRaf) {
+          cancelAnimationFrame(homeAnimRaf);
+          homeAnimRaf = null;
         }
       }
-      document.addEventListener('mousemove', checkHover);
+
+      function animateCrystalHome() {
+        if (!crystalActive()) return;
+        cancelCrystalHomeAnim();
+        var cs = getComputedStyle(cw);
+        var startX = parseFloat(cs.getPropertyValue('--crystal-x-pct')) || CRYSTAL_HOME_X;
+        var startY = parseFloat(cs.getPropertyValue('--crystal-y-pct')) || CRYSTAL_HOME_Y;
+        if (Math.abs(startX - CRYSTAL_HOME_X) < 0.08 && Math.abs(startY - CRYSTAL_HOME_Y) < 0.08) {
+          cw.style.setProperty('--crystal-x-pct', CRYSTAL_HOME_X + '%');
+          cw.style.setProperty('--crystal-y-pct', CRYSTAL_HOME_Y + '%');
+          return;
+        }
+        var t0 = performance.now();
+        var dur = 540;
+        function easeOutCubic(t) {
+          return 1 - Math.pow(1 - t, 3);
+        }
+        function stepHome(now) {
+          var u = Math.min(1, (now - t0) / dur);
+          var e = easeOutCubic(u);
+          var x = startX + (CRYSTAL_HOME_X - startX) * e;
+          var y = startY + (CRYSTAL_HOME_Y - startY) * e;
+          cw.style.setProperty('--crystal-x-pct', x.toFixed(3) + '%');
+          cw.style.setProperty('--crystal-y-pct', y.toFixed(3) + '%');
+          if (u < 1) homeAnimRaf = requestAnimationFrame(stepHome);
+          else homeAnimRaf = null;
+        }
+        homeAnimRaf = requestAnimationFrame(stepHome);
+      }
+
+      function setCharge(v) {
+        charge = Math.min(0.85, Math.max(0, v));
+        cw.style.setProperty('--crystal-charge', String(charge));
+      }
+
+      function tick(ts) {
+        if (!crystalActive()) return;
+        if (!lastTs) lastTs = ts;
+        var dt = Math.min(48, ts - lastTs);
+        lastTs = ts;
+        if (inside) {
+          setCharge(charge + dt / CHARGE_MS);
+          if (charge < 0.848) raf = requestAnimationFrame(tick);
+          else { raf = null; lastTs = 0; }
+        } else {
+          setCharge(charge - dt / DECAY_MS);
+          if (charge > 0.004) raf = requestAnimationFrame(tick);
+          else {
+            setCharge(0);
+            raf = null;
+            lastTs = 0;
+          }
+        }
+      }
+
+      function clampCenterToHero(centerX, centerY) {
+        if (!crystalActive()) return;
+        var hr = hero.getBoundingClientRect();
+        var w = cw.offsetWidth;
+        var h = cw.offsetHeight;
+        if (!hr.width || !hr.height || !w || !h) return;
+        var pad = 12;
+        var midX = hr.left + hr.width * 0.5;
+        var gapFromMid = 16;
+        /* Keep entire gem in the right half: left edge of crystal ≥ hero midpoint + gap */
+        var minCxRightHalf = midX + w / 2 + gapFromMid;
+        var minCx = Math.max(hr.left + pad + w / 2, minCxRightHalf);
+        var maxCx = hr.right - pad - w / 2;
+        var minCy = hr.top + pad + h / 2;
+        var maxCy = hr.bottom - pad - h / 2;
+        var cx = Math.min(maxCx, Math.max(minCx, centerX));
+        var cy = Math.min(maxCy, Math.max(minCy, centerY));
+        cw.style.setProperty('--crystal-x-pct', ((cx - hr.left) / hr.width * 100).toFixed(4) + '%');
+        cw.style.setProperty('--crystal-y-pct', ((cy - hr.top) / hr.height * 100).toFixed(4) + '%');
+      }
+
+      function reClampAfterResize() {
+        if (!crystalActive()) return;
+        cancelCrystalHomeAnim();
+        var hr = hero.getBoundingClientRect();
+        var w = cw.offsetWidth;
+        var h = cw.offsetHeight;
+        if (!hr.width || !w) return;
+        var cs = getComputedStyle(cw);
+        var xPct = parseFloat(cs.getPropertyValue('--crystal-x-pct')) || 86;
+        var yPct = parseFloat(cs.getPropertyValue('--crystal-y-pct')) || 50;
+        var cx = hr.left + (xPct / 100) * hr.width;
+        var cy = hr.top + (yPct / 100) * hr.height;
+        clampCenterToHero(cx, cy);
+      }
+
+      function checkHover(e) {
+        if (!crystalActive() || dragging) return;
+        var rect = cw.getBoundingClientRect();
+        if (!rect.width) return;
+        var rcx = rect.left + rect.width * 0.5;
+        var rcy = rect.top + rect.height * 0.5;
+        var r = Math.min(rect.width, rect.height) * 0.48;
+        var dx = e.clientX - rcx;
+        var dy = e.clientY - rcy;
+        var nowInside = (dx * dx + dy * dy) < r * r;
+        if (nowInside) {
+          cw.classList.add('hovered');
+          if (!inside) lastTs = 0;
+          inside = true;
+          if (!raf) raf = requestAnimationFrame(tick);
+        } else {
+          inside = false;
+          cw.classList.remove('hovered');
+          if (charge > 0 && !raf) raf = requestAnimationFrame(tick);
+        }
+      }
+
+      function onPointerDown(e) {
+        if (!crystalActive()) return;
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        cancelCrystalHomeAnim();
+        var rect = cw.getBoundingClientRect();
+        var rcx = rect.left + rect.width / 2;
+        var rcy = rect.top + rect.height / 2;
+        grabOx = e.clientX - rcx;
+        grabOy = e.clientY - rcy;
+        dragging = true;
+        cw.classList.add('is-dragging', 'hovered');
+        inside = true;
+        lastTs = 0;
+        if (!raf) raf = requestAnimationFrame(tick);
+        try { cw.setPointerCapture(e.pointerId); } catch (err) {}
+        e.preventDefault();
+      }
+
+      function onPointerMove(e) {
+        if (!crystalActive() || !dragging) return;
+        clampCenterToHero(e.clientX - grabOx, e.clientY - grabOy);
+        e.preventDefault();
+      }
+
+      function onPointerEnd(e) {
+        if (!dragging) return;
+        dragging = false;
+        cw.classList.remove('is-dragging');
+        try { cw.releasePointerCapture(e.pointerId); } catch (err) {}
+        animateCrystalHome();
+      }
+
+      function resetCrystalInteraction() {
+        cancelCrystalHomeAnim();
+        dragging = false;
+        inside = false;
+        if (raf) {
+          cancelAnimationFrame(raf);
+          raf = null;
+        }
+        lastTs = 0;
+        cw.classList.remove('is-dragging', 'hovered');
+        setCharge(0);
+        cw.style.setProperty('--crystal-x-pct', CRYSTAL_HOME_X + '%');
+        cw.style.setProperty('--crystal-y-pct', CRYSTAL_HOME_Y + '%');
+      }
+
+      cw.addEventListener('pointerdown', onPointerDown);
+      cw.addEventListener('pointermove', onPointerMove);
+      cw.addEventListener('pointerup', onPointerEnd);
+      cw.addEventListener('pointercancel', onPointerEnd);
+
+      document.addEventListener('mousemove', checkHover, { passive: true });
+      window.addEventListener('resize', function () {
+        requestAnimationFrame(reClampAfterResize);
+      });
+      if (mqDesktop.addEventListener) {
+        mqDesktop.addEventListener('change', function () {
+          if (!mqDesktop.matches) resetCrystalInteraction();
+        });
+      } else if (mqDesktop.addListener) {
+        mqDesktop.addListener(function () {
+          if (!mqDesktop.matches) resetCrystalInteraction();
+        });
+      }
     })();
-
-
-    // ── Nav toggle ──
-    (function() {
-          })();
 
 
     // ── Mobile nav ──
@@ -1482,7 +2303,8 @@
 
       if (toggle) toggle.addEventListener('click', function(e) {
         e.stopPropagation();
-        openNav();
+        if (nav && nav.classList.contains('nav-mobile-open')) closeNav();
+        else openNav();
       });
       if (close) close.addEventListener('click', function(e) {
         e.stopPropagation();
