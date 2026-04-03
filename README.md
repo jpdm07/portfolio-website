@@ -52,16 +52,11 @@ Each project below includes a **live demo** link where there is one. The images 
 
 ### CaloriEat — calorie tracking (capstone team project)
 
-**Live demos** (same app after merge; sign-in or try as guest):
+**Live demo:** https://jpdm07.github.io/CaloriEat/welcome.html (sign-in or try as guest). Same merged build is also on [teammate’s Pages](https://mchavez31.github.io/CaloriEat/welcome.html).
 
-- **My fork (GitHub Pages):** https://jpdm07.github.io/CaloriEat/welcome.html  
-- **Team repo (GitHub Pages):** https://mchavez31.github.io/CaloriEat/welcome.html  
+**Repos:** [My fork](https://github.com/jpdm07/CaloriEat) · [Team / canonical](https://github.com/Mchavez31/CaloriEat) (**post-grad work merged April 2026**). Future updates: fork → PR; **[open a PR (compare to team `main`)](https://github.com/Mchavez31/CaloriEat/compare/main...jpdm07:CaloriEat:main?expand=1)**.
 
-**Repos:** [My fork](https://github.com/jpdm07/CaloriEat) (working copy + my Pages deploy) · [Team / canonical](https://github.com/Mchavez31/CaloriEat) (capstone repo; **post-grad work merged here April 2026**)
-
-**Workflow:** Post-capstone improvements shipped via **pull request** into the team repo, reviewed and merged. Future changes follow the same fork → PR path. **[Compare fork → team `main` (open a PR)](https://github.com/Mchavez31/CaloriEat/compare/main...jpdm07:CaloriEat:main?expand=1)**
-
-**Before vs after:** GitHub Pages on the live URLs always deploys **`main`**, so there is no separate hosted “before” build. The **capstone-era codebase** (pre–welcome flow / pre–big polish) is frozen at commit **`fb29950`**: **[browse that snapshot](https://github.com/jpdm07/CaloriEat/tree/fb29950)** · **[compare `fb29950` → `main` (full diff)](https://github.com/jpdm07/CaloriEat/compare/fb29950...main)**. On the portfolio site, the CaloriEat accordion shows **Then / Now** device mockups; add **`images/calorieat-before-desktop.png`** and **`images/calorieat-before-mobile.png`** for the “Then” pair (same framing idea as the current welcome captures).
+**Before vs after:** No separate hosted “before” site (Pages tracks `main`). Capstone-era tree: **[`fb29950`](https://github.com/jpdm07/CaloriEat/tree/fb29950)** · **[full diff vs `main`](https://github.com/jpdm07/CaloriEat/compare/fb29950...main)**. Portfolio mockups: add **`images/calorieat-before-desktop.png`** and **`calorieat-before-mobile.png`** for the “Then” pair.
 
 | Now — desktop | Now — mobile |
 |:-------------:|:------------:|

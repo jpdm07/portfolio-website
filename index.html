@@ -422,6 +422,24 @@
       content: '•'; position: absolute; left: 0; color: var(--pink); font-size: 0.75rem; line-height: 1.75;
     }
     .project-links { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+    /* CaloriEat: four primary actions in an even 2×2 grid (stacks to one column on small screens) */
+    .project-links--grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      align-items: stretch;
+    }
+    .project-links--grid .project-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 42px;
+      box-sizing: border-box;
+    }
+    @media (max-width: 520px) {
+      .project-links--grid { grid-template-columns: 1fr; }
+    }
     .project-link {
       font-family: var(--mono); font-size: 0.65rem;
       letter-spacing: 0.1em; text-transform: uppercase;
@@ -1398,27 +1416,22 @@
               <div class="project-evolution">
                 <div class="project-evolution-card">
                   <div class="project-evolution-label">Then</div>
-                  <p>Capstone handoff: entry through <code>Index_Modular.html</code>, no welcome-first flow, pre–April 2026 UI. Frozen snapshot at commit <code>fb29950</code> on my fork—browse files or clone that commit to run it locally. GitHub Pages on the live URLs always tracks <code>main</code>, so there isn’t a separate “old” hosted build.</p>
-                  <a href="https://github.com/jpdm07/CaloriEat/tree/fb29950" target="_blank" rel="noopener noreferrer" class="project-link">Before (capstone-era snapshot) ↗</a>
+                  <p>Capstone handoff: entry through <code>Index_Modular.html</code>, no welcome-first flow, pre–April 2026 UI. Snapshot at <code>fb29950</code> on my fork (clone that commit to run it locally). Pages always tracks <code>main</code>, so there’s no separate hosted “old” build—use <strong>Capstone snapshot</strong> below to browse the frozen tree.</p>
                 </div>
                 <div class="project-evolution-card">
                   <div class="project-evolution-label">Now</div>
-                  <p>Standard <code>index.html</code>, welcome redirect for signed-out visitors, UI polish, and merged team repo—matches the live demos below. <a href="https://github.com/jpdm07/CaloriEat/compare/fb29950...main" target="_blank" rel="noopener noreferrer">Compare then → now on GitHub ↗</a> for the full code delta.</p>
+                  <p>Standard <code>index.html</code>, welcome redirect for signed-out visitors, UI polish, and merged team repo. <strong>Then → now</strong> below is the GitHub compare for the full delta.</p>
                 </div>
               </div>
               <h4>Pull requests back to the team repo</h4>
-              <p>My partner wanted these updates on the <strong>original</strong> repository, not only on my fork. I opened <strong>pull requests</strong> from <code>jpdm07/CaloriEat</code> into <code>Mchavez31/CaloriEat</code>; he reviewed and <strong>merged</strong> that work in <strong>April 2026</strong>, so the canonical repo and his GitHub Pages site now ship the same post-grad app. You can try it on <a href="https://mchavez31.github.io/CaloriEat/welcome.html" target="_blank" rel="noopener noreferrer">his live demo</a> or <a href="https://jpdm07.github.io/CaloriEat/welcome.html" target="_blank" rel="noopener noreferrer">mine</a>—both follow <code>main</code> after the merge.</p>
-              <p>For anything new, I still use <strong>fork → PR → merge</strong> so the team repo stays the source of truth and history stays shared.</p>
+              <p>My partner wanted these updates on the <strong>original</strong> repository, not only on my fork. I opened <strong>pull requests</strong> from <code>jpdm07/CaloriEat</code> into <code>Mchavez31/CaloriEat</code>; he reviewed and <strong>merged</strong> that work in <strong>April 2026</strong>. The same build now ships from both GitHub Pages hosts; use the <strong>Live demo</strong> link below (mirrored on my teammate’s account as well). For future work I still use <strong>fork → PR → merge</strong> so history stays shared—open a compare from <code>main</code> on GitHub anytime you need a new PR.</p>
               <h4>Outcome</h4>
               <p>The capstone proves I can build and integrate on a team; the post-grad pass shows I can <strong>iterate, document intent in commits</strong>, and <strong>land changes through review and merge</strong> the way real open-source and company workflows expect.</p>
-              <div class="project-links">
-                <a href="https://jpdm07.github.io/CaloriEat/welcome.html" target="_blank" rel="noopener noreferrer" class="project-link">Live (my fork / Pages) ↗</a>
-                <a href="https://mchavez31.github.io/CaloriEat/welcome.html" target="_blank" rel="noopener noreferrer" class="project-link">Live (team / Pages) ↗</a>
-                <a href="https://github.com/jpdm07/CaloriEat/tree/fb29950" target="_blank" rel="noopener noreferrer" class="project-link">Before snapshot (code) ↗</a>
-                <a href="https://github.com/jpdm07/CaloriEat/compare/fb29950...main" target="_blank" rel="noopener noreferrer" class="project-link">Then → now (diff) ↗</a>
-                <a href="https://github.com/jpdm07/CaloriEat" target="_blank" rel="noopener noreferrer" class="project-link">My fork ↗</a>
-                <a href="https://github.com/Mchavez31/CaloriEat" target="_blank" rel="noopener noreferrer" class="project-link">Team repo ↗</a>
-                <a href="https://github.com/Mchavez31/CaloriEat/compare/main...jpdm07:CaloriEat:main?expand=1" target="_blank" rel="noopener noreferrer" class="project-link">Compare for next PR ↗</a>
+              <div class="project-links project-links--grid">
+                <a href="https://jpdm07.github.io/CaloriEat/welcome.html" target="_blank" rel="noopener noreferrer" class="project-link">Live demo ↗</a>
+                <a href="https://github.com/jpdm07/CaloriEat" target="_blank" rel="noopener noreferrer" class="project-link">Source code ↗</a>
+                <a href="https://github.com/jpdm07/CaloriEat/tree/fb29950" target="_blank" rel="noopener noreferrer" class="project-link">Capstone snapshot ↗</a>
+                <a href="https://github.com/jpdm07/CaloriEat/compare/fb29950...main" target="_blank" rel="noopener noreferrer" class="project-link">Then → now ↗</a>
               </div>
             </div>
             <div class="project-mockup project-mockup--003-col">
