@@ -53,7 +53,10 @@ Each project below includes a **live demo** link where there is one. The images 
 ### CaloriEat — calorie tracking (capstone team project)
 
 **Live demo:** https://jpdm07.github.io/CaloriEat/welcome.html (sign-in or try as guest)  
-**Source:** https://github.com/jpdm07/CaloriEat (fork; upstream team repo linked from the portfolio write-up)
+
+**Repos:** [My fork](https://github.com/jpdm07/CaloriEat) (where post-grad updates and GitHub Pages deploy live) · [Team / upstream](https://github.com/Mchavez31/CaloriEat) (canonical capstone repo)  
+
+**Contributing back:** Improvements are opened as **pull requests** from the fork into upstream so the teammate can review and merge. **[Compare fork → upstream (start a PR)](https://github.com/Mchavez31/CaloriEat/compare/main...jpdm07:CaloriEat:main?expand=1)**
 
 | Desktop | Mobile |
 |:-------:|:------:|
