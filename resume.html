@@ -220,6 +220,16 @@
     .page { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; padding: 120px 24px 80px; }
     .resume-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 48px; margin-bottom: 24px; }
     .r-section-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pink); margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .r-skill-group {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 20px 0 10px;
+    }
+    .r-skill-group:first-of-type { margin-top: 0; }
+    .r-summary { font-size: 0.9rem; color: var(--text-dim); line-height: 1.8; margin: 0; }
     .r-block { margin-bottom: 28px; }
     .r-block:last-child { margin-bottom: 0; }
     .r-block-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; flex-wrap: wrap; gap: 8px; }
@@ -292,9 +302,11 @@
       <h1 class="r-name">Jane Chavez</h1>
       <p class="r-tagline">Front-End Developer · UI/UX Designer</p>
       <div class="r-contact-row">
+        <span style="font-family:var(--mono);font-size:0.68rem;letter-spacing:0.06em;color:var(--text-dim);">Cypress, TX</span>
+        <a href="tel:+19797033827">979-703-3827</a>
         <a href="mailto:jpdm015@gmail.com">jpdm015@gmail.com</a>
-        <a href="https://www.linkedin.com/in/jane-c-699a9241" target="_blank">LinkedIn</a>
-        <a href="https://github.com/jpdm07" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/jane-c-699a9241" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/jpdm07" target="_blank" rel="noopener noreferrer">GitHub</a>
         <a href="index.html">Portfolio</a>
       </div>
       <br>
@@ -302,73 +314,95 @@
     </div>
 
     <div class="resume-card">
-      <h2 class="r-section-title">Summary</h2>
-      <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.8;">Front-end developer and UI/UX designer with an M.S. in Software Engineering from UHCL. I like shipping responsive, accessible interfaces where the layout and the UX feel intentional. Comfortable turning Figma (or a whiteboard) into real HTML, CSS, and JavaScript.</p>
+      <h2 class="r-section-title">Professional summary</h2>
+      <p class="r-summary">Front-End Developer and UI/UX Designer with an M.S. in Software Engineering (GPA 3.90). Builds responsive, accessible web interfaces and designs user-centered experiences from Figma wireframes and prototypes through production HTML, CSS, and JavaScript. Comfortable owning both design and code. Strong in information architecture, visual hierarchy, usability evaluation, and component-level development. Real-world experience working with stakeholders on live products in Agile environments. Healthcare background brings a practical understanding of high-stakes, task-critical interfaces.</p>
       <br>
     </div>
 
     <div class="resume-card">
-      <h2 class="r-section-title">Skills</h2>
+      <h2 class="r-section-title">Technical skills</h2>
+      <h3 class="r-skill-group">Front-End</h3>
       <div class="skills-grid">
-        <span class="skill-pill">HTML5</span><span class="skill-pill">CSS3</span><span class="skill-pill">JavaScript</span>
-        <span class="skill-pill">React</span><span class="skill-pill">Python</span><span class="skill-pill">SQL</span>
-        <span class="skill-pill">Figma</span><span class="skill-pill">UI/UX Design</span><span class="skill-pill">Wireframing</span>
-        <span class="skill-pill">Responsive Design</span><span class="skill-pill">WordPress</span><span class="skill-pill">Elementor</span>
-        <span class="skill-pill">Git / GitHub</span><span class="skill-pill">Agile / Scrum</span><span class="skill-pill">Chart.js</span>
-        <span class="skill-pill">Bootstrap</span><span class="skill-pill">Accessibility (WCAG)</span><span class="skill-pill">REST APIs</span>
+        <span class="skill-pill">HTML5</span><span class="skill-pill">CSS3</span><span class="skill-pill">JavaScript (ES6+)</span>
+        <span class="skill-pill">Bootstrap 5</span><span class="skill-pill">Responsive Design</span><span class="skill-pill">DOM Manipulation</span>
+        <span class="skill-pill">Git / GitHub</span><span class="skill-pill">GitHub Pages</span><span class="skill-pill">Node.js</span><span class="skill-pill">Chart.js</span>
+      </div>
+      <h3 class="r-skill-group">UI/UX Design</h3>
+      <div class="skills-grid">
+        <span class="skill-pill">Figma</span><span class="skill-pill">Wireframing</span><span class="skill-pill">Prototyping</span>
+        <span class="skill-pill">High-Fidelity Mockups</span><span class="skill-pill">User Flows</span><span class="skill-pill">Information Architecture</span>
+        <span class="skill-pill">Visual Hierarchy</span><span class="skill-pill">Usability Evaluation</span><span class="skill-pill">Accessible Design (WCAG)</span>
+      </div>
+      <h3 class="r-skill-group">Platforms &amp; Tools</h3>
+      <div class="skills-grid">
+        <span class="skill-pill">WordPress</span><span class="skill-pill">Elementor</span><span class="skill-pill">Wix</span><span class="skill-pill">SureForms</span>
+        <span class="skill-pill">Agile / Scrum</span><span class="skill-pill">R</span><span class="skill-pill">Weka</span>
       </div>
       <br>
     </div>
 
     <div class="resume-card">
-      <h2 class="r-section-title">Experience</h2>
+      <h2 class="r-section-title">Professional experience</h2>
       <div class="r-block">
         <div class="r-block-header">
-          <span class="r-block-title">UI/UX volunteer, website optimization</span>
-          <span class="r-block-date">2024 - 2025</span>
+          <span class="r-block-title">Volunteer Web UX Designer, Website Optimization</span>
+          <span class="r-block-date">Feb 2026 – Present</span>
         </div>
-        <p class="r-block-org">Sierra Overlook Animal Rescue</p>
+        <p class="r-block-org">Sierra Overlook Animal Rescue · Remote</p>
         <ul class="r-bullets">
-          <li>Volunteer UI/UX support on the org’s Wix site: clearer navigation, stronger hierarchy, and less buried CTAs.</li>
-          <li>Called out concrete issues (where adopt/donate/volunteer lived, how people scanned the page) and suggested fixes the team could actually implement.</li>
-          <li>Translated what I saw in the field into simple wireframe-style notes and content tweaks, not just critique.</li>
+          <li>Audited the full Wix site and resolved UX friction across navigation, content hierarchy, and core conversion flows including adoption, donation, and volunteer signup.</li>
+          <li>Replaced hamburger menu with horizontal nav bar, redesigned the homepage hero, and restructured the services section from a single column to a two-column grid to reduce cognitive load and improve scannability.</li>
+          <li>Repaired broken footer with correct contact info and active social links; fixed image cropping and button visibility issues across multiple pages.</li>
+          <li>Maintained clear stakeholder communication, a phased project plan, and transparent reporting of platform constraints throughout the engagement.</li>
+        </ul>
+      </div>
+      <div class="r-block">
+        <div class="r-block-header">
+          <span class="r-block-title">Staff Nurse / Charge Nurse / House Supervisor</span>
+          <span class="r-block-date">May 2016 – Oct 2023</span>
+        </div>
+        <p class="r-block-org">HCA Houston Healthcare Cypress · CHI St. Joseph Hospital · Rock Prairie Behavioral Health</p>
+        <ul class="r-bullets">
+          <li>Worked in high-acuity clinical environments where clarity, task efficiency, and zero ambiguity are non-negotiable—experience that directly shapes how I approach designing interfaces that need to work under pressure.</li>
+          <li>Supervised staff, coordinated patient workflows, and collaborated across multidisciplinary teams, building strong cross-functional communication and systems thinking.</li>
         </ul>
       </div>
       <br>
     </div>
 
     <div class="resume-card">
-      <h2 class="r-section-title">Projects</h2>
+      <h2 class="r-section-title">Technical projects</h2>
       <div class="r-block">
         <div class="r-block-header">
-          <span class="r-block-title">CaloriEat: Calorie tracking app</span>
+          <span class="r-block-title">Portfolio Website, Built From Scratch</span>
+          <span class="r-block-date"><a href="https://jpdm07.github.io/portfolio-website/" target="_blank" rel="noopener noreferrer" style="color:var(--pink);">View Live ↗</a></span>
+        </div>
+        <p class="r-block-org">HTML · CSS · JavaScript · Figma · GitHub Pages</p>
+        <ul class="r-bullets">
+          <li>Removed Bootstrap and rebuilt all components from scratch in hand-written CSS and vanilla JS after designing layouts in Figma.</li>
+          <li>Implemented animated canvas background, entrance transitions, custom cursor, responsive mobile nav, scroll-reveal, and accordion project cards entirely in plain JavaScript with no frameworks.</li>
+        </ul>
+      </div>
+      <div class="r-block">
+        <div class="r-block-header">
+          <span class="r-block-title">CaloriEat, Full-Stack Calorie Tracking Web App</span>
           <span class="r-block-date"><a href="https://jpdm07.github.io/CaloriEat/welcome.html" target="_blank" rel="noopener noreferrer" style="color:var(--pink);">View Live ↗</a></span>
         </div>
-        <p class="r-block-org">HTML · CSS · JavaScript · Chart.js</p>
+        <p class="r-block-org">HTML · CSS · JavaScript · Node.js · Chart.js</p>
         <ul class="r-bullets">
-          <li>Capstone-style calorie tracker: meal logging, macros, weigh-ins, goals, and dashboard views.</li>
-          <li>Chart.js for nutrition breakdowns and weekly progress charts (team project; I contributed across UI, diagrams, and client-side structure).</li>
+          <li>Designed complete user flows for meal logging, macro tracking, goal setting, and progress dashboards; built responsive front-end with real-time Chart.js data visualization.</li>
+          <li>Contributed to use case diagrams, data flow models, state charts, and client-side MVC architecture across a full software engineering lifecycle.</li>
         </ul>
       </div>
       <div class="r-block">
         <div class="r-block-header">
-          <span class="r-block-title">Happy Tails Rescue Website</span>
+          <span class="r-block-title">Happy Tails Rescue, WordPress Nonprofit Site</span>
           <span class="r-block-date"><a href="https://janechavez.org" target="_blank" rel="noopener noreferrer" style="color:var(--pink);">View Live ↗</a></span>
         </div>
-        <p class="r-block-org">WordPress.org · Elementor · (earlier ~4hr WordPress.com experiment)</p>
+        <p class="r-block-org">WordPress · Elementor · SureForms</p>
         <ul class="r-bullets">
-          <li>Evolution: quick <a href="https://janechavez5.wordpress.com" target="_blank" rel="noopener noreferrer" style="color:var(--pink);">WordPress.com</a> pass → self-hosted WordPress + Elementor on <a href="https://janechavez.org" target="_blank" rel="noopener noreferrer" style="color:var(--pink);">janechavez.org</a> with custom domain, HTR branding, SureForms contact.</li>
-          <li>Prototype in progress—no shop/merch or events yet; informed by volunteer UX notes from Sierra Overlook (separate org, Wix).</li>
-        </ul>
-      </div>
-      <div class="r-block">
-        <div class="r-block-header">
-          <span class="r-block-title">WoofDog: Dog dating app (concept)</span>
-          <span class="r-block-date"><a href="https://jpdm07.github.io/woofdog/" target="_blank" style="color:var(--pink);">View Live ↗</a></span>
-        </div>
-        <p class="r-block-org">HTML · CSS · JavaScript · Bootstrap · Udemy course project</p>
-        <ul class="r-bullets">
-          <li>Concept app built while following a Udemy course; Bootstrap handles layout, grid, and components, with custom JavaScript for swipe-style interactions (portfolio demo, not a shipped product).</li>
+          <li>Built a full nonprofit site from scratch including hero, about, pet profile sections with adoption CTAs, and a SureForms contact form on a custom domain.</li>
+          <li>Designed a custom brand identity including logo, color palette, and typography informed by real volunteer UX observations at Sierra Overlook Animal Rescue.</li>
         </ul>
       </div>
       <br>
@@ -378,19 +412,18 @@
       <h2 class="r-section-title">Education</h2>
       <div class="r-block">
         <div class="r-block-header">
-          <span class="r-block-title">M.S. Software Engineering</span>
-          <span class="r-block-date">Graduated Dec 2025</span>
+          <span class="r-block-title">Master of Science in Software Engineering</span>
+          <span class="r-block-date">December 2025</span>
         </div>
-        <p class="r-block-org">University of Houston-Clear Lake</p>
-        <p class="r-gpa">GPA 3.90 · Agile · Data Science · Software Engineering</p>
+        <p class="r-block-org">University of Houston-Clear Lake · GPA 3.90</p>
+        <p class="r-gpa">Coursework: Software Engineering, Agile, Data Science, Human-Computer Interaction</p>
       </div>
       <div class="r-block">
         <div class="r-block-header">
-          <span class="r-block-title">B.S. Nursing</span>
-          <span class="r-block-date">Graduated May 2016</span>
+          <span class="r-block-title">Bachelor of Science in Nursing</span>
+          <span class="r-block-date">May 2016</span>
         </div>
-        <p class="r-block-org">The University of Texas at Arlington</p>
-        <p class="r-gpa">GPA 4.00</p>
+        <p class="r-block-org">The University of Texas at Arlington · GPA 4.00</p>
       </div>
     </div>
 
@@ -403,8 +436,8 @@
 
   <footer>
     <div class="footer-copy">
-      <p>© 2025 <span>Jane Chavez</span>. Built this site myself, by hand.</p>
-      <p>Front-End Developer · UI/UX Designer · Houston, TX</p>
+      <p>© 2026 <span>Jane Chavez</span>. Built this site myself, by hand.</p>
+      <p>Front-End Developer · UI/UX Designer · Cypress, TX</p>
     </div>
   </footer>
 
