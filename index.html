@@ -1394,6 +1394,18 @@
               <p><strong>February 2026 — housekeeping for GitHub Pages:</strong> Renamed the modular entry file to a standard <code>index.html</code> so hosting and routing behave the way people expect when they clone or open the Pages site.</p>
               <p><strong>April 2026 — UI and product polish:</strong> Improved help content and layout, tightened insights, added share-link behavior, refined food search, and updated the footer copyright year so the app reads as actively maintained.</p>
               <p><strong>April 2026 — clearer first visit:</strong> If someone hits the root or index while <em>not</em> signed in, they’re redirected to the <strong>welcome</strong> flow (sign in or try as guest) instead of dropping into the app shell—so first-time visitors and recruiters get an obvious front door.</p>
+              <h4>Before and after (post-grad pass)</h4>
+              <div class="project-evolution">
+                <div class="project-evolution-card">
+                  <div class="project-evolution-label">Then</div>
+                  <p>Capstone handoff: entry through <code>Index_Modular.html</code>, no welcome-first flow, pre–April 2026 UI. Frozen snapshot at commit <code>fb29950</code> on my fork—browse files or clone that commit to run it locally. GitHub Pages on the live URLs always tracks <code>main</code>, so there isn’t a separate “old” hosted build.</p>
+                  <a href="https://github.com/jpdm07/CaloriEat/tree/fb29950" target="_blank" rel="noopener noreferrer" class="project-link">Before (capstone-era snapshot) ↗</a>
+                </div>
+                <div class="project-evolution-card">
+                  <div class="project-evolution-label">Now</div>
+                  <p>Standard <code>index.html</code>, welcome redirect for signed-out visitors, UI polish, and merged team repo—matches the live demos below. <a href="https://github.com/jpdm07/CaloriEat/compare/fb29950...main" target="_blank" rel="noopener noreferrer">Compare then → now on GitHub ↗</a> for the full code delta.</p>
+                </div>
+              </div>
               <h4>Pull requests back to the team repo</h4>
               <p>My partner wanted these updates on the <strong>original</strong> repository, not only on my fork. I opened <strong>pull requests</strong> from <code>jpdm07/CaloriEat</code> into <code>Mchavez31/CaloriEat</code>; he reviewed and <strong>merged</strong> that work in <strong>April 2026</strong>, so the canonical repo and his GitHub Pages site now ship the same post-grad app. You can try it on <a href="https://mchavez31.github.io/CaloriEat/welcome.html" target="_blank" rel="noopener noreferrer">his live demo</a> or <a href="https://jpdm07.github.io/CaloriEat/welcome.html" target="_blank" rel="noopener noreferrer">mine</a>—both follow <code>main</code> after the merge.</p>
               <p>For anything new, I still use <strong>fork → PR → merge</strong> so the team repo stays the source of truth and history stays shared.</p>
@@ -1402,25 +1414,52 @@
               <div class="project-links">
                 <a href="https://jpdm07.github.io/CaloriEat/welcome.html" target="_blank" rel="noopener noreferrer" class="project-link">Live (my fork / Pages) ↗</a>
                 <a href="https://mchavez31.github.io/CaloriEat/welcome.html" target="_blank" rel="noopener noreferrer" class="project-link">Live (team / Pages) ↗</a>
+                <a href="https://github.com/jpdm07/CaloriEat/tree/fb29950" target="_blank" rel="noopener noreferrer" class="project-link">Before snapshot (code) ↗</a>
+                <a href="https://github.com/jpdm07/CaloriEat/compare/fb29950...main" target="_blank" rel="noopener noreferrer" class="project-link">Then → now (diff) ↗</a>
                 <a href="https://github.com/jpdm07/CaloriEat" target="_blank" rel="noopener noreferrer" class="project-link">My fork ↗</a>
                 <a href="https://github.com/Mchavez31/CaloriEat" target="_blank" rel="noopener noreferrer" class="project-link">Team repo ↗</a>
                 <a href="https://github.com/Mchavez31/CaloriEat/compare/main...jpdm07:CaloriEat:main?expand=1" target="_blank" rel="noopener noreferrer" class="project-link">Compare for next PR ↗</a>
               </div>
             </div>
-            <div class="project-mockup">
-              <div class="mockup-stack">
-                <div class="browser-frame">
-                  <div class="browser-bar">
-                    <div class="browser-dots"><span></span><span></span><span></span></div>
-                    <div class="browser-url"></div>
+            <div class="project-mockup project-mockup--003-col">
+              <div class="project-mockup-003-block" aria-label="CaloriEat before post-grad changes">
+                <div class="project-evolution-label" style="align-self:flex-start;margin-bottom:10px;">Then</div>
+                <div class="mockup-stack">
+                  <div class="browser-frame">
+                    <div class="browser-bar">
+                      <div class="browser-dots"><span></span><span></span><span></span></div>
+                      <div class="browser-url"></div>
+                    </div>
+                    <div class="browser-screen-placeholder">
+                      <img src="images/calorieat-before-desktop.png" alt="CaloriEat capstone-era app — desktop" class="evolution-shot-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                    </div>
                   </div>
-                  <div class="browser-screen-placeholder">
-                    <img src="images/calorieat-screenshot.png" alt="CaloriEat welcome — sign in or try as guest" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'">
+                  <div class="phone-frame">
+                    <div class="phone-notch"><div class="phone-notch-dot"></div></div>
+                    <div class="phone-screen">
+                      <img src="images/calorieat-before-mobile.png" alt="" class="evolution-shot-img evolution-shot-img--phone" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                    </div>
                   </div>
                 </div>
-                <div class="phone-frame">
-                  <div class="phone-notch"><div class="phone-notch-dot"></div></div>
-                  <div class="phone-screen"><img src="images/calorieat-screenshot-mobile.png" alt="" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.style.display='none'"></div>
+              </div>
+              <div class="project-mockup-003-block" aria-label="CaloriEat after post-grad changes">
+                <div class="project-evolution-label" style="align-self:flex-start;margin-bottom:10px;">Now</div>
+                <div class="mockup-stack">
+                  <div class="browser-frame">
+                    <div class="browser-bar">
+                      <div class="browser-dots"><span></span><span></span><span></span></div>
+                      <div class="browser-url"></div>
+                    </div>
+                    <div class="browser-screen-placeholder">
+                      <img src="images/calorieat-screenshot.png" alt="CaloriEat welcome — sign in or try as guest" class="evolution-shot-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                    </div>
+                  </div>
+                  <div class="phone-frame">
+                    <div class="phone-notch"><div class="phone-notch-dot"></div></div>
+                    <div class="phone-screen">
+                      <img src="images/calorieat-screenshot-mobile.png" alt="" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;object-fit:cover;object-position:center top;" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

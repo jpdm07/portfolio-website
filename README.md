@@ -61,8 +61,10 @@ Each project below includes a **live demo** link where there is one. The images 
 
 **Workflow:** Post-capstone improvements shipped via **pull request** into the team repo, reviewed and merged. Future changes follow the same fork → PR path. **[Compare fork → team `main` (open a PR)](https://github.com/Mchavez31/CaloriEat/compare/main...jpdm07:CaloriEat:main?expand=1)**
 
-| Desktop | Mobile |
-|:-------:|:------:|
+**Before vs after:** GitHub Pages on the live URLs always deploys **`main`**, so there is no separate hosted “before” build. The **capstone-era codebase** (pre–welcome flow / pre–big polish) is frozen at commit **`fb29950`**: **[browse that snapshot](https://github.com/jpdm07/CaloriEat/tree/fb29950)** · **[compare `fb29950` → `main` (full diff)](https://github.com/jpdm07/CaloriEat/compare/fb29950...main)**. On the portfolio site, the CaloriEat accordion shows **Then / Now** device mockups; add **`images/calorieat-before-desktop.png`** and **`images/calorieat-before-mobile.png`** for the “Then” pair (same framing idea as the current welcome captures).
+
+| Now — desktop | Now — mobile |
+|:-------------:|:------------:|
 | [![CaloriEat welcome — desktop](./images/calorieat-screenshot.png)](https://jpdm07.github.io/CaloriEat/welcome.html) | [![CaloriEat welcome — mobile](./images/calorieat-screenshot-mobile.png)](https://jpdm07.github.io/CaloriEat/welcome.html) |
 
 ---
