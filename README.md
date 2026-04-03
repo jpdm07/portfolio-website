@@ -62,9 +62,7 @@ This project was built to:
 ## Resume
 
 My latest resume is included in this repository:  
-Jane_Chavez_Resume_2026.pdf  
-
-To regenerate the PDF from `resume.html` (after `npm install`): `npm run resume:pdf`
+Jane_Chavez_Resume_2026.pdf
 
 ---
 
