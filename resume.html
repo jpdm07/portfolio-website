@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Résumé | Jane Chavez</title>
-  <!-- Body copy should match Jane_Chavez_Resume_2026.pdf. After changing this page, update the PDF the same way (re-export from your master doc, or print this page to PDF). -->
+  <!-- Body copy matches Jane_Chavez_Resume_2026.pdf. Regenerate PDF: npm run resume:pdf -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
@@ -270,6 +270,37 @@
       nav { padding: 14px 20px; }
       footer { padding: 24px 20px; text-align: center; }
       .footer-copy { align-items: center; }
+    }
+
+    /* Print / PDF export: light paper, no chrome */
+    @media print {
+      html, body { background: #fff !important; color: #1a1a24 !important; cursor: auto !important; }
+      #bg, #bg-canvas, #cursor, .resume-light-intro { display: none !important; }
+      nav, footer, .resume-page-end-nav { display: none !important; }
+      .page {
+        padding: 0.4in 0.5in 0.5in !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+      }
+      .r-header { border-bottom-color: #ddd !important; }
+      .r-name {
+        background: none !important;
+        -webkit-text-fill-color: #1a1a24 !important;
+        color: #1a1a24 !important;
+      }
+      .r-tagline, .r-contact-row span, .r-contact-row a, .r-block-title, .r-block-date, .r-bullets li, .r-summary, .r-gpa, .r-block-org, .skill-pill {
+        color: #2d2d3a !important;
+      }
+      .r-section-title, .r-block-org { color: #b03070 !important; }
+      .skill-pill { border-color: #ccc !important; }
+      .resume-card {
+        background: #fff !important;
+        border: 1px solid #e0e0e8 !important;
+        box-shadow: none !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      .r-download { display: none !important; }
     }
   </style>
 </head>
