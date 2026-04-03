@@ -235,6 +235,17 @@
     .r-block-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; flex-wrap: wrap; gap: 8px; }
     .r-block-title { font-family: var(--sans); font-size: 0.95rem; font-weight: 500; color: var(--text); }
     .r-block-date { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; color: var(--text-muted); }
+    /* Education: keep degree dates right-aligned when the title wraps (esp. narrow viewports) */
+    .resume-card--education .r-block-header { align-items: baseline; }
+    .resume-card--education .r-block-title {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .resume-card--education .r-block-date {
+      margin-left: auto;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
     .r-block-org { font-family: var(--mono); font-size: 0.72rem; color: var(--pink); letter-spacing: 0.05em; margin-bottom: 10px; }
     .r-gpa { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 6px; }
     .r-bullets { list-style: none; padding: 0; }
@@ -409,7 +420,7 @@
       <br>
     </div>
 
-    <div class="resume-card">
+    <div class="resume-card resume-card--education">
       <h2 class="r-section-title">Education</h2>
       <div class="r-block">
         <div class="r-block-header">
