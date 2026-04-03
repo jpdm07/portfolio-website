@@ -4,7 +4,9 @@
 
 Hand-coded portfolio on **GitHub Pages**: responsive layout, custom CSS and motion, and a clear story for each project—so recruiters see both **how it looks** and **how it’s built**.
 
-**[Live site →](https://jpdm07.github.io/portfolio-website/)** &nbsp;·&nbsp; **[Résumé page →](https://jpdm07.github.io/portfolio-website/resume.html)** &nbsp;·&nbsp; **[Download PDF résumé](./Jane_Chavez_Resume_2026.pdf)**
+**Live portfolio:** https://jpdm07.github.io/portfolio-website/
+
+**Quick links:** [Résumé (web)](https://jpdm07.github.io/portfolio-website/resume.html) · [PDF résumé](./Jane_Chavez_Resume_2026.pdf)
 
 ---
 
@@ -35,43 +37,50 @@ A static site (HTML, CSS, JavaScript) that showcases selected work: a capstone a
 
 ## Screenshots
 
-*Rounded presentation via Markdown tables; click through to the live site for the full experience.*
+Each project below includes a **live demo** link where there is one. The images are previews only.
 
 ### This portfolio (current build)
 
+**Live demo:** https://jpdm07.github.io/portfolio-website/ — same site as this README’s repo (GitHub Pages).
+
 | Desktop | Mobile |
 |:-------:|:------:|
-| ![Portfolio — desktop hero](./images/portfolio-current-desktop.png) | ![Portfolio — mobile](./images/portfolio-current-mobile.png) |
+| [![Portfolio — desktop hero](./images/portfolio-current-desktop.png)](https://jpdm07.github.io/portfolio-website/) | [![Portfolio — mobile](./images/portfolio-current-mobile.png)](https://jpdm07.github.io/portfolio-website/) |
 | *Hero, crystal, and project grid* | *Narrow viewport* |
 
 ---
 
 ### CaloriEat — calorie tracking (capstone team project)
 
-Live app (sign-in / guest): **[welcome.html](https://jpdm07.github.io/CaloriEat/welcome.html)** · Source: **[github.com/jpdm07/CaloriEat](https://github.com/jpdm07/CaloriEat)** (fork; upstream team repo linked from the portfolio write-up).
+**Live demo:** https://jpdm07.github.io/CaloriEat/welcome.html (sign-in or try as guest)  
+**Source:** https://github.com/jpdm07/CaloriEat (fork; upstream team repo linked from the portfolio write-up)
 
 | Desktop | Mobile |
 |:-------:|:------:|
-| ![CaloriEat welcome — desktop](./images/calorieat-screenshot.png) | ![CaloriEat welcome — mobile](./images/calorieat-screenshot-mobile.png) |
+| [![CaloriEat welcome — desktop](./images/calorieat-screenshot.png)](https://jpdm07.github.io/CaloriEat/welcome.html) | [![CaloriEat welcome — mobile](./images/calorieat-screenshot-mobile.png)](https://jpdm07.github.io/CaloriEat/welcome.html) |
 
 ---
 
 ### Happy Tails Rescue — WordPress nonprofit site
 
-Live: **[janechavez.org](https://janechavez.org)** · WordPress.org + Elementor, custom branding and SureForms contact flow. UX direction informed by volunteer work with **Sierra Overlook Animal Rescue**; the separate Wix optimization work is documented in the **[SOAR case study](https://jpdm07.github.io/portfolio-website/soar-case-study.html)** on this site.
+**Live demo:** https://janechavez.org  
+
+WordPress.org + Elementor, custom branding and SureForms contact flow. UX direction informed by volunteer work with **Sierra Overlook Animal Rescue**; Wix optimization is documented in the **[SOAR case study](https://jpdm07.github.io/portfolio-website/soar-case-study.html)** (opens on this portfolio site).
 
 | Desktop (current site) | Mobile |
 |:----------------------:|:------:|
-| ![Happy Tails Rescue — desktop](./images/happy-tails-desktop.png) | ![Happy Tails Rescue — mobile](./images/happy-tails-mobile.png) |
+| [![Happy Tails Rescue — desktop](./images/happy-tails-desktop.png)](https://janechavez.org) | [![Happy Tails Rescue — mobile](./images/happy-tails-mobile.png)](https://janechavez.org) |
 
 ---
 
 ### Figma — hero exploration
 
+**Live design / prototype:** [Figma — Hero Section (prototype)](https://www.figma.com/proto/qhk0PTd7kBe39rhb9lrMKr/Hero-Section?node-id=0-1&t=eog5D9QeQcq6Pt3I-1)
+
 | Design export |
 |:-------------:|
-| ![Figma hero section](./images/figma-hero.png) |
-| *High-fidelity hero treatment — [Figma prototype](https://www.figma.com/proto/qhk0PTd7kBe39rhb9lrMKr/Hero-Section?node-id=0-1&t=eog5D9QeQcq6Pt3I-1)* |
+| [![Figma hero section](./images/figma-hero.png)](https://www.figma.com/proto/qhk0PTd7kBe39rhb9lrMKr/Hero-Section?node-id=0-1&t=eog5D9QeQcq6Pt3I-1) |
+| *High-fidelity hero treatment* |
 
 ---
 
