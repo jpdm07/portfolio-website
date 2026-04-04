@@ -327,6 +327,23 @@
       font-size: 0.82rem; color: var(--text-muted); line-height: 1.75;
     }
     .cs-diagram-note strong { color: var(--text-dim); font-weight: 500; }
+    /* Portfolio v1/v2: same rhythm as section labels — light step cue, not numbered copy */
+    .cs-chapter-step { margin-top: 32px; }
+    .cs-chapter-step--after-rule { margin-top: 36px; }
+    .cs-chapter-step-label {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 0 0 8px;
+    }
+    .cs-chapter-step-label span {
+      color: var(--pink);
+      letter-spacing: 0.18em;
+    }
+    .cs-chapter-step .cs-diagram-title { margin-top: 0; }
+    .cs-diagram-block .cs-chapter-step-label { margin-bottom: 10px; }
     .cs-diagram-fallback {
       display: none;
       margin: 0;
@@ -534,7 +551,10 @@
       <p>That stack was fine for a first impression, but it never felt like my handwriting: utility classes and default chrome fought the direction I wanted. I froze that era in a <strong>legacy demo</strong> and a pinned file on GitHub so the “before” stays inspectable.</p>
       <p class="cs-embed-note" style="margin-top:20px;"><a href="https://jpdm07.github.io/portfolio-website/legacy-bootstrap-demo/" target="_blank" rel="noopener noreferrer">Open legacy Bootstrap demo ↗</a> · <a href="https://github.com/jpdm07/portfolio-website/blob/ee5bb017ade517b4df4e9c907e7df64e8c4486a4/index.html" target="_blank" rel="noopener noreferrer">Bootstrap-era source (blob) ↗</a></p>
 
-      <p class="cs-diagram-title" style="margin-top:36px;">1 · Bootstrap-era homepage (screenshot)</p>
+      <div class="cs-chapter-step cs-chapter-step--after-rule">
+        <p class="cs-chapter-step-label"><span>Shipped</span> — interface</p>
+        <p class="cs-diagram-title">Bootstrap-era homepage (screenshot)</p>
+      </div>
       <p class="cs-diagram-lead" style="margin-bottom:18px;">What actually shipped in the first chapter—light layout, hero, and Bootstrap scaffolding—before the custom rebuild.</p>
       <div class="cs-monitor-wrap cs-monitor-wrap--screenshot">
         <div class="cs-monitor">
@@ -553,7 +573,8 @@
       <p class="cs-caption"><span>Legacy ↗</span>Bootstrap-era homepage — same look as the archived demo</p>
 
       <div class="cs-diagram-block">
-        <p class="cs-diagram-title">2 · V1 process (Bootstrap chapter)</p>
+        <p class="cs-chapter-step-label"><span>Process</span> — diagram</p>
+        <p class="cs-diagram-title">V1 process (Bootstrap chapter)</p>
         <p class="cs-diagram-lead">From problem framing through Figma wireframes, Bootstrap implementation, testing across viewports, and deploy to GitHub Pages—the path that got a credible first site live while I was still iterating on what “my” portfolio should feel like.</p>
         <div class="cs-monitor-wrap cs-diagram-mockup">
           <div class="cs-monitor">
@@ -574,7 +595,7 @@
         </div>
         <p class="cs-diagram-mockup-hint">Scroll inside the display to view the full diagram</p>
         <p class="cs-caption"><span>Process ↗</span>Bootstrap era — wireframes to hosted demo</p>
-        <p class="cs-diagram-note"><strong>Context:</strong> This is the disciplined “get something real online” loop—not the final aesthetic I wanted long term. <strong>Pair with the screenshot above:</strong> shipped surface first in this section, then the process map—the diagram is the plan; the monitor shows what went live in the Bootstrap chapter.</p>
+        <p class="cs-diagram-note"><strong>Context:</strong> This is the disciplined “get something real online” loop—not the final aesthetic I wanted long term. <strong>Pair with the screenshot above:</strong> the diagram is the plan; the monitor shows what went live in the Bootstrap chapter.</p>
       </div>
     </div>
 
@@ -584,7 +605,10 @@
       <p>Once the gap was obvious, I <strong>removed Bootstrap</strong> and rewrote the shell: navigation, section rhythm, project rows, buttons, and breakpoints in my own CSS so the site could match my Figma direction. On top of that I layered the pieces that sell the craft—<strong>canvas background</strong>, entrance motion, scroll-driven reveals, desktop cursor treatment, draggable hero crystal, and dedicated behavior on the résumé page—kept in <strong>plain JavaScript</strong> on purpose so the source stays readable.</p>
       <p>The revamp is one large commit on GitHub; the Selected Work panel on the home page stays short on purpose so this case study can carry the narrative without repeating every bullet twice.</p>
 
-      <p class="cs-diagram-title" style="margin-top:36px;">1 · Current homepage (screenshot)</p>
+      <div class="cs-chapter-step cs-chapter-step--after-rule">
+        <p class="cs-chapter-step-label"><span>Shipped</span> — interface</p>
+        <p class="cs-diagram-title">Current homepage (screenshot)</p>
+      </div>
       <p class="cs-diagram-lead" style="margin-bottom:18px;">What shipped after the custom rebuild—hero, grid background, crystal, and the interaction layer described above.</p>
       <div class="cs-monitor-wrap cs-monitor-wrap--screenshot">
         <div class="cs-monitor">
@@ -603,7 +627,8 @@
       <p class="cs-caption"><span>Live ↗</span>Current build — homepage hero as shipped</p>
 
       <div class="cs-diagram-block">
-        <p class="cs-diagram-title">2 · V2 process (custom site)</p>
+        <p class="cs-chapter-step-label"><span>Process</span> — diagram</p>
+        <p class="cs-diagram-title">V2 process (custom site)</p>
         <p class="cs-diagram-lead">After identifying how generic the Bootstrap pass felt, I stripped the framework, rebuilt layout and motion in custom CSS, added the JS layer I cared about, verified across browsers, and shipped the current GitHub Pages build—the site you’re reading now.</p>
         <div class="cs-monitor-wrap cs-diagram-mockup">
           <div class="cs-monitor">
@@ -624,7 +649,7 @@
         </div>
         <p class="cs-diagram-mockup-hint">Scroll inside the display to view the full diagram</p>
         <p class="cs-caption"><span>Process ↗</span>Custom rebuild — framework out, handwriting in</p>
-        <p class="cs-diagram-note"><strong>Context:</strong> Same rhythm as version one—see the shipped surface first, then the process map. <strong>Pair with the screenshot above:</strong> the diagram is the plan; the monitor capture is what’s live today.</p>
+        <p class="cs-diagram-note"><strong>Context:</strong> Same rhythm as version one. <strong>Pair with the screenshot above:</strong> the diagram is the plan; the monitor capture is what’s live today.</p>
       </div>
     </div>
 
