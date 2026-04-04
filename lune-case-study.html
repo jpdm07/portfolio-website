@@ -265,6 +265,83 @@
     }
     .cs-caption span { color: var(--pink); margin-right: 6px; }
 
+    /* ── Process diagrams (scrollable monitor — same treatment as CaloriEat case study) ── */
+    .cs-diagram-block { margin: 40px 0 12px; }
+    .cs-diagram-block:first-of-type { margin-top: 28px; }
+    .cs-diagram-title {
+      font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--text);
+      margin-bottom: 14px;
+    }
+    .cs-diagram-lead {
+      font-size: 0.92rem; color: var(--text-dim); line-height: 1.85;
+      margin-bottom: 22px;
+    }
+    .cs-diagram-mockup { margin-top: 8px; }
+    .cs-monitor-screen--diagram {
+      background: #0a0a14;
+    }
+    .cs-monitor-screen--diagram::after {
+      display: none;
+    }
+    .cs-diagram-scroll {
+      max-height: min(58vh, 520px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      line-height: 0;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(244,114,182,0.45) rgba(12,12,24,0.95);
+    }
+    .cs-diagram-scroll::-webkit-scrollbar { width: 8px; }
+    .cs-diagram-scroll::-webkit-scrollbar-track { background: rgba(12,12,24,0.95); }
+    .cs-diagram-scroll::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(244,114,182,0.55), rgba(167,139,250,0.45));
+      border-radius: 999px;
+      border: 2px solid rgba(7,7,15,0.85);
+    }
+    .cs-diagram-scroll img {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: #fff;
+    }
+    .cs-diagram-mockup-hint {
+      margin: 12px 0 0;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .cs-diagram-note {
+      margin-top: 16px;
+      font-size: 0.82rem; color: var(--text-muted); line-height: 1.75;
+    }
+    .cs-diagram-note strong { color: var(--text-dim); font-weight: 500; }
+    .cs-diagram-fallback {
+      display: none;
+      margin: 0;
+      line-height: 1.65;
+      padding: 28px 24px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: center;
+      border-top: 1px dashed rgba(244,114,182,0.25);
+      background: rgba(244,114,182,0.03);
+    }
+    .cs-diagram-fallback code {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      word-break: break-all;
+    }
+    @media (max-width: 600px) {
+      .cs-diagram-scroll { max-height: min(50vh, 420px); }
+    }
+
     /* ── Change list ── */
     .cs-changes { list-style: none; padding: 0; margin: 24px 0; }
     .cs-changes li {
@@ -460,6 +537,31 @@
           title="LUNE E-Commerce — Figma prototype"></iframe>
       </div>
       <p class="cs-embed-note"><a href="https://www.figma.com/proto/bXmgqouHp6JLHewKsN81E0/Lune-E-Commerce?node-id=22-37&amp;p=f&amp;t=17taSrMIRamj1Lcd-0&amp;scaling=scale-down&amp;content-scaling=fixed&amp;page-id=0%3A1&amp;starting-point-node-id=1%3A2" target="_blank" rel="noopener noreferrer">Open prototype in Figma ↗</a></p>
+
+      <div class="cs-diagram-block">
+        <p class="cs-diagram-title">Design process</p>
+        <p class="cs-diagram-lead">Before writing routes, I locked the story in Figma: brand tone, shop → checkout journeys, and the frames that became my checklist in code. The diagram is the condensed path from first layout passes to the tokens and type scales I carried into CSS Modules—so the shipped UI stays accountable to the file, not to whatever looked fine in the moment.</p>
+        <div class="cs-monitor-wrap cs-diagram-mockup">
+          <div class="cs-monitor">
+            <div class="cs-monitor-chrome">
+              <div class="cs-monitor-dots"><span></span><span></span><span></span></div>
+              <div class="cs-monitor-url">lune — design process</div>
+            </div>
+            <div class="cs-monitor-screen cs-monitor-screen--diagram">
+              <div class="cs-diagram-scroll">
+                <img src="images/lune/lune-design-process.svg" alt="LUNE design process flow from discovery and brand direction through Figma prototyping to design tokens and handoff for implementation" loading="lazy" decoding="async" onerror="this.style.display='none'; var n=this.nextElementSibling; if(n) n.style.display='block';"/>
+                <p class="cs-diagram-fallback" style="display:none">Add <code>images/lune/lune-design-process.svg</code> to the repo and redeploy.</p>
+              </div>
+            </div>
+          </div>
+          <div class="cs-monitor-stand-neck"></div>
+          <div class="cs-monitor-glow"></div>
+          <div class="cs-monitor-stand-base"></div>
+        </div>
+        <p class="cs-diagram-mockup-hint">Scroll inside the display to view the full diagram</p>
+        <p class="cs-caption"><span>Process ↗</span>Figma-first — IA, frames, then tokens for React</p>
+        <p class="cs-diagram-note"><strong>Why it’s here:</strong> Interviewers often ask how design becomes code; this is the map I use to explain LUNE without hand-waving.</p>
+      </div>
     </div>
 
     <div class="cs-section">
@@ -468,6 +570,31 @@
       <p>The Figma file answered “what should this flow feel like?” The repo answers “does it actually work?” Checkout is a concrete example: guest email and address fields, shipping method as a clear fieldset, continuation into payment, and draft state in context so nothing disappears between steps—that structure is the same story as the prototype, just expressed as <code>CheckoutShipping.jsx</code>, <code>CheckoutPayment.jsx</code>, and shared checkout context instead of static frames.</p>
       <p>The app is published from the <code>gh-pages</code> branch. GitHub Actions runs on every push to <code>main</code>; I can also deploy from my machine with <code>npm run deploy</code>. Vite uses <code>base: /lune-store/</code>, and the build copies <code>index.html</code> to <code>404.html</code> so client-side routes still work if someone refreshes on a deep link.</p>
       <p>You can use the live site at <a href="https://jpdm07.github.io/lune-store/" target="_blank" rel="noopener noreferrer">jpdm07.github.io/lune-store</a> the same way a shopper would—shop, cart, checkout, account, and policies.</p>
+
+      <div class="cs-diagram-block">
+        <p class="cs-diagram-title">Build &amp; ship process</p>
+        <p class="cs-diagram-lead">Implementation followed the prototype’s contracts: component shells for each major route, shared checkout state, optional Supabase with a safe localStorage demo mode, and a GitHub Pages pipeline that respects <code>base: /lune-store/</code> plus an <code>index.html</code> → <code>404.html</code> copy so refreshes on deep links don’t blank out.</p>
+        <div class="cs-monitor-wrap cs-diagram-mockup">
+          <div class="cs-monitor">
+            <div class="cs-monitor-chrome">
+              <div class="cs-monitor-dots"><span></span><span></span><span></span></div>
+              <div class="cs-monitor-url">lune — build &amp; deploy</div>
+            </div>
+            <div class="cs-monitor-screen cs-monitor-screen--diagram">
+              <div class="cs-diagram-scroll">
+                <img src="images/lune/lune-build-process.svg" alt="LUNE build and deployment process from React implementation through testing, GitHub Pages build, and SPA routing safeguards" loading="lazy" decoding="async" onerror="this.style.display='none'; var n=this.nextElementSibling; if(n) n.style.display='block';"/>
+                <p class="cs-diagram-fallback" style="display:none">Add <code>images/lune/lune-build-process.svg</code> to the repo and redeploy.</p>
+              </div>
+            </div>
+          </div>
+          <div class="cs-monitor-stand-neck"></div>
+          <div class="cs-monitor-glow"></div>
+          <div class="cs-monitor-stand-base"></div>
+        </div>
+        <p class="cs-diagram-mockup-hint">Scroll inside the display to view the full diagram</p>
+        <p class="cs-caption"><span>Process ↗</span>React/Vite → verify → Pages + SPA routing</p>
+        <p class="cs-diagram-note"><strong>Pair with the screenshot below:</strong> the flow is how I got there; the monitor mock is what shoppers actually see on the deployed homepage.</p>
+      </div>
 
       <div class="cs-monitor-wrap">
         <div class="cs-monitor">
