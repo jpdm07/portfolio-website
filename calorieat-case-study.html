@@ -317,6 +317,23 @@
       font-size: 0.82rem; color: var(--text-muted); line-height: 1.75;
     }
     .cs-diagram-note strong { color: var(--text-dim); font-weight: 500; }
+    .cs-diagram-fallback {
+      display: none;
+      margin: 0;
+      padding: 28px 24px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      text-align: center;
+      border-top: 1px dashed rgba(244,114,182,0.25);
+      background: rgba(244,114,182,0.03);
+    }
+    .cs-diagram-fallback code {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      word-break: break-all;
+    }
 
     .cs-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
     .cs-pill {
@@ -485,7 +502,8 @@
         <p class="cs-diagram-title">Capstone software lifecycle</p>
         <p class="cs-diagram-lead">SWEN 6837 expected a full engineering story—not only working code. The diagram below is the SDLC frame Michael and I used from October through December 2025: how we moved from agreed requirements into design artifacts, time-boxed implementation, documented testing, and a graded handoff we could both defend.</p>
         <div class="cs-diagram-frame">
-          <img src="images/calorieat/calorieat-capstone-process.png" alt="CaloriEat capstone SDLC: planning, analysis and design, implementation, testing, deployment, and maintenance phases for the UHCL software engineering course" loading="lazy" decoding="async"/>
+          <img src="images/calorieat/calorieat-capstone-process.png" alt="CaloriEat capstone SDLC: planning, analysis and design, implementation, testing, deployment, and maintenance phases for the UHCL software engineering course" loading="lazy" decoding="async" onerror="this.style.display='none'; var n=this.nextElementSibling; if(n) n.style.display='block';"/>
+          <p class="cs-diagram-fallback" style="display:none">Process diagram: publish <code>images/calorieat/calorieat-capstone-process.png</code> with the site (commit + push) to show the graphic here.</p>
         </div>
         <p class="cs-caption"><span>Process ↗</span>Grad school — course lifecycle through final submission</p>
         <p class="cs-diagram-note"><strong>How to read it:</strong> Each stage fed concrete deliverables (models, manual, test evidence) before we treated the build as “done.” That order kept integration risk low and made the December snapshot reproducible—the same tree preserved today as <code>fb29950</code> on my fork.</p>
@@ -525,7 +543,8 @@
         <p class="cs-diagram-title">Post‑graduation delivery loop</p>
         <p class="cs-diagram-lead">After grades closed, the product still had real users (us, classmates, anyone hitting the Pages URL). I kept the same discipline in a lighter loop: small scope, explicit verification, and no “surprise” commits on the repo my teammate owns. The flow below is how I handled the February–April 2026 changes—fork, ship, review, merge—so the public demo and the canonical history stay aligned.</p>
         <div class="cs-diagram-frame">
-          <img src="images/calorieat/calorieat-postgrad-process.png" alt="CaloriEat post-graduation process: fork, local development, testing, pull request, code review, and merge back to the team repository" loading="lazy" decoding="async"/>
+          <img src="images/calorieat/calorieat-postgrad-process.png" alt="CaloriEat post-graduation process: fork, local development, testing, pull request, code review, and merge back to the team repository" loading="lazy" decoding="async" onerror="this.style.display='none'; var n=this.nextElementSibling; if(n) n.style.display='block';"/>
+          <p class="cs-diagram-fallback" style="display:none">Process diagram: publish <code>images/calorieat/calorieat-postgrad-process.png</code> with the site (commit + push) to show the graphic here.</p>
         </div>
         <p class="cs-caption"><span>Process ↗</span>Current chapter — fork → PR → merge with shared ownership</p>
         <p class="cs-diagram-note"><strong>Why it matters:</strong> Treating <code>jpdm07/CaloriEat</code> as a working branch and <code>Mchavez31/CaloriEat</code> as protected main mirrors professional practice: I can iterate quickly, but production lineage only moves when another engineer agrees. That is the same story the compare link at the bottom of this page tells in Git history.</p>
