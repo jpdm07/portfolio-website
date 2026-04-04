@@ -405,7 +405,8 @@
     .project-body { max-height: 0; overflow: hidden; transition: max-height 0.65s cubic-bezier(0.77, 0, 0.175, 1); }
     /* Tall enough for long write-ups + image stacks (e.g. portfolio 003 before/after shots) */
     .project-item.open .project-body { max-height: 12000px; }
-    .project-content { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; padding: 0 36px 48px; }
+    /* start: short copy (e.g. portfolio) stays tight; tall mockup column no longer stretches text column */
+    .project-content { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; padding: 0 36px 48px; align-items: start; }
     .project-text h4 {
       font-family: var(--mono); font-size: 0.65rem; color: var(--pink);
       letter-spacing: 0.12em; text-transform: uppercase;
@@ -514,6 +515,81 @@
       position: relative;
       width: 100%;
       max-width: 380px;
+    }
+
+    /* Portfolio project only: one mockup footprint, vertical scroll for Then → Now */
+    .project-mockup--portfolio-scroll {
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+    .project-mockup-portfolio-scroll-viewport {
+      width: 100%;
+      /* ~one desktop+phone mockup stack tall; second “slide” scrolls in the same footprint */
+      height: min(400px, 56vh);
+      max-height: 440px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      touch-action: pan-y;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.2);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(244,114,182,0.45) rgba(12,12,24,0.85);
+    }
+    .project-mockup-portfolio-scroll-viewport:focus-visible {
+      outline: 2px solid rgba(244,114,182,0.45);
+      outline-offset: 3px;
+    }
+    .project-mockup-portfolio-scroll-viewport::-webkit-scrollbar { width: 6px; }
+    .project-mockup-portfolio-scroll-viewport::-webkit-scrollbar-track {
+      background: rgba(12,12,24,0.85);
+      border-radius: 6px;
+    }
+    .project-mockup-portfolio-scroll-viewport::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(244,114,182,0.55), rgba(167,139,250,0.45));
+      border-radius: 6px;
+    }
+    .project-mockup-portfolio-slide {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      padding: 14px 12px 24px;
+      box-sizing: border-box;
+    }
+    .project-mockup-portfolio-slide-label {
+      align-self: flex-start;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+    .project-mockup--portfolio-scroll .mockup-stack {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+    }
+    .project-mockup-portfolio-scroll-hint {
+      margin: 14px 0 0;
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.5;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .project-mockup-portfolio-scroll-viewport { scroll-behavior: auto; }
     }
 
     /* Device mockup */
@@ -765,6 +841,7 @@
       .project-evolution { grid-template-columns: 1fr; }
       .about-grid { grid-template-columns: 1fr; gap: 48px; }
       .mockup-stack { max-width: 320px; }
+      .project-mockup--portfolio-scroll { max-width: 320px; }
       footer { padding: 28px 32px; }
     }
 
@@ -1536,45 +1613,50 @@
                 <a href="portfolio-case-study.html" class="project-link">Case study ↗</a>
               </div>
             </div>
-            <div class="project-mockup project-mockup--003-col">
-              <div class="project-mockup-003-block" aria-label="Bootstrap-era portfolio in device frames">
-                <div class="mockup-stack">
-                  <div class="browser-frame">
-                    <div class="browser-bar">
-                      <div class="browser-dots"><span></span><span></span><span></span></div>
-                      <div class="browser-url"></div>
+            <div class="project-mockup project-mockup--portfolio-scroll" aria-label="Portfolio: Bootstrap-era and current mockups" onclick="event.stopPropagation()">
+              <div class="project-mockup-portfolio-scroll-viewport" tabindex="0" role="region" aria-label="Scroll vertically to compare Bootstrap-era and current portfolio mockups">
+                <div class="project-mockup-portfolio-slide">
+                  <div class="project-evolution-label project-mockup-portfolio-slide-label">Then — Bootstrap</div>
+                  <div class="mockup-stack">
+                    <div class="browser-frame">
+                      <div class="browser-bar">
+                        <div class="browser-dots"><span></span><span></span><span></span></div>
+                        <div class="browser-url"></div>
+                      </div>
+                      <div class="browser-screen-placeholder">
+                        <img src="images/portfolio-bootstrap-before-desktop.png" alt="Earlier portfolio on desktop: light Bootstrap layout, hero, pale blue buttons" class="evolution-shot-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                      </div>
                     </div>
-                    <div class="browser-screen-placeholder">
-                      <img src="images/portfolio-bootstrap-before-desktop.png" alt="Earlier portfolio on desktop: light Bootstrap layout, hero, pale blue buttons" class="evolution-shot-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                    <div class="phone-frame">
+                      <div class="phone-notch"><div class="phone-notch-dot"></div></div>
+                      <div class="phone-screen">
+                        <img src="images/portfolio-bootstrap-before-mobile.png" alt="" class="evolution-shot-img evolution-shot-img--phone" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                      </div>
                     </div>
                   </div>
-                  <div class="phone-frame">
-                    <div class="phone-notch"><div class="phone-notch-dot"></div></div>
-                    <div class="phone-screen">
-                      <img src="images/portfolio-bootstrap-before-mobile.png" alt="" class="evolution-shot-img evolution-shot-img--phone" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                </div>
+                <div class="project-mockup-portfolio-slide">
+                  <div class="project-evolution-label project-mockup-portfolio-slide-label">Now — Custom rebuild</div>
+                  <div class="mockup-stack">
+                    <div class="browser-frame">
+                      <div class="browser-bar">
+                        <div class="browser-dots"><span></span><span></span><span></span></div>
+                        <div class="browser-url"></div>
+                      </div>
+                      <div class="browser-screen-placeholder portfolio-mockup-desktop" style="background:#07070f;padding:0;overflow:hidden;position:relative;">
+                        <img src="images/portfolio-current-desktop.png" alt="Current portfolio hero on desktop, including grid background and crystal" class="portfolio-mockup-desktop-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                      </div>
+                    </div>
+                    <div class="phone-frame">
+                      <div class="phone-notch"><div class="phone-notch-dot"></div></div>
+                      <div class="phone-screen">
+                        <img src="images/portfolio-current-mobile.png" alt="" class="portfolio-mockup-mobile-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="project-mockup-003-block" aria-label="Current portfolio in device frames">
-                <div class="mockup-stack">
-                  <div class="browser-frame">
-                    <div class="browser-bar">
-                      <div class="browser-dots"><span></span><span></span><span></span></div>
-                      <div class="browser-url"></div>
-                    </div>
-                    <div class="browser-screen-placeholder portfolio-mockup-desktop" style="background:#07070f;padding:0;overflow:hidden;position:relative;">
-                      <img src="images/portfolio-current-desktop.png" alt="Current portfolio hero on desktop, including grid background and crystal" class="portfolio-mockup-desktop-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
-                    </div>
-                  </div>
-                  <div class="phone-frame">
-                    <div class="phone-notch"><div class="phone-notch-dot"></div></div>
-                    <div class="phone-screen">
-                      <img src="images/portfolio-current-mobile.png" alt="" class="portfolio-mockup-mobile-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <p class="project-mockup-portfolio-scroll-hint">Scroll inside the frame — then vs. now share this space</p>
             </div>
           </div>
         </div>
