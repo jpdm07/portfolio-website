@@ -31,7 +31,7 @@ A static site (HTML, CSS, JavaScript) that showcases selected work: a capstone a
 
 - **This site:** HTML5, CSS3 (Flexbox, Grid, custom properties), JavaScript (ES6+), Git, GitHub Pages  
 - **Design:** Figma (wireframes and UI)  
-- **Elsewhere in my work:** WordPress.org + Elementor, Chart.js, Bootstrap (Udemy / WoofDog demo), Node.js (team capstone)
+- **Elsewhere in my work:** WordPress.org + Elementor, Chart.js, Bootstrap (earlier portfolio build — see legacy demo link on the site), Node.js (team capstone)
 
 ---
 
