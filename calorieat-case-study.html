@@ -290,7 +290,7 @@
       line-height: 1.8; margin: 0; font-style: italic;
     }
 
-    /* ── SDLC / process diagrams ── */
+    /* ── SDLC / process diagrams (same monitor mockup as screenshots; scrollable viewport) ── */
     .cs-diagram-block { margin: 40px 0 12px; }
     .cs-diagram-block:first-of-type { margin-top: 28px; }
     .cs-diagram-title {
@@ -302,19 +302,47 @@
       font-size: 0.92rem; color: var(--text-dim); line-height: 1.85;
       margin-bottom: 22px;
     }
-    .cs-diagram-frame {
-      border-radius: 10px; overflow: hidden;
-      border: 1px solid var(--border);
-      background: rgba(10, 10, 20, 0.92);
-      box-shadow: 0 20px 56px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03);
-      line-height: 0;
+    .cs-diagram-mockup { margin-top: 8px; }
+    .cs-monitor-screen--diagram {
+      background: #0a0a14;
     }
-    .cs-diagram-frame img {
-      width: 100%; height: auto; display: block;
-      max-height: min(88vh, 920px);
-      object-fit: contain;
-      object-position: top center;
+    .cs-monitor-screen--diagram::after {
+      display: none;
+    }
+    .cs-diagram-scroll {
+      max-height: min(58vh, 520px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      line-height: 0;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(244,114,182,0.45) rgba(12,12,24,0.95);
+    }
+    .cs-diagram-scroll::-webkit-scrollbar { width: 8px; }
+    .cs-diagram-scroll::-webkit-scrollbar-track { background: rgba(12,12,24,0.95); }
+    .cs-diagram-scroll::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(244,114,182,0.55), rgba(167,139,250,0.45));
+      border-radius: 999px;
+      border: 2px solid rgba(7,7,15,0.85);
+    }
+    .cs-diagram-scroll img {
+      width: 100%;
+      height: auto;
+      display: block;
       background: #fff;
+    }
+    .cs-diagram-mockup-hint {
+      margin: 12px 0 0;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    @media (max-width: 600px) {
+      .cs-diagram-scroll { max-height: min(50vh, 420px); }
     }
     .cs-diagram-note {
       margin-top: 16px;
@@ -324,6 +352,7 @@
     .cs-diagram-fallback {
       display: none;
       margin: 0;
+      line-height: 1.65;
       padding: 28px 24px;
       font-size: 0.85rem;
       color: var(--text-muted);
@@ -505,10 +534,24 @@
       <div class="cs-diagram-block">
         <p class="cs-diagram-title">Capstone software lifecycle</p>
         <p class="cs-diagram-lead">SWEN 6837 expected a full engineering story—not only working code. The diagram below is the SDLC frame Michael and I used from October through December 2025: how we moved from agreed requirements into design artifacts, time-boxed implementation, documented testing, and a graded handoff we could both defend.</p>
-        <div class="cs-diagram-frame">
-          <img src="images/calorieat/calorieat-capstone-process.svg" alt="CaloriEat capstone SDLC: planning, analysis and design, implementation, testing, deployment, and maintenance phases for the UHCL software engineering course" loading="lazy" decoding="async" onerror="this.style.display='none'; var n=this.nextElementSibling; if(n) n.style.display='block';"/>
-          <p class="cs-diagram-fallback" style="display:none">Process diagram: publish <code>images/calorieat/calorieat-capstone-process.svg</code> with the site (commit + push) to show the graphic here.</p>
+        <div class="cs-monitor-wrap cs-diagram-mockup">
+          <div class="cs-monitor">
+            <div class="cs-monitor-chrome">
+              <div class="cs-monitor-dots"><span></span><span></span><span></span></div>
+              <div class="cs-monitor-url">calorieat — capstone SDLC diagram</div>
+            </div>
+            <div class="cs-monitor-screen cs-monitor-screen--diagram">
+              <div class="cs-diagram-scroll">
+                <img src="images/calorieat/calorieat-capstone-process.svg" alt="CaloriEat capstone SDLC: planning, analysis and design, implementation, testing, deployment, and maintenance phases for the UHCL software engineering course" loading="lazy" decoding="async" onerror="this.style.display='none'; var n=this.nextElementSibling; if(n) n.style.display='block';"/>
+                <p class="cs-diagram-fallback" style="display:none">Process diagram: publish <code>images/calorieat/calorieat-capstone-process.svg</code> with the site (commit + push) to show the graphic here.</p>
+              </div>
+            </div>
+          </div>
+          <div class="cs-monitor-stand-neck"></div>
+          <div class="cs-monitor-glow"></div>
+          <div class="cs-monitor-stand-base"></div>
         </div>
+        <p class="cs-diagram-mockup-hint">Scroll inside the display to view the full diagram</p>
         <p class="cs-caption"><span>Process ↗</span>Grad school — course lifecycle through final submission</p>
         <p class="cs-diagram-note"><strong>How to read it:</strong> Each stage fed concrete deliverables (models, manual, test evidence) before we treated the build as “done.” That order kept integration risk low and made the December snapshot reproducible—the same tree preserved today as <code>fb29950</code> on my fork.</p>
       </div>
@@ -546,10 +589,24 @@
       <div class="cs-diagram-block">
         <p class="cs-diagram-title">Post‑graduation delivery loop</p>
         <p class="cs-diagram-lead">After grades closed, the product still had real users (us, classmates, anyone hitting the Pages URL). I kept the same discipline in a lighter loop: small scope, explicit verification, and no “surprise” commits on the repo my teammate owns. The flow below is how I handled the February–April 2026 changes—fork, ship, review, merge—so the public demo and the canonical history stay aligned.</p>
-        <div class="cs-diagram-frame">
-          <img src="images/calorieat/calorieat-postgrad-process.svg" alt="CaloriEat post-graduation process: fork, local development, testing, pull request, code review, and merge back to the team repository" loading="lazy" decoding="async" onerror="this.style.display='none'; var n=this.nextElementSibling; if(n) n.style.display='block';"/>
-          <p class="cs-diagram-fallback" style="display:none">Process diagram: publish <code>images/calorieat/calorieat-postgrad-process.svg</code> with the site (commit + push) to show the graphic here.</p>
+        <div class="cs-monitor-wrap cs-diagram-mockup">
+          <div class="cs-monitor">
+            <div class="cs-monitor-chrome">
+              <div class="cs-monitor-dots"><span></span><span></span><span></span></div>
+              <div class="cs-monitor-url">calorieat — post‑grad delivery loop</div>
+            </div>
+            <div class="cs-monitor-screen cs-monitor-screen--diagram">
+              <div class="cs-diagram-scroll">
+                <img src="images/calorieat/calorieat-postgrad-process.svg" alt="CaloriEat post-graduation process: fork, local development, testing, pull request, code review, and merge back to the team repository" loading="lazy" decoding="async" onerror="this.style.display='none'; var n=this.nextElementSibling; if(n) n.style.display='block';"/>
+                <p class="cs-diagram-fallback" style="display:none">Process diagram: publish <code>images/calorieat/calorieat-postgrad-process.svg</code> with the site (commit + push) to show the graphic here.</p>
+              </div>
+            </div>
+          </div>
+          <div class="cs-monitor-stand-neck"></div>
+          <div class="cs-monitor-glow"></div>
+          <div class="cs-monitor-stand-base"></div>
         </div>
+        <p class="cs-diagram-mockup-hint">Scroll inside the display to view the full diagram</p>
         <p class="cs-caption"><span>Process ↗</span>Current chapter — fork → PR → merge with shared ownership</p>
         <p class="cs-diagram-note"><strong>Why it matters:</strong> Treating <code>jpdm07/CaloriEat</code> as a working branch and <code>Mchavez31/CaloriEat</code> as protected main mirrors professional practice: I can iterate quickly, but production lineage only moves when another engineer agrees. That is the same story the compare link at the bottom of this page tells in Git history.</p>
       </div>
