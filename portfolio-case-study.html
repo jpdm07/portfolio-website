@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>This Portfolio Website — Case Study — Jane Chavez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500&display=swap"></noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <style>
+
+    /* ── Nav ── */
+    .nav-logo {
+      font-family: var(--serif); font-size: 1.3rem; font-weight: 600;
+      text-decoration: none; cursor: none;
+      background: linear-gradient(to bottom,#fff,#f472b6);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .nav-logo span { font-style: italic; }
+    .nav-links { display: flex; gap: 36px; list-style: none; margin: 0; padding: 0; }
+    .nav-links a {
+      font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-dim);
+      text-decoration: none; transition: color 0.3s; cursor: none;
+    }
+    .nav-links a:hover { color: var(--pink); }
+    .nav-mobile-toggle {
+      display: none; flex-direction: column;
+      gap: 5px; cursor: none; background: none; border: none; padding: 4px;
+    }
+    .nav-mobile-toggle span {
+      display: block; width: 24px; height: 1.5px;
+      background: var(--text-dim); transition: all 0.3s;
+    }
+    .nav-close {
+      display: none; position: absolute; top: 20px; right: 20px;
+      background: none; border: none; cursor: none;
+      color: var(--text-dim); font-size: 1.6rem; line-height: 1;
+      padding: 8px; transition: color 0.3s; z-index: 1001;
+    }
+    .nav-close:hover { color: var(--pink); }
+
+    /* ── MOBILE NAV (Cursor-fixed version) ── */
+    @media (max-width: 768px) {
+      nav {
+        padding: 16px 24px;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+      }
+      .nav-mobile-toggle { display: flex; position: relative; z-index: 10000; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+      .nav-links {
+        display: none; position: fixed;
+        inset: 0; width: 100%;
+        min-height: 100vh; min-height: 100dvh;
+        box-sizing: border-box;
+        padding:
+          max(80px, calc(env(safe-area-inset-top, 0px) + 56px))
+          24px
+          max(28px, env(safe-area-inset-bottom, 0px));
+        overflow-x: hidden; overflow-y: auto;
+        -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
+        background: rgba(7,7,15,0.97);
+        flex-direction: column; align-items: center;
+        justify-content: flex-start;
+        gap: clamp(28px, 6vh, 40px);
+        z-index: 9998; list-style: none;
+      }
+      nav.nav-mobile-open .nav-links { display: flex; }
+      .nav-links .nav-close { display: none !important; }
+      .nav-mobile-open .nav-mobile-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--pink); }
+      .nav-mobile-open .nav-mobile-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+      .nav-mobile-open .nav-mobile-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--pink); }
+      html, body { cursor: auto !important; }
+      #cursor { display: none !important; }
+      a, button, .nav-logo, .nav-mobile-toggle, .nav-close,
+      .nav-links a, .nav-links button { cursor: pointer !important; }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #07070f; --bg2: #0a0a15; --bg3: #0f0f1c;
+      --surface: rgba(22,22,35,0.7); --surface2: rgba(28,28,42,0.8);
+      --border: rgba(255,255,255,0.06); --pink: #f472b6; --pink-dim: #c84b8a;
+      --text: #f0eef8; --text-dim: #9b97b2; --text-muted: #5a5672;
+      --mono: 'DM Mono', monospace; --serif: 'Cormorant Garamond', serif; --sans: 'Outfit', sans-serif;
+    }
+    html {
+      scroll-behavior: smooth; background: var(--bg);
+      min-height: 100%; min-height: 100dvh;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(244,114,182,0.45) rgba(18,18,32,0.95);
+    }
+    html::-webkit-scrollbar { width: 10px; }
+    html::-webkit-scrollbar-track { background: rgba(12,12,24,0.9); }
+    html::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(244,114,182,0.55), rgba(167,139,250,0.45));
+      border-radius: 999px; border: 2px solid rgba(7,7,15,0.85);
+    }
+    body {
+      background: var(--bg); color: var(--text); font-family: var(--sans);
+      font-weight: 300; overflow-x: hidden; cursor: none;
+      min-height: 100%; min-height: 100dvh;
+    }
+    #bg {
+      position: fixed; inset: 0; width: 100vw;
+      min-height: 100vh; min-height: 100dvh; height: 100vh; height: 100dvh;
+      z-index: 0; background: #07070f; pointer-events: none;
+    }
+    #bg-canvas {
+      position: fixed; inset: 0; width: 100vw;
+      min-height: 100vh; min-height: 100dvh; height: 100vh; height: 100dvh;
+      z-index: 0; display: block; pointer-events: none;
+    }
+    #cursor {
+      width: 10px; height: 10px; background: var(--pink);
+      border-radius: 50%; position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 99999;
+      transition: width 0.25s cubic-bezier(0.34,1.56,0.64,1),
+                  height 0.25s cubic-bezier(0.34,1.56,0.64,1),
+                  border-radius 0.25s ease, background 0.25s ease,
+                  box-shadow 0.25s ease, opacity 0.2s ease;
+    }
+    #cursor.is-hovering {
+      width: 38px; height: 38px;
+      background: rgba(244,114,182,0.14); border: 1.5px solid var(--pink);
+      box-shadow: 0 0 16px rgba(244,114,182,0.5), 0 0 0 1px rgba(255,255,255,0.12), inset 0 0 10px rgba(244,114,182,0.08);
+    }
+    #cursor.is-nav {
+      width: 36px; height: 11px; border-radius: 6px;
+      background: linear-gradient(90deg, rgba(244,114,182,0.95), rgba(196,181,253,0.88));
+      box-shadow: 0 0 14px rgba(244,114,182,0.65), 0 0 0 1px rgba(255,255,255,0.2);
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 500;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 48px;
+      background: linear-gradient(to bottom, rgba(7,7,15,0.9), transparent);
+      backdrop-filter: blur(2px);
+      transition: padding 0.3s, background 0.3s;
+      pointer-events: none;
+    }
+    nav .nav-logo, nav .nav-links, nav .nav-mobile-toggle { pointer-events: auto; }
+
+    /* ── Page ── */
+    .page {
+      position: relative; z-index: 1;
+      max-width: 860px; margin: 0 auto; padding: 140px 24px 100px;
+    }
+
+    /* ── Case study elements ── */
+    .cs-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-muted);
+      text-decoration: none; cursor: none; margin-bottom: 48px;
+      transition: color 0.3s;
+    }
+    .cs-back:hover { color: var(--pink); }
+    .cs-tag {
+      font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--pink);
+      margin-bottom: 20px; display: block;
+    }
+    .cs-title {
+      font-family: var(--serif); font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 300; line-height: 1.1; margin-bottom: 24px;
+      color: var(--text);
+    }
+    .cs-subtitle {
+      font-size: 1rem; color: var(--text-dim); line-height: 1.85;
+      max-width: 640px; margin-bottom: 48px;
+    }
+    .cs-meta {
+      display: flex; flex-wrap: wrap; gap: 32px;
+      padding-top: 32px; border-top: 1px solid var(--border); margin-bottom: 80px;
+    }
+    .cs-meta-item { display: flex; flex-direction: column; gap: 6px; }
+    .cs-meta-label {
+      font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--text-muted);
+    }
+    .cs-meta-value { font-size: 0.88rem; color: var(--text-dim); }
+
+    .cs-section { margin-bottom: 80px; position: relative; z-index: 1; }
+    .cs-section-label {
+      font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--pink);
+      margin-bottom: 20px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--border); display: block;
+    }
+    .cs-section h2 {
+      font-family: var(--serif); font-size: 1.9rem; font-weight: 300;
+      color: var(--text); margin-bottom: 20px; line-height: 1.2;
+    }
+    .cs-section p {
+      font-size: 0.92rem; color: var(--text-dim);
+      line-height: 1.85; margin-bottom: 16px;
+    }
+    .cs-section p:last-child { margin-bottom: 0; }
+
+    /* ── Monitor mockup ── */
+    .cs-monitor-wrap {
+      margin: 40px 0 8px; display: flex; flex-direction: column; align-items: center;
+    }
+    .cs-monitor {
+      width: 100%; background: #13131f;
+      border-radius: 10px 10px 0 0;
+      border: 1.5px solid rgba(255,255,255,0.1); border-bottom: none;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 32px 80px rgba(0,0,0,0.8),
+                  0 8px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+    .cs-monitor-chrome {
+      background: linear-gradient(to bottom, #1e1e30, #171728);
+      padding: 10px 16px; display: flex; align-items: center; gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .cs-monitor-dots { display: flex; gap: 6px; }
+    .cs-monitor-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .cs-monitor-dots span:nth-child(1) { background: #ff5f57; box-shadow: 0 0 4px rgba(255,95,87,0.5); }
+    .cs-monitor-dots span:nth-child(2) { background: #ffbd2e; box-shadow: 0 0 4px rgba(255,189,46,0.5); }
+    .cs-monitor-dots span:nth-child(3) { background: #28c940; box-shadow: 0 0 4px rgba(40,201,64,0.5); }
+    .cs-monitor-url {
+      flex: 1; background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
+      height: 22px; display: flex; align-items: center; padding: 0 10px;
+      font-family: var(--mono); font-size: 0.58rem;
+      color: rgba(255,255,255,0.28); letter-spacing: 0.04em;
+      max-width: 360px; margin: 0 auto;
+    }
+    .cs-monitor-screen { width: 100%; background: #0a0a14; overflow: hidden; line-height: 0; position: relative; }
+    .cs-monitor-screen img { width: 100%; display: block; object-fit: cover; object-position: top center; }
+    .cs-monitor-screen::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 50%, rgba(0,0,0,0.1) 100%);
+      pointer-events: none;
+    }
+    .cs-monitor-stand-neck {
+      width: 60px; height: 28px;
+      background: linear-gradient(to bottom, #1a1a2a, #141420);
+      border-left: 1.5px solid rgba(255,255,255,0.06);
+      border-right: 1.5px solid rgba(255,255,255,0.06);
+      margin: 0 auto;
+    }
+    .cs-monitor-glow {
+      width: 70%; height: 2px;
+      background: linear-gradient(to right, transparent, rgba(244,114,182,0.4), rgba(168,85,247,0.3), transparent);
+      margin: 0 auto 2px; filter: blur(4px);
+    }
+    .cs-monitor-stand-base {
+      width: 180px; height: 10px;
+      background: linear-gradient(to bottom, #1a1a2a, #111118);
+      border-radius: 0 0 8px 8px;
+      border: 1.5px solid rgba(255,255,255,0.06); border-top: none;
+      margin: 0 auto; box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .cs-caption {
+      margin-top: 20px; text-align: center;
+      font-family: var(--mono); font-size: 0.62rem;
+      letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase;
+    }
+    .cs-caption span { color: var(--pink); margin-right: 6px; }
+
+    /* ── Process diagrams (scrollable monitor — same treatment as CaloriEat case study) ── */
+    .cs-diagram-block { margin: 40px 0 12px; }
+    .cs-diagram-block:first-of-type { margin-top: 28px; }
+    .cs-diagram-title {
+      font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--text);
+      margin-bottom: 14px;
+    }
+    .cs-diagram-lead {
+      font-size: 0.92rem; color: var(--text-dim); line-height: 1.85;
+      margin-bottom: 22px;
+    }
+    .cs-diagram-mockup { margin-top: 8px; }
+    .cs-monitor-screen--diagram {
+      background: #0a0a14;
+    }
+    .cs-monitor-screen--diagram::after {
+      display: none;
+    }
+    .cs-diagram-scroll {
+      max-height: min(58vh, 520px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      line-height: 0;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(244,114,182,0.45) rgba(12,12,24,0.95);
+    }
+    .cs-diagram-scroll::-webkit-scrollbar { width: 8px; }
+    .cs-diagram-scroll::-webkit-scrollbar-track { background: rgba(12,12,24,0.95); }
+    .cs-diagram-scroll::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(244,114,182,0.55), rgba(167,139,250,0.45));
+      border-radius: 999px;
+      border: 2px solid rgba(7,7,15,0.85);
+    }
+    .cs-diagram-scroll img {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: #fff;
+    }
+    .cs-diagram-mockup-hint {
+      margin: 12px 0 0;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .cs-diagram-note {
+      margin-top: 16px;
+      font-size: 0.82rem; color: var(--text-muted); line-height: 1.75;
+    }
+    .cs-diagram-note strong { color: var(--text-dim); font-weight: 500; }
+    .cs-diagram-fallback {
+      display: none;
+      margin: 0;
+      line-height: 1.65;
+      padding: 28px 24px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: center;
+      border-top: 1px dashed rgba(244,114,182,0.25);
+      background: rgba(244,114,182,0.03);
+    }
+    .cs-diagram-fallback code {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      word-break: break-all;
+    }
+    @media (max-width: 600px) {
+      .cs-diagram-scroll { max-height: min(50vh, 420px); }
+    }
+
+    /* ── Change list ── */
+    .cs-changes { list-style: none; padding: 0; margin: 24px 0; }
+    .cs-changes li {
+      padding: 14px 0; border-bottom: 1px solid var(--border);
+      display: flex; gap: 16px; align-items: flex-start;
+      font-size: 0.88rem; color: var(--text-dim); line-height: 1.75;
+    }
+    .cs-changes li::before {
+      content: '—'; color: var(--pink);
+      font-family: var(--mono); font-size: 0.7rem;
+      flex-shrink: 0; margin-top: 3px;
+    }
+    .cs-changes li strong { color: var(--text); font-weight: 500; }
+
+    .cs-callout {
+      background: rgba(244,114,182,0.04);
+      border: 1px solid rgba(244,114,182,0.15);
+      border-left: 2px solid var(--pink);
+      padding: 24px 28px; margin: 32px 0;
+    }
+    .cs-callout p {
+      font-size: 0.9rem; color: var(--text-dim);
+      line-height: 1.8; margin: 0; font-style: italic;
+    }
+
+    .cs-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .cs-pill {
+      font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-dim);
+      border: 1px solid var(--border); padding: 5px 14px; transition: all 0.3s;
+    }
+    .cs-pill:hover { border-color: var(--pink); color: var(--pink); }
+
+    .cs-embed-wrap {
+      margin: 40px 0 8px;
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #0a0a14;
+      aspect-ratio: 16 / 10;
+      min-height: 360px;
+    }
+    /* Figma prototype: extra height so bottom prev/next controls stay usable */
+    .cs-embed-wrap--figma {
+      aspect-ratio: 16 / 11;
+      min-height: 480px;
+    }
+    .cs-embed-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .cs-embed-wrap img.cs-embed-shot {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+    .cs-embed-note {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 12px;
+      line-height: 1.6;
+    }
+    .cs-embed-note a {
+      color: var(--pink);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(244, 114, 182, 0.35);
+    }
+    .cs-embed-note a:hover { color: var(--text-dim); border-bottom-color: var(--pink); }
+    .cs-section a:not(.cs-back) {
+      color: var(--pink);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(244, 114, 182, 0.35);
+    }
+    .cs-section a:not(.cs-back):hover { color: var(--text-dim); border-bottom-color: var(--pink); }
+
+    /* ── Footer ── */
+    footer {
+      position: relative; z-index: 1;
+      padding: 32px 48px; border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center; text-align: center;
+    }
+    .footer-copy { display: flex; flex-direction: column; gap: 6px; }
+    footer p { font-family: var(--mono); font-size: 0.62rem; color: var(--text-muted); letter-spacing: 0.08em; margin: 0; }
+    footer span { color: var(--pink); }
+
+    /* ── Animations ── */
+    @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
+    @keyframes blobDrift { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(40px, 30px) scale(1.08); } }
+    @keyframes bodyDreamWake { 0% { opacity: 0.9; } 100% { opacity: 1; } }
+    body { animation: bodyDreamWake 1.5s ease both; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .page { padding: 120px 20px 80px; }
+      .cs-meta { gap: 20px; }
+      .cs-monitor-stand-base { width: 120px; }
+    }
+    @media (max-width: 640px) {
+      .cs-monitor-stand-base { width: 80px; }
+      .cs-monitor-stand-neck { width: 40px; }
+      footer { padding: 24px 20px; }
+      .footer-copy { align-items: center; }
+    }
+    @media (max-width: 900px) {
+      footer { padding: 28px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="bg"></div>
+  <canvas id="bg-canvas"></canvas>
+  <div id="cursor"></div>
+
+  <nav>
+    <a href="index.html" class="nav-logo">J<span>C</span></a>
+    <ul class="nav-links">
+      <button class="nav-close" aria-label="Close menu">✕</button>
+      <li><a href="index.html#projects">Work</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><a href="resume.html">Résumé</a></li>
+    </ul>
+    <button class="nav-mobile-toggle" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="page">
+
+    <a href="index.html#projects" class="cs-back">← Back to Work</a>
+    <span class="cs-tag">Case Study · HTML / CSS · JavaScript · GitHub Pages</span>
+    <h1 class="cs-title">This Portfolio Website</h1>
+    <p class="cs-subtitle">A <strong>solo, hand-coded</strong> site—no React—meant to show how I think about layout and motion and that I can ship it myself. It started as a <strong>Bootstrap 5</strong> pass for speed, then became a full <strong>custom CSS</strong> rebuild with <strong>vanilla JavaScript</strong> (canvas, interactions, résumé page behavior), living on <strong>GitHub Pages</strong> next to static case studies for my other projects.</p>
+
+    <div class="cs-meta">
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Role</span>
+        <span class="cs-meta-value">UX / UI · Front-end · Content structure</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Timeline</span>
+        <span class="cs-meta-value">Bootstrap era → custom revamp (same repo)</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Stack</span>
+        <span class="cs-meta-value">Semantic HTML · Custom CSS · ES6 JavaScript · GitHub Pages</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Scope</span>
+        <span class="cs-meta-value">Home · Selected Work · Case study pages · Résumé · Legacy Bootstrap demo preserved</span>
+      </div>
+    </div>
+
+    <div class="cs-section">
+      <span class="cs-section-label">01 — Goals</span>
+      <h2>What this site had to prove</h2>
+      <p>I needed one place that reads as <em>mine</em>: clear hierarchy, honest project storytelling, and enough interaction craft to show I’m not only comfortable in Figma—I can implement. It also had to host long-form case studies without a CMS, stay fast enough to scroll comfortably, and respect basics like keyboard use and reduced motion where it mattered.</p>
+      <ul class="cs-changes">
+        <li><strong>Signal</strong> — Work first, personality second; recruiters can scan projects and drill into case studies.</li>
+        <li><strong>Build credibility</strong> — Real JS (canvas, nav, small motion), not a static theme swap.</li>
+        <li><strong>Evolution visible</strong> — Bootstrap chapter archived; current build is the default story.</li>
+        <li><strong>Low ops</strong> — Static HTML/CSS/JS on Pages—no build step required for the portfolio itself.</li>
+      </ul>
+    </div>
+
+    <div class="cs-section">
+      <span class="cs-section-label">02 — Version one (Bootstrap)</span>
+      <h2>Ship fast, learn the constraints</h2>
+      <p>The first public versions used <strong>Bootstrap 5</strong> so I could get online quickly with a responsive grid and familiar components. I still started from <strong>Figma</strong> (low- and high-fi wireframes) so layout decisions weren’t random—Bootstrap was scaffolding, not the whole idea.</p>
+      <p>That stack was fine for a first impression, but it never felt like my handwriting: utility classes and default chrome fought the direction I wanted. I froze that era in a <strong>legacy demo</strong> and a pinned file on GitHub so the “before” stays inspectable.</p>
+      <p class="cs-embed-note" style="margin-top:20px;"><a href="https://jpdm07.github.io/portfolio-website/legacy-bootstrap-demo/" target="_blank" rel="noopener noreferrer">Open legacy Bootstrap demo ↗</a> · <a href="https://github.com/jpdm07/portfolio-website/blob/ee5bb017ade517b4df4e9c907e7df64e8c4486a4/index.html" target="_blank" rel="noopener noreferrer">Bootstrap-era source (blob) ↗</a></p>
+
+      <div class="cs-diagram-block">
+        <p class="cs-diagram-title">V1 process (Bootstrap chapter)</p>
+        <p class="cs-diagram-lead">From problem framing through Figma wireframes, Bootstrap implementation, testing across viewports, and deploy to GitHub Pages—the path that got a credible first site live while I was still iterating on what “my” portfolio should feel like.</p>
+        <div class="cs-monitor-wrap cs-diagram-mockup">
+          <div class="cs-monitor">
+            <div class="cs-monitor-chrome">
+              <div class="cs-monitor-dots"><span></span><span></span><span></span></div>
+              <div class="cs-monitor-url">portfolio — v1 process</div>
+            </div>
+            <div class="cs-monitor-screen cs-monitor-screen--diagram">
+              <div class="cs-diagram-scroll">
+                <img src="images/portfolio/portfolio-v1-process.svg" alt="Portfolio website version one process: problem definition, Figma wireframes, Bootstrap build, testing, GitHub Pages deploy" loading="lazy" decoding="async" onerror="this.style.display='none'; var n=this.nextElementSibling; if(n) n.style.display='block';"/>
+                <p class="cs-diagram-fallback" style="display:none">Add <code>images/portfolio/portfolio-v1-process.svg</code> to the repo and redeploy.</p>
+              </div>
+            </div>
+          </div>
+          <div class="cs-monitor-stand-neck"></div>
+          <div class="cs-monitor-glow"></div>
+          <div class="cs-monitor-stand-base"></div>
+        </div>
+        <p class="cs-diagram-mockup-hint">Scroll inside the display to view the full diagram</p>
+        <p class="cs-caption"><span>Process ↗</span>Bootstrap era — wireframes to hosted demo</p>
+        <p class="cs-diagram-note"><strong>Context:</strong> This is the disciplined “get something real online” loop—not the final aesthetic I wanted long term.</p>
+      </div>
+    </div>
+
+    <div class="cs-section">
+      <span class="cs-section-label">03 — Version two (Custom rebuild)</span>
+      <h2>Own the CSS, own the details</h2>
+      <p>Once the gap was obvious, I <strong>removed Bootstrap</strong> and rewrote the shell: navigation, section rhythm, project rows, buttons, and breakpoints in my own CSS so the site could match my Figma direction. On top of that I layered the pieces that sell the craft—<strong>canvas background</strong>, entrance motion, scroll-driven reveals, desktop cursor treatment, draggable hero crystal, and dedicated behavior on the résumé page—kept in <strong>plain JavaScript</strong> on purpose so the source stays readable.</p>
+      <p>The revamp is one large commit on GitHub; the Selected Work panel on the home page stays short on purpose so this case study can carry the narrative without repeating every bullet twice.</p>
+
+      <div class="cs-diagram-block">
+        <p class="cs-diagram-title">V2 process (custom site)</p>
+        <p class="cs-diagram-lead">After identifying how generic the Bootstrap pass felt, I stripped the framework, rebuilt layout and motion in custom CSS, added the JS layer I cared about, verified across browsers, and shipped the current GitHub Pages build—the site you’re reading now.</p>
+        <div class="cs-monitor-wrap cs-diagram-mockup">
+          <div class="cs-monitor">
+            <div class="cs-monitor-chrome">
+              <div class="cs-monitor-dots"><span></span><span></span><span></span></div>
+              <div class="cs-monitor-url">portfolio — v2 process</div>
+            </div>
+            <div class="cs-monitor-screen cs-monitor-screen--diagram">
+              <div class="cs-diagram-scroll">
+                <img src="images/portfolio/portfolio-v2-process.svg" alt="Portfolio website version two process: gap analysis, remove Bootstrap, custom CSS rewrite, JavaScript enhancements, testing, GitHub Pages deploy" loading="lazy" decoding="async" onerror="this.style.display='none'; var n=this.nextElementSibling; if(n) n.style.display='block';"/>
+                <p class="cs-diagram-fallback" style="display:none">Add <code>images/portfolio/portfolio-v2-process.svg</code> to the repo and redeploy.</p>
+              </div>
+            </div>
+          </div>
+          <div class="cs-monitor-stand-neck"></div>
+          <div class="cs-monitor-glow"></div>
+          <div class="cs-monitor-stand-base"></div>
+        </div>
+        <p class="cs-diagram-mockup-hint">Scroll inside the display to view the full diagram</p>
+        <p class="cs-caption"><span>Process ↗</span>Custom rebuild — framework out, handwriting in</p>
+        <p class="cs-diagram-note"><strong>Pair with the screenshot below:</strong> the diagram is the plan; the monitor is the current hero as deployed.</p>
+      </div>
+
+      <div class="cs-monitor-wrap">
+        <div class="cs-monitor">
+          <div class="cs-monitor-chrome">
+            <div class="cs-monitor-dots"><span></span><span></span><span></span></div>
+            <div class="cs-monitor-url">jpdm07.github.io/portfolio-website</div>
+          </div>
+          <div class="cs-monitor-screen">
+            <img src="images/portfolio-current-desktop.png" alt="Current portfolio homepage on desktop — hero, grid background, crystal" loading="lazy" decoding="async" onerror="this.style.display='none'"/>
+          </div>
+        </div>
+        <div class="cs-monitor-stand-neck"></div>
+        <div class="cs-monitor-glow"></div>
+        <div class="cs-monitor-stand-base"></div>
+      </div>
+      <p class="cs-caption"><span>Live ↗</span>Current build — homepage hero as shipped</p>
+    </div>
+
+    <div class="cs-section">
+      <span class="cs-section-label">04 — Technical notes</span>
+      <h2>How it’s put together</h2>
+      <p>Each case study is its own HTML file sharing the same visual language; assets live under <code>images/</code> with per-project folders where it keeps things tidy. Global styles and section patterns live in <code>index.html</code> (this repo is intentionally simple—no bundler for the portfolio itself).</p>
+      <p>JavaScript is split by concern: background canvas and particles, scroll reveal for project rows, accordion-style project panels, mobile navigation, optional cursor styling on wide viewports, hero crystal drag logic, and <code>resume-fx.js</code> for the résumé page. I kept <code>prefers-reduced-motion</code> in mind for the heaviest motion paths.</p>
+      <div class="cs-callout">
+        <p>“Meta-lesson: the portfolio and the case studies ship the same way—static files on Pages—so every link I give a recruiter actually resolves. If it breaks here, I notice immediately.”</p>
+      </div>
+    </div>
+
+    <div class="cs-section">
+      <span class="cs-section-label">05 — Outcome</span>
+      <h2>What this demonstrates</h2>
+      <p>This repo is both the artifact and the proof: I can carry a visual direction into hand-authored markup and CSS, add purposeful JS, and document other work in matching case studies—without reaching for a framework just to move pixels.</p>
+      <div class="cs-pills">
+        <span class="cs-pill">Hand-coded HTML/CSS</span>
+        <span class="cs-pill">Vanilla JavaScript</span>
+        <span class="cs-pill">GitHub Pages</span>
+        <span class="cs-pill">Motion &amp; canvas</span>
+        <span class="cs-pill">Responsive layout</span>
+        <span class="cs-pill">A11y awareness</span>
+        <span class="cs-pill">Case study IA</span>
+        <span class="cs-pill">Bootstrap → custom arc</span>
+      </div>
+    </div>
+
+    <div style="padding: 48px 0 0; border-top: 1px solid var(--border); display: flex; gap: 16px; flex-wrap: wrap;">
+      <a href="https://jpdm07.github.io/portfolio-website/" target="_blank" rel="noopener noreferrer" style="font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pink); text-decoration: none; border: 1px solid rgba(244,114,182,0.3); padding: 10px 20px; transition: background 0.3s, color 0.3s; cursor: none;" onmouseenter="this.style.background='#f472b6';this.style.color='#07070f';" onmouseleave="this.style.background='';this.style.color='#f472b6';">Live site ↗</a>
+      <a href="https://github.com/jpdm07/portfolio-website" target="_blank" rel="noopener noreferrer" style="font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pink); text-decoration: none; border: 1px solid rgba(244,114,182,0.3); padding: 10px 20px; transition: background 0.3s, color 0.3s; cursor: none;" onmouseenter="this.style.background='#f472b6';this.style.color='#07070f';" onmouseleave="this.style.background='';this.style.color='#f472b6';">Source ↗</a>
+      <a href="https://jpdm07.github.io/portfolio-website/legacy-bootstrap-demo/" target="_blank" rel="noopener noreferrer" style="font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pink); text-decoration: none; border: 1px solid rgba(244,114,182,0.3); padding: 10px 20px; transition: background 0.3s, color 0.3s; cursor: none;" onmouseenter="this.style.background='#f472b6';this.style.color='#07070f';" onmouseleave="this.style.background='';this.style.color='#f472b6';">Legacy demo ↗</a>
+      <a href="https://github.com/jpdm07/portfolio-website/commit/4511d9c194170ef31f328258c1c2cfa73a03e981" target="_blank" rel="noopener noreferrer" style="font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pink); text-decoration: none; border: 1px solid rgba(244,114,182,0.3); padding: 10px 20px; transition: background 0.3s, color 0.3s; cursor: none;" onmouseenter="this.style.background='#f472b6';this.style.color='#07070f';" onmouseleave="this.style.background='';this.style.color='#f472b6';">Revamp commit ↗</a>
+      <a href="index.html#projects" style="font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pink); text-decoration: none; border: 1px solid rgba(244,114,182,0.3); padding: 10px 20px; transition: background 0.3s, color 0.3s; cursor: none;" onmouseenter="this.style.background='#f472b6';this.style.color='#07070f';" onmouseleave="this.style.background='';this.style.color='#f472b6';">← Back to All Work</a>
+      <a href="index.html" style="font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pink); text-decoration: none; border: 1px solid rgba(244,114,182,0.3); padding: 10px 20px; transition: background 0.3s, color 0.3s; cursor: none;" onmouseenter="this.style.background='#f472b6';this.style.color='#07070f';" onmouseleave="this.style.background='';this.style.color='#f472b6';">Home ↗</a>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-copy">
+      <p>© 2026 <span>Jane Chavez</span>. Built this site myself, by hand.</p>
+      <p>Front-End Developer · UI/UX Designer · Houston, TX</p>
+    </div>
+  </footer>
+
+<script>
+    // Declare glow canvas first
+    const glowCanvas = document.createElement('canvas');
+    const glowCtx = glowCanvas.getContext('2d');
+
+    function buildGlowCanvas() {
+      const W = glowCanvas.width, H = glowCanvas.height;
+      if (!W || !H) return;
+      glowCtx.clearRect(0, 0, W, H);
+      const vg1 = glowCtx.createRadialGradient(W*.82,H*.06,0,W*.82,H*.06,W*.5);
+      vg1.addColorStop(0,'rgba(244,114,182,0.32)'); vg1.addColorStop(1,'transparent');
+      glowCtx.fillStyle = vg1; glowCtx.fillRect(0,0,W,H);
+      const vg2 = glowCtx.createRadialGradient(W*.08,H*.9,0,W*.08,H*.9,W*.42);
+      vg2.addColorStop(0,'rgba(168,85,247,0.26)'); vg2.addColorStop(1,'transparent');
+      glowCtx.fillStyle = vg2; glowCtx.fillRect(0,0,W,H);
+    }
+
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width = glowCanvas.width = window.innerWidth;
+      canvas.height = glowCanvas.height = window.innerHeight;
+      buildGlowCanvas();
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // 45 particles
+    const particles = [];
+    for (let i = 0; i < 70; i++) {
+      const hue = Math.random() < .55 ? 330 : Math.random() < .6 ? 270 : 220;
+      particles.push({
+        x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight,
+        r: Math.random()*1.8+.5, vx: (Math.random()-.5)*.18, vy: (Math.random()-.5)*.18,
+        opacity: Math.random()*.6+.35, color: `hsla(${hue},90%,85%,`,
+        pulseOffset: Math.random()*Math.PI*2, pulseSpeed: .006+Math.random()*.01,
+      });
+    }
+
+    const lineData = [
+      {offset:0,    speed:.5,  amp:55, yBase:.12, hue:315, alpha:.07},
+      {offset:1.05, speed:.35, amp:75, yBase:.30, hue:325, alpha:.06},
+      {offset:2.10, speed:.6,  amp:50, yBase:.52, hue:280, alpha:.05},
+      {offset:3.14, speed:.4,  amp:65, yBase:.74, hue:340, alpha:.065},
+      {offset:4.20, speed:.28, amp:45, yBase:.90, hue:310, alpha:.05},
+    ];
+
+    let lastFrame = 0, elapsed = 0;
+    function draw(ts) {
+      requestAnimationFrame(draw);
+      const delta = ts - lastFrame;
+      if (delta < 33) return;
+      lastFrame = ts;
+      elapsed += delta * .001;
+      const W = canvas.width, H = canvas.height;
+      ctx.fillStyle = '#07070f';
+      ctx.fillRect(0,0,W,H);
+      for (const l of lineData) {
+        ctx.beginPath();
+        const yb = H * l.yBase;
+        for (let x = 0; x <= W; x += 6) {
+          const y = yb + Math.sin(x*.006 + elapsed*l.speed + l.offset)*l.amp
+                      + Math.sin(x*.012 + elapsed*l.speed*1.6 + l.offset*.7)*(l.amp*.4);
+          x===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+        }
+        ctx.strokeStyle = `hsla(${l.hue},85%,72%,${l.alpha})`;
+        ctx.lineWidth = 1.5; ctx.stroke();
+      }
+      for (const p of particles) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x<-5) p.x=W+5; if (p.x>W+5) p.x=-5;
+        if (p.y<-5) p.y=H+5; if (p.y>H+5) p.y=-5;
+        const pulse = Math.sin(elapsed*p.pulseSpeed*5+p.pulseOffset)*.3+.7;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r*pulse, 0, Math.PI*2);
+        ctx.fillStyle = p.color+(p.opacity*pulse*3.2)+')';
+        ctx.fill();
+      }
+      if (glowCanvas.width > 0 && glowCanvas.height > 0) ctx.drawImage(glowCanvas,0,0);
+    }
+    requestAnimationFrame(draw);
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    let mx=0, my=0, cursorRotate=0;
+    function moveCursor(x,y) {
+      cursor.style.transform = `translate(${x-cursor.offsetWidth/2}px,${y-cursor.offsetHeight/2}px) rotate(${cursorRotate}deg)`;
+    }
+    document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; moveCursor(mx,my); });
+    function setCursorState(state) {
+      cursor.classList.remove('is-hovering','is-project','is-nav');
+      if (state==='project') { cursorRotate=45; cursor.classList.add('is-project'); }
+      else if (state==='nav') { cursorRotate=0; cursor.classList.add('is-nav'); }
+      else if (state==='hover') { cursorRotate=0; cursor.classList.add('is-hovering'); }
+      else cursorRotate=0;
+      moveCursor(mx,my);
+    }
+    document.querySelectorAll('nav a').forEach(el => {
+      el.addEventListener('mouseenter',()=>setCursorState('nav'));
+      el.addEventListener('mouseleave',()=>setCursorState(''));
+    });
+    document.querySelectorAll('.project-header').forEach(el => {
+      el.addEventListener('mouseenter',()=>setCursorState('project'));
+      el.addEventListener('mouseleave',()=>setCursorState(''));
+    });
+    document.querySelectorAll('a:not(nav a),button').forEach(el => {
+      if (el.closest('.project-header')) return;
+      el.addEventListener('mouseenter',()=>setCursorState('hover'));
+      el.addEventListener('mouseleave',()=>setCursorState(''));
+    });
+    // Scroll reveal
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
+    }, { threshold:0, rootMargin:'0px 0px -30px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    // Accordion
+    function toggleProject(el) {
+      const isOpen = el.classList.contains('open');
+      document.querySelectorAll('.project-item.open').forEach(p=>p.classList.remove('open'));
+      if (!isOpen) el.classList.add('open');
+    }
+    // Nav shrink
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll',()=>{
+      if (window.scrollY>60) { nav.style.background='rgba(7,7,15,0.96)'; nav.style.backdropFilter='blur(20px)'; nav.style.padding='14px 48px'; }
+      else { nav.style.background=''; nav.style.backdropFilter=''; nav.style.padding=''; }
+    },{passive:true});
+
+
+    // ── Lottery number shuffle — one at a time, never concurrent ──
+    let isShuffling = false;
+
+    function shuffleNumber(el, onDone) {
+      if (isShuffling) return; // block if one is already running
+      isShuffling = true;
+      const final = el.getAttribute('data-final');
+      const chars = '0123456789';
+      el.textContent = '0'.repeat(final.length);
+      const totalDigits = final.length;
+      let digitsComplete = 0;
+
+      final.split('').forEach((targetChar, digitIndex) => {
+        let iterations = 0;
+        const maxIterations = 14;
+        setTimeout(() => {
+          const interval = setInterval(() => {
+            const current = el.textContent.split('');
+            current[digitIndex] = iterations >= maxIterations
+              ? targetChar
+              : chars[Math.floor(Math.random() * chars.length)];
+            el.textContent = current.join('');
+            iterations++;
+            if (iterations > maxIterations) {
+              clearInterval(interval);
+              digitsComplete++;
+              if (digitsComplete === totalDigits) {
+                // All digits done — unlock after short pause
+                setTimeout(() => {
+                  isShuffling = false;
+                  if (onDone) onDone();
+                }, 400);
+              }
+            }
+          }, 80);
+        }, 300 + digitIndex * 250);
+      });
+    }
+
+    // Queue of numbers waiting to shuffle
+    const shuffleQueue = [];
+    function processQueue() {
+      if (isShuffling || shuffleQueue.length === 0) return;
+      const next = shuffleQueue.shift();
+      shuffleNumber(next, processQueue);
+    }
+
+    function queueShuffle(el) {
+      // Don't queue duplicates
+      if (!shuffleQueue.includes(el)) shuffleQueue.push(el);
+      processQueue();
+    }
+
+    // Watch each project header — 50% chance to queue when entering view
+    const numObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const num = e.target.querySelector('.project-num[data-final]');
+        if (!num) return;
+        if (Math.random() < 0.5) {
+          setTimeout(() => queueShuffle(num), 850);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.project-header').forEach(el => numObserver.observe(el));
+
+    // On page load — pick 1-2 random visible ones, queue them sequentially
+    window.addEventListener('load', () => {
+      const visible = Array.from(document.querySelectorAll('.project-header')).filter(el => {
+        const r = el.getBoundingClientRect();
+        return r.top < window.innerHeight && r.bottom > 0;
+      });
+      visible.sort(() => Math.random() - 0.5).slice(0, 2).forEach((el, i) => {
+        const num = el.querySelector('.project-num[data-final]');
+        if (num) setTimeout(() => queueShuffle(num), 900 + i * 200);
+      });
+    });
+    
+
+    // Set email link dynamically to prevent Cloudflare obfuscation
+    document.addEventListener('DOMContentLoaded', () => {
+      const emailBtn = document.getElementById('contact-email');
+      if (emailBtn) {
+        const u = 'jpdm015';
+        const d = 'gmail.com';
+        emailBtn.href = 'mailto:' + u + '@' + d;
+      }
+    });
+
+
+    // ── Share portfolio ──
+    window.sharePortfolio = function() {
+      var url = 'https://jpdm07.github.io/portfolio-website/';
+      var toast = document.getElementById('share-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'share-toast';
+        toast.style.cssText = 'position:fixed;bottom:40px;left:50%;transform:translateX(-50%);background:rgba(7,7,15,0.95);border:1px solid #f472b6;color:#f472b6;font-family:DM Mono,monospace;font-size:0.72rem;letter-spacing:0.1em;padding:14px 32px;z-index:99999;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap;';
+        document.body.appendChild(toast);
+      }
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.style.opacity = '1';
+        clearTimeout(toast._h);
+        toast._h = setTimeout(function(){ toast.style.opacity='0'; }, 3000);
+      }
+      if (navigator.share) {
+        navigator.share({ title:'Jane Chavez | Portfolio', url:url }).catch(function(){});
+        return;
+      }
+      try {
+        navigator.clipboard.writeText(url).then(function(){
+          showToast('✓  Link copied to clipboard!');
+        }).catch(function(){ legacyCopy(); });
+      } catch(e) { legacyCopy(); }
+      function legacyCopy() {
+        var ta = document.createElement('textarea');
+        ta.value = url;
+        ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;';
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        var ok = false;
+        try { ok = document.execCommand('copy'); } catch(x){}
+        document.body.removeChild(ta);
+        showToast(ok ? '✓  Link copied to clipboard!' : url);
+      }
+    };
+    document.addEventListener('DOMContentLoaded', function() {
+      var sb = document.getElementById('share-btn');
+      if (sb) sb.addEventListener('click', window.sharePortfolio);
+    });
+
+        // ── Crystal hover detection (works with pointer-events:none) ──
+    (function() {
+      var cw = document.getElementById('crystal-wrap');
+      if (!cw) return;
+      function checkHover(e) {
+        var rect = cw.getBoundingClientRect();
+        if (!rect.width) return;
+        var cx = rect.left + rect.width  * 0.5;
+        var cy = rect.top  + rect.height * 0.5;
+        var dist = Math.sqrt((e.clientX-cx)*(e.clientX-cx) + (e.clientY-cy)*(e.clientY-cy));
+        var threshold = rect.width * 0.65;
+        if (dist < threshold) {
+          cw.classList.add('hovered');
+        } else {
+          cw.classList.remove('hovered');
+        }
+      }
+      document.addEventListener('mousemove', checkHover);
+    })();
+
+
+    // ── Nav toggle ──
+    (function() {
+          })();
+
+
+    
+
+  </script>
+  <script>
+    // Cursor hover states (cursor element + mousemove already set up in bg script)
+    var narrowMQ = window.matchMedia('(max-width: 768px)');
+    document.querySelectorAll('nav a').forEach(function(el) {
+      el.addEventListener('mouseenter', function() { if(cursor) cursor.classList.add('is-nav'); });
+      el.addEventListener('mouseleave', function() { if(cursor) cursor.classList.remove('is-nav'); });
+    });
+    document.querySelectorAll('a:not(nav a), button').forEach(function(el) {
+      el.addEventListener('mouseenter', function() { if(cursor && !narrowMQ.matches) cursor.classList.add('is-hovering'); });
+      el.addEventListener('mouseleave', function() { if(cursor) cursor.classList.remove('is-hovering'); });
+    });
+
+    // Nav scroll shrink
+    var navEl = document.querySelector('nav');
+    window.addEventListener('scroll', function() {
+      if (!navEl) return;
+      var isMobile = window.matchMedia('(max-width: 768px)').matches;
+      if (isMobile) {
+        navEl.style.background = ''; navEl.style.backdropFilter = ''; navEl.style.padding = '';
+        return;
+      }
+      if (window.scrollY > 60) {
+        navEl.style.background = 'rgba(7,7,15,0.96)';
+        navEl.style.backdropFilter = 'blur(20px)';
+        navEl.style.padding = '14px 48px';
+      } else {
+        navEl.style.background = ''; navEl.style.backdropFilter = ''; navEl.style.padding = '';
+      }
+    }, { passive: true });
+
+    // ── Mobile nav (Cursor-fixed version) ──
+    (function() {
+      var nav    = document.querySelector('nav');
+      var toggle = document.querySelector('.nav-mobile-toggle');
+      var close  = document.querySelector('.nav-close');
+      function openNav() {
+        if (!nav) return;
+        nav.classList.add('nav-mobile-open');
+        try { document.body.style.overflow = 'hidden'; } catch(e){}
+      }
+      function closeNav() {
+        if (!nav) return;
+        nav.classList.remove('nav-mobile-open');
+        try { document.body.style.overflow = ''; } catch(e){}
+      }
+      if (toggle) toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (nav && nav.classList.contains('nav-mobile-open')) closeNav();
+        else openNav();
+      });
+      if (close) close.addEventListener('click', function(e) { e.stopPropagation(); closeNav(); });
+      document.querySelectorAll('.nav-links a').forEach(function(a) { a.addEventListener('click', closeNav); });
+      window.addEventListener('pageshow', closeNav);
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeNav(); });
+    })();
+  </script>
+</body>
+</html>
