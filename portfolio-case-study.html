@@ -234,6 +234,12 @@
     }
     .cs-monitor-screen { width: 100%; background: #0a0a14; overflow: hidden; line-height: 0; position: relative; }
     .cs-monitor-screen img { width: 100%; display: block; object-fit: cover; object-position: top center; }
+    /* Full capture in frame (diagram monitors use scroll + different rules) */
+    .cs-monitor-wrap.cs-monitor-wrap--screenshot .cs-monitor-screen img {
+      height: auto;
+      object-fit: contain;
+      object-position: top center;
+    }
     .cs-monitor-screen::after {
       content: ''; position: absolute; inset: 0;
       background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 50%, rgba(0,0,0,0.1) 100%);
@@ -528,6 +534,24 @@
       <p>That stack was fine for a first impression, but it never felt like my handwriting: utility classes and default chrome fought the direction I wanted. I froze that era in a <strong>legacy demo</strong> and a pinned file on GitHub so the “before” stays inspectable.</p>
       <p class="cs-embed-note" style="margin-top:20px;"><a href="https://jpdm07.github.io/portfolio-website/legacy-bootstrap-demo/" target="_blank" rel="noopener noreferrer">Open legacy Bootstrap demo ↗</a> · <a href="https://github.com/jpdm07/portfolio-website/blob/ee5bb017ade517b4df4e9c907e7df64e8c4486a4/index.html" target="_blank" rel="noopener noreferrer">Bootstrap-era source (blob) ↗</a></p>
 
+      <p class="cs-diagram-title" style="margin-top:36px;">Bootstrap-era homepage (screenshot)</p>
+      <p class="cs-diagram-lead" style="margin-bottom:18px;">What actually shipped in the first chapter—light layout, hero, and Bootstrap scaffolding—before the custom rebuild.</p>
+      <div class="cs-monitor-wrap cs-monitor-wrap--screenshot">
+        <div class="cs-monitor">
+          <div class="cs-monitor-chrome">
+            <div class="cs-monitor-dots"><span></span><span></span><span></span></div>
+            <div class="cs-monitor-url">legacy-bootstrap-demo</div>
+          </div>
+          <div class="cs-monitor-screen">
+            <img src="images/portfolio-bootstrap-before-desktop.png?v=legacy-20260404" alt="Bootstrap-era portfolio homepage on desktop — light layout, hero, pale accent buttons" width="1440" height="900" loading="eager" decoding="async"/>
+          </div>
+        </div>
+        <div class="cs-monitor-stand-neck"></div>
+        <div class="cs-monitor-glow"></div>
+        <div class="cs-monitor-stand-base"></div>
+      </div>
+      <p class="cs-caption"><span>Legacy ↗</span>Bootstrap-era homepage — same look as the archived demo</p>
+
       <div class="cs-diagram-block">
         <p class="cs-diagram-title">V1 process (Bootstrap chapter)</p>
         <p class="cs-diagram-lead">From problem framing through Figma wireframes, Bootstrap implementation, testing across viewports, and deploy to GitHub Pages—the path that got a credible first site live while I was still iterating on what “my” portfolio should feel like.</p>
@@ -550,24 +574,8 @@
         </div>
         <p class="cs-diagram-mockup-hint">Scroll inside the display to view the full diagram</p>
         <p class="cs-caption"><span>Process ↗</span>Bootstrap era — wireframes to hosted demo</p>
-        <p class="cs-diagram-note"><strong>Context:</strong> This is the disciplined “get something real online” loop—not the final aesthetic I wanted long term. <strong>Pair with the screenshot below:</strong> the diagram is the plan; the monitor is the Bootstrap-era homepage as captured.</p>
+        <p class="cs-diagram-note"><strong>Context:</strong> This is the disciplined “get something real online” loop—not the final aesthetic I wanted long term. <strong>Pair with the screenshot above:</strong> the diagram is the plan; the monitor capture shows what shipped in the Bootstrap chapter.</p>
       </div>
-
-      <div class="cs-monitor-wrap">
-        <div class="cs-monitor">
-          <div class="cs-monitor-chrome">
-            <div class="cs-monitor-dots"><span></span><span></span><span></span></div>
-            <div class="cs-monitor-url">jpdm07.github.io/portfolio-website/legacy-bootstrap-demo</div>
-          </div>
-          <div class="cs-monitor-screen">
-            <img src="images/portfolio-bootstrap-before-desktop.png" alt="Bootstrap-era portfolio homepage on desktop — light layout, hero, pale accent buttons" loading="lazy" decoding="async" onerror="this.style.display='none'"/>
-          </div>
-        </div>
-        <div class="cs-monitor-stand-neck"></div>
-        <div class="cs-monitor-glow"></div>
-        <div class="cs-monitor-stand-base"></div>
-      </div>
-      <p class="cs-caption"><span>Legacy ↗</span>Bootstrap-era homepage — same look as the archived demo</p>
     </div>
 
     <div class="cs-section">
@@ -601,14 +609,14 @@
         <p class="cs-diagram-note"><strong>Pair with the screenshot below:</strong> the diagram is the plan; the monitor is the current hero as deployed.</p>
       </div>
 
-      <div class="cs-monitor-wrap">
+      <div class="cs-monitor-wrap cs-monitor-wrap--screenshot">
         <div class="cs-monitor">
           <div class="cs-monitor-chrome">
             <div class="cs-monitor-dots"><span></span><span></span><span></span></div>
             <div class="cs-monitor-url">jpdm07.github.io/portfolio-website</div>
           </div>
           <div class="cs-monitor-screen">
-            <img src="images/portfolio-current-desktop.png" alt="Current portfolio homepage on desktop — hero, grid background, crystal" loading="lazy" decoding="async" onerror="this.style.display='none'"/>
+            <img src="images/portfolio-current-desktop.png?v=current-20260404" alt="Current portfolio homepage on desktop — hero, grid background, crystal" width="1536" height="900" loading="eager" decoding="async"/>
           </div>
         </div>
         <div class="cs-monitor-stand-neck"></div>
