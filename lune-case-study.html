@@ -431,13 +431,13 @@
           loading="lazy"
           title="Figma prototype — UI craft sample (same design language as portfolio work)"></iframe>
       </div>
-      <p class="cs-embed-note">Embedded Figma prototype (portfolio UI sample). Swap the embed URL in this page if you publish a dedicated LUNE file.</p>
+      <p class="cs-embed-note">Embedded Figma prototype — representative UI craft sample aligned with this portfolio.</p>
     </div>
 
     <div class="cs-section">
       <span class="cs-section-label">03 — Live build</span>
       <h2>Try the store in context</h2>
-      <p>The app is hosted from the <code>gh-pages</code> branch with <code>base: /lune-store/</code> and a copied <code>404.html</code> so client-side routes survive refresh on GitHub Pages.</p>
+      <p>The app is published from the <code>gh-pages</code> branch (via GitHub Actions on every push to <code>main</code>, or optionally <code>npm run deploy</code>). Vite uses <code>base: /lune-store/</code> and the build copies <code>index.html</code> to <code>404.html</code> so client-side routes survive refresh on GitHub Pages.</p>
 
       <div class="cs-embed-wrap">
         <iframe
@@ -446,7 +446,7 @@
           loading="lazy"
           title="LUNE store — live site"></iframe>
       </div>
-      <p class="cs-embed-note">Live app · If the frame is empty, open in a new tab — some browsers block third-party iframes until the site is published.</p>
+      <p class="cs-embed-note">Live app · If the frame is blank, open the link in a new tab (some browsers restrict cross-site embeds).</p>
 
       <div class="cs-monitor-wrap">
         <div class="cs-monitor">
