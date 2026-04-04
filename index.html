@@ -752,6 +752,7 @@
     .reveal-delay-2 { transition-delay: 0.2s; }
     .reveal-delay-3 { transition-delay: 0.3s; }
     .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
 
     /* Animations */
     @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
@@ -1745,6 +1746,62 @@
         </div>
       </div>
 
+      <!-- #6 — LUNE (React e-commerce concept) -->
+      <div class="project-item reveal reveal-delay-5" onclick="toggleProject(this)">
+        <div class="project-header">
+          <div class="project-meta">
+            <span class="project-num" data-final="006">006</span>
+            <h3 class="project-name">LUNE — Concept Skincare Store</h3>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;">
+            <div class="project-tags"><span class="tag">React</span><span class="tag">UX / UI</span><span class="tag">E‑commerce</span></div>
+            <span class="project-arrow">+</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-content">
+            <div class="project-text">
+              <h4>Problem</h4>
+              <p>I needed a single project that shows end-to-end shop UX—browse, product detail, cart, checkout, confirmation, policies, and a signed-in account area—implemented as a real SPA, not a static mock.</p>
+              <h4>What I built</h4>
+              <ul>
+                <li><strong>Storefront</strong> — Home, shop, collections, search overlay, cart drawer (desktop), and responsive product cards.</li>
+                <li><strong>Checkout</strong> — Shipping → payment → confirmation with state preserved across steps.</li>
+                <li><strong>Account</strong> — Protected routes for orders, returns, wishlist, addresses, profile, and password.</li>
+                <li><strong>Systems</strong> — CSS Modules + design tokens, Framer Motion page transitions, optional Supabase with a localStorage demo mode when env vars are unset.</li>
+                <li><strong>Deploy</strong> — Vite build to GitHub Pages with <code>base: /lune-store/</code> and <code>404.html</code> copied from <code>index.html</code> for SPA routing.</li>
+              </ul>
+              <h4>Outcome</h4>
+              <p>A portfolio-ready concept brand with a calm editorial UI and a codebase structured for extension. Case study walks through goals, Figma embed, live iframe, and technical notes.</p>
+              <div class="project-links">
+                <a href="https://jpdm07.github.io/lune-store/" target="_blank" rel="noopener noreferrer" class="project-link">Live store ↗</a>
+                <a href="https://github.com/jpdm07/lune-store" target="_blank" rel="noopener noreferrer" class="project-link">Source code ↗</a>
+                <a href="lune-case-study.html" class="project-link">Case study ↗</a>
+              </div>
+            </div>
+            <div class="project-mockup">
+              <div class="mockup-stack">
+                <div class="browser-frame">
+                  <div class="browser-bar">
+                    <div class="browser-dots"><span></span><span></span><span></span></div>
+                    <div class="browser-url"></div>
+                  </div>
+                  <div class="browser-screen-placeholder">
+                    <img src="images/lune-store-desktop.png" alt="LUNE concept store — desktop homepage" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                  </div>
+                </div>
+                <div class="phone-frame">
+                  <div class="phone-notch"><div class="phone-notch-dot"></div></div>
+                  <div class="phone-screen">
+                    <img src="images/lune-store-mobile.png" alt="LUNE on mobile — homepage" class="woofdog-mockup-mobile-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -1767,7 +1824,7 @@
           <h4>Technical Skills</h4>
           <div class="skills-list">
             <span class="skill-pill">HTML</span><span class="skill-pill">CSS</span>
-            <span class="skill-pill">JavaScript</span><span class="skill-pill">Bootstrap</span>
+            <span class="skill-pill">JavaScript</span><span class="skill-pill">React</span><span class="skill-pill">Bootstrap</span>
             <span class="skill-pill">Figma</span><span class="skill-pill">WordPress</span>
             <span class="skill-pill">Chart.js</span><span class="skill-pill">Git / GitHub</span>
             <span class="skill-pill">Responsive Design</span><span class="skill-pill">UX Research</span>
