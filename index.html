@@ -1398,18 +1398,13 @@
         <div class="project-body">
           <div class="project-content">
             <div class="project-text">
-              <h4>Problem</h4>
-              <p>I needed a single project that shows end-to-end shop UX—browse, product detail, cart, checkout, confirmation, policies, and a signed-in account area—implemented as a real SPA, not a static mock. The concept brand is LUNE: a calm, editorial <strong>slow-living home</strong> shop (everyday objects like textiles and ceramics), matching the live copy and catalog.</p>
-              <h4>What I built</h4>
+              <h4>Summary</h4>
+              <p>Flagship React build: a concept home-and-lifestyle shop I designed and shipped as a working SPA—so visitors can click through real commerce patterns, not just static comps. The case study carries the full narrative (goals, embedded Figma, live build, GitHub Pages routing, optional Supabase vs. demo mode).</p>
+              <h4>At a glance</h4>
               <ul>
-                <li><strong>Storefront</strong> — Home, shop, collections, search overlay, cart drawer (desktop), and responsive product cards.</li>
-                <li><strong>Checkout</strong> — Shipping → payment → confirmation with state preserved across steps.</li>
-                <li><strong>Account</strong> — Protected routes for orders, returns, wishlist, addresses, profile, and password.</li>
-                <li><strong>Systems</strong> — CSS Modules + design tokens, Framer Motion page transitions, optional Supabase with a localStorage demo mode when env vars are unset.</li>
-                <li><strong>Deploy</strong> — Vite build to GitHub Pages with <code>base: /lune-store/</code> and <code>404.html</code> copied from <code>index.html</code> for SPA routing.</li>
+                <li><strong>Experience</strong> — Shoppable catalog through checkout, trust pages, and a signed-in account area in one repo.</li>
+                <li><strong>Craft</strong> — Editorial UI with design tokens and motion; prototype and implementation stay aligned.</li>
               </ul>
-              <h4>Outcome</h4>
-              <p>A portfolio-ready concept for a slow-living <strong>home and lifestyle</strong> brand, with a calm editorial UI and a codebase structured for extension. Case study walks through goals, Figma embed, live iframe, and technical notes.</p>
               <div class="project-links">
                 <a href="https://jpdm07.github.io/lune-store/" target="_blank" rel="noopener noreferrer" class="project-link">Live store ↗</a>
                 <a href="https://github.com/jpdm07/lune-store" target="_blank" rel="noopener noreferrer" class="project-link">Source code ↗</a>
@@ -1454,37 +1449,15 @@
         <div class="project-body">
           <div class="project-content">
             <div class="project-text">
-              <h4>Problem</h4>
-              <p>Capstone team project: a calorie tracking web app where users can log meals, track macros, record weigh-ins, set goals, and see progress on interactive dashboards (Chart.js).</p>
-              <h4>What we built together (grad school)</h4>
-              <p>We split ownership across the stack and shipped to deployment as a team. My contributions included:</p>
+              <h4>Summary</h4>
+              <p>UHCL Software Engineering capstone (<strong>SWEN 6837</strong>, with <strong>Michael Chavez</strong>): meal logging, macros, weigh-ins, goals, and <strong>Chart.js</strong> dashboards in the browser. The case study is the long read—feature inventory, architecture, testing, and screenshots.</p>
+              <h4>My lane</h4>
               <ul>
-                <li>Product direction and requirements with the group.</li>
-                <li>Use case, data flow, and state chart diagrams.</li>
-                <li>Backend/database work and testing—not only front-end.</li>
-                <li>Client-side MVC structure and Chart.js for nutrition and weekly progress views.</li>
+                <li><strong>Capstone</strong> — Requirements and diagrams, architecture and detailed design, user manual, backend/DB, and testing alongside Michael’s UI and integration focus.</li>
+                <li><strong>After graduation</strong> — Fork for my GitHub Pages demo, hosting cleanup and welcome-first entry, UI polish; changes merged back to the canonical team repo via pull requests.</li>
               </ul>
-              <p>We turned in a working app with documentation and clear responsibilities—real collaboration, not solo heroics.</p>
-              <h4>What I changed after launch (chronological)</h4>
-              <p>After graduation, the canonical repo stayed on my teammate’s GitHub (<strong><a href="https://github.com/Mchavez31/CaloriEat" target="_blank" rel="noopener noreferrer">Mchavez31/CaloriEat</a></strong>). I wanted to keep improving the product and host a live demo from my account, so I <strong>forked</strong> the project to <strong><a href="https://github.com/jpdm07/CaloriEat" target="_blank" rel="noopener noreferrer">jpdm07/CaloriEat</a></strong> and treated that fork as my working branch for post-capstone work.</p>
-              <p><strong>February 2026 — housekeeping for GitHub Pages:</strong> Renamed the modular entry file to a standard <code>index.html</code> so hosting and routing behave the way people expect when they clone or open the Pages site.</p>
-              <p><strong>April 2026 — UI and product polish:</strong> Improved help content and layout, tightened insights, added share-link behavior, refined food search, and updated the footer copyright year so the app reads as actively maintained.</p>
-              <p><strong>April 2026 — clearer first visit:</strong> If someone hits the root or index while <em>not</em> signed in, they’re redirected to the <strong>welcome</strong> flow (sign in or try as guest) instead of dropping into the app shell—so first-time visitors and recruiters get an obvious front door.</p>
-              <h4>Before and after (post-grad pass)</h4>
-              <div class="project-evolution">
-                <div class="project-evolution-card">
-                  <div class="project-evolution-label">Then</div>
-                  <p>Capstone handoff: entry through <code>Index_Modular.html</code>, no welcome-first flow, pre–April 2026 UI. Snapshot at <code>fb29950</code> on my fork (clone that commit to run it locally). Pages always tracks <code>main</code>, so there’s no separate hosted “old” build—use <strong>Capstone snapshot</strong> below to browse the frozen tree.</p>
-                </div>
-                <div class="project-evolution-card">
-                  <div class="project-evolution-label">Now</div>
-                  <p>Standard <code>index.html</code>, welcome redirect for signed-out visitors, UI polish, and merged team repo. <strong>Then → now</strong> below is the GitHub compare for the full delta.</p>
-                </div>
-              </div>
-              <h4>Pull requests back to the team repo</h4>
-              <p>My partner wanted these updates on the <strong>original</strong> repository, not only on my fork. I opened <strong>pull requests</strong> from <code>jpdm07/CaloriEat</code> into <code>Mchavez31/CaloriEat</code>; he reviewed and <strong>merged</strong> that work in <strong>April 2026</strong>. The same build now ships from both GitHub Pages hosts; use the <strong>Live demo</strong> link below (mirrored on my teammate’s account as well). For future work I still use <strong>fork → PR → merge</strong> so history stays shared—open a compare from <code>main</code> on GitHub anytime you need a new PR.</p>
-              <h4>Outcome</h4>
-              <p>The capstone proves I can build and integrate on a team; the post-grad pass shows I can <strong>iterate, document intent in commits</strong>, and <strong>land changes through review and merge</strong> the way real open-source and company workflows expect.</p>
+              <p class="project-evolution-note" style="margin-top:12px;">Mockups: capstone-era dashboard vs. today’s welcome flow. Use <strong>Capstone snapshot</strong> and <strong>Then → now</strong> for the exact tree and diff—same story as the case study, without repeating it here.</p>
+              <p><strong>Takeaway:</strong> Co-owned capstone scope and documentation; after launch, kept iterating and landed changes through review on the team repo—the case study has the full timeline and evidence.</p>
               <div class="project-links project-links--grid">
                 <a href="https://jpdm07.github.io/CaloriEat/welcome.html" target="_blank" rel="noopener noreferrer" class="project-link">Live demo ↗</a>
                 <a href="https://github.com/jpdm07/CaloriEat" target="_blank" rel="noopener noreferrer" class="project-link">Source code ↗</a>
@@ -1647,30 +1620,17 @@
         <div class="project-body">
           <div class="project-content">
             <div class="project-text">
-              <h4>Context</h4>
-              <p>Nonprofit-style rescue site built on <strong>WordPress.org</strong> with <strong>Elementor</strong>: I laid out the main pages (home, about, contact) and handled visuals, not just dropping in a template. The ideas trace back to volunteering with <strong>Sierra Overlook Animal Rescue</strong> (their live site is on Wix)—I wanted a WordPress path I could own end to end.</p>
-              <p><strong>Where I started:</strong> I first put up a quick experiment on <strong>WordPress.com</strong> (<a href="https://janechavez5.wordpress.com" target="_blank" rel="noopener noreferrer">janechavez5.wordpress.com</a>) in about <strong>four hours</strong> to learn the hosted ecosystem, theme constraints, and how fast I could ship rescue-style messaging. It was never meant to be final—it was a low-risk way to practice before moving to self-hosted WordPress.</p>
-              <h4>From .com to janechavez.org</h4>
-              <ul>
-                <li><strong>Platform:</strong> WordPress.com (hosted, theme-led) → <strong>WordPress.org</strong> + <strong>Elementor</strong> for section-level control, custom layout, and a repeatable component workflow.</li>
-                <li><strong>Domain &amp; brand:</strong> Subdomain on wordpress.com → <strong>custom domain</strong> with <strong>Happy Tails Rescue</strong> identity (logo, orange/teal palette, typography tuned for the nonprofit feel).</li>
-                <li><strong>Depth:</strong> The .com pass proved I could stand up pages quickly; the <strong>janechavez.org</strong> build is where I added structured “what we do,” pet-style sections, and a real <strong>SureForms</strong> contact flow—closer to how I’d present a rescue to the public.</li>
-              </ul>
-              <h4>What I Built</h4>
-              <ul>
-                <li>Hero with background image, headline, and primary CTA.</li>
-                <li>“What we do” block: three columns for rescue, rehabilitate, and rehome.</li>
-                <li>Meet Our Animals section with pet profiles and Adopt Me buttons.</li>
-                <li>Contact page with SureForms contact form and location info.</li>
-                <li>Custom HTR logo and brand identity in warm orange and teal.</li>
-              </ul>
+              <h4>Summary</h4>
+              <p><strong>Happy Tails</strong> at <strong>janechavez.org</strong>: a self-hosted <strong>WordPress.org</strong> + <strong>Elementor</strong> prototype—hero, mission blocks, adoptable-style sections, branding, and a <strong>SureForms</strong> contact flow. I use it to show I can own layout and forms outside a page-builder-only workflow.</p>
+              <p>It’s separate from my volunteer UX work on <strong>Sierra Overlook Animal Rescue</strong>’s live <strong>Wix</strong> site; that project (navigation, hero, services, events, constraints) is documented in the case study, which also clarifies how this WordPress build fits next to it.</p>
+              <h4>Path</h4>
+              <p>Quick <strong>WordPress.com</strong> sketch (<a href="https://janechavez5.wordpress.com" target="_blank" rel="noopener noreferrer">janechavez5.wordpress.com</a>) first, then custom domain and Elementor on .org for real section-level control.</p>
               <h4>Outcome</h4>
-              <p><strong>janechavez.org</strong> is a working <strong>prototype</strong>—strong enough to show layout, branding, and forms in a nonprofit context, but not a “complete” operational rescue site yet.</p>
-              <p><strong>Still in progress:</strong> Compared with what a busy nonprofit often needs (and what I’ve seen on Sierra Overlook’s site), I haven’t added sections like a <strong>shop/merch</strong> flow, an <strong>events</strong> calendar, or other program-specific pages. Calling that out on purpose: recruiters see the Elementor build as the current direction, and the WordPress.com link as the fast first sketch—not two competing “finished” products.</p>
+              <p>Public prototype, not an operational rescue backend—fine for portfolio, with room to grow (e.g. events, merch) if I extend it.</p>
               <div class="project-links">
                 <a href="https://janechavez.org" target="_blank" rel="noopener noreferrer" class="project-link">View Live Site ↗</a>
                 <a href="https://janechavez5.wordpress.com" target="_blank" rel="noopener noreferrer" class="project-link">First .com pass ↗</a>
-                <a href="soar-case-study.html" class="project-link">Case Study ↗</a>
+                <a href="soar-case-study.html" class="project-link">SOAR (Wix) case study ↗</a>
               </div>
             </div>
             <div class="project-mockup">
