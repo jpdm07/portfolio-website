@@ -317,6 +317,15 @@
       height: 100%;
       border: 0;
     }
+    .cs-embed-wrap img.cs-embed-shot {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
     .cs-embed-note {
       font-family: var(--mono);
       font-size: 0.58rem;
@@ -384,8 +393,8 @@
 
     <a href="index.html#projects" class="cs-back">← Back to Work</a>
     <span class="cs-tag">Case Study · UX / UI · React · E‑commerce</span>
-    <h1 class="cs-title">LUNE — Concept Skincare Store</h1>
-    <p class="cs-subtitle">A full storefront experience for a calm, editorial skincare brand: browse collections, manage a cart, complete a multi-step checkout, and use a signed-in account area—implemented as a React SPA with a design-token-driven UI and a deploy path that works on GitHub Pages.</p>
+    <h1 class="cs-title">LUNE — Concept Home &amp; Lifestyle Store</h1>
+    <p class="cs-subtitle">A full storefront experience for a calm, editorial <strong>slow-living home</strong> brand (everyday objects—textiles, ceramics, and similar goods): browse collections, manage a cart, complete a multi-step checkout, and use a signed-in account area—implemented as a React SPA with a design-token-driven UI and a deploy path that works on GitHub Pages.</p>
 
     <div class="cs-meta">
       <div class="cs-meta-item">
@@ -421,17 +430,20 @@
     <div class="cs-section">
       <span class="cs-section-label">02 — UX &amp; visual system</span>
       <h2>Editorial calm, not loud retail</h2>
-      <p>The UI uses a warm paper background, serif headlines, monospace labels, and a tight radius so the store feels like a boutique label rather than a flash-sale template. Spacing and type ramp were set up as CSS variables so pages stay consistent as the component set grew.</p>
-      <p>In Figma I treated screens as a connected set: navigation patterns, checkout steps, and account IA were sketched before wiring routes in code. The file stays the source of truth for layout intent; the live app is the proof in the browser.</p>
+      <p>The UI uses a warm paper background, serif headlines, monospace labels, and a tight radius so the store feels like a quiet home and lifestyle label rather than a flash-sale template. Spacing and type ramp were set up as CSS variables so pages stay consistent as the component set grew.</p>
+      <p>Navigation patterns, checkout steps, and account IA were sketched in Figma before routes and components were wired in React. This case study shows the <strong>shipped</strong> homepage below—not the separate “Hero Section” Figma file from elsewhere on my portfolio, so everything here matches the LUNE store you can open live.</p>
 
-      <div class="cs-embed-wrap" title="Figma embed">
-        <iframe
-          src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fqhk0PTd7kBe39rhb9lrMKr%2FHero-Section%3Fnode-id%3D0-1%26t%3Deog5D9QeQcq6Pt3I-1"
-          allowfullscreen
+      <div class="cs-embed-wrap" title="LUNE homepage screenshot">
+        <img
+          class="cs-embed-shot"
+          src="images/lune-store-desktop.png"
+          alt="LUNE store homepage: hero, headline, and warm editorial layout"
           loading="lazy"
-          title="Figma prototype — UI craft sample (same design language as portfolio work)"></iframe>
+          decoding="async"
+          onerror="this.style.display='none'"
+        />
       </div>
-      <p class="cs-embed-note">Embedded Figma prototype — representative UI craft sample aligned with this portfolio.</p>
+      <p class="cs-embed-note">Live production homepage (capture of jpdm07.github.io/lune-store) — typography, palette, and spacing as built.</p>
     </div>
 
     <div class="cs-section">
