@@ -423,24 +423,6 @@
       content: '•'; position: absolute; left: 0; color: var(--pink); font-size: 0.75rem; line-height: 1.75;
     }
     .project-links { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
-    /* CaloriEat: primary links in a 2-column grid (stacks on small screens) */
-    .project-links--grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      align-items: stretch;
-    }
-    .project-links--grid .project-link {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      min-height: 42px;
-      box-sizing: border-box;
-    }
-    @media (max-width: 520px) {
-      .project-links--grid { grid-template-columns: 1fr; }
-    }
     .project-link {
       font-family: var(--mono); font-size: 0.65rem;
       letter-spacing: 0.1em; text-transform: uppercase;
@@ -1533,14 +1515,12 @@
                 <li><strong>Capstone</strong> — Requirements and diagrams, architecture and detailed design, user manual, backend/DB, and testing alongside Michael’s UI and integration focus.</li>
                 <li><strong>After graduation</strong> — Fork for my GitHub Pages demo, hosting cleanup and welcome-first entry, UI polish; changes merged back to the canonical team repo via pull requests.</li>
               </ul>
-              <p class="project-evolution-note" style="margin-top:12px;">Mockups: capstone-era dashboard vs. today’s welcome flow. Use <strong>Capstone snapshot</strong> and <strong>Then → now</strong> for the exact tree and diff—same story as the case study, without repeating it here.</p>
-              <p><strong>Takeaway:</strong> Co-owned capstone scope and documentation; after launch, kept iterating and landed changes through review on the team repo—the case study has the full timeline and evidence.</p>
-              <div class="project-links project-links--grid">
+              <p class="project-evolution-note" style="margin-top:12px;">Mockups: capstone-era dashboard vs. today’s welcome flow. Snapshot, diff, and full timeline are in the <a href="calorieat-case-study.html">case study</a>.</p>
+              <p><strong>Takeaway:</strong> Co-owned capstone scope and documentation; after launch, kept iterating and landed changes through review on the team repo.</p>
+              <div class="project-links">
                 <a href="https://jpdm07.github.io/CaloriEat/welcome.html" target="_blank" rel="noopener noreferrer" class="project-link">Live demo ↗</a>
                 <a href="https://github.com/jpdm07/CaloriEat" target="_blank" rel="noopener noreferrer" class="project-link">Source code ↗</a>
                 <a href="calorieat-case-study.html" class="project-link">Case study ↗</a>
-                <a href="https://github.com/jpdm07/CaloriEat/tree/fb29950" target="_blank" rel="noopener noreferrer" class="project-link">Capstone snapshot ↗</a>
-                <a href="https://github.com/jpdm07/CaloriEat/compare/fb29950...main" target="_blank" rel="noopener noreferrer" class="project-link">Then → now ↗</a>
               </div>
             </div>
             <div class="project-mockup project-mockup--003-col">
@@ -1685,9 +1665,8 @@
               <h4>Outcome</h4>
               <p>Public prototype, not an operational rescue backend—fine for portfolio, with room to grow (e.g. events, merch) if I extend it.</p>
               <div class="project-links">
-                <a href="https://janechavez.org" target="_blank" rel="noopener noreferrer" class="project-link">View Live Site ↗</a>
-                <a href="https://janechavez5.wordpress.com" target="_blank" rel="noopener noreferrer" class="project-link">First .com pass ↗</a>
-                <a href="soar-case-study.html" class="project-link">SOAR (Wix) case study ↗</a>
+                <a href="https://janechavez.org" target="_blank" rel="noopener noreferrer" class="project-link">Live site ↗</a>
+                <a href="soar-case-study.html" class="project-link">SOAR case study ↗</a>
               </div>
             </div>
             <div class="project-mockup">
