@@ -1372,7 +1372,7 @@
 
   <div class="glow-line"></div>
 
-  <!-- Projects — ordered by impact -->
+  <!-- Projects — strongest employer signal first -->
   <section id="projects">
     <div class="section-header reveal">
       <span class="section-num">01</span>
@@ -1382,11 +1382,68 @@
 
     <div class="projects-grid">
 
-      <!-- #1 — CaloriEat (capstone team project, dashboards + Chart.js) -->
+
+      <!-- #1 — LUNE (React e-commerce concept) -->
       <div class="project-item reveal" onclick="toggleProject(this)">
         <div class="project-header">
           <div class="project-meta">
             <span class="project-num" data-final="001">001</span>
+            <h3 class="project-name">LUNE — Concept Home &amp; Lifestyle Store</h3>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;">
+            <div class="project-tags"><span class="tag">React</span><span class="tag">UX / UI</span><span class="tag">E‑commerce</span></div>
+            <span class="project-arrow">+</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-content">
+            <div class="project-text">
+              <h4>Problem</h4>
+              <p>I needed a single project that shows end-to-end shop UX—browse, product detail, cart, checkout, confirmation, policies, and a signed-in account area—implemented as a real SPA, not a static mock. The concept brand is LUNE: a calm, editorial <strong>slow-living home</strong> shop (everyday objects like textiles and ceramics), matching the live copy and catalog.</p>
+              <h4>What I built</h4>
+              <ul>
+                <li><strong>Storefront</strong> — Home, shop, collections, search overlay, cart drawer (desktop), and responsive product cards.</li>
+                <li><strong>Checkout</strong> — Shipping → payment → confirmation with state preserved across steps.</li>
+                <li><strong>Account</strong> — Protected routes for orders, returns, wishlist, addresses, profile, and password.</li>
+                <li><strong>Systems</strong> — CSS Modules + design tokens, Framer Motion page transitions, optional Supabase with a localStorage demo mode when env vars are unset.</li>
+                <li><strong>Deploy</strong> — Vite build to GitHub Pages with <code>base: /lune-store/</code> and <code>404.html</code> copied from <code>index.html</code> for SPA routing.</li>
+              </ul>
+              <h4>Outcome</h4>
+              <p>A portfolio-ready concept for a slow-living <strong>home and lifestyle</strong> brand, with a calm editorial UI and a codebase structured for extension. Case study walks through goals, Figma embed, live iframe, and technical notes.</p>
+              <div class="project-links">
+                <a href="https://jpdm07.github.io/lune-store/" target="_blank" rel="noopener noreferrer" class="project-link">Live store ↗</a>
+                <a href="https://github.com/jpdm07/lune-store" target="_blank" rel="noopener noreferrer" class="project-link">Source code ↗</a>
+                <a href="lune-case-study.html" class="project-link">Case study ↗</a>
+              </div>
+            </div>
+            <div class="project-mockup">
+              <div class="mockup-stack">
+                <div class="browser-frame">
+                  <div class="browser-bar">
+                    <div class="browser-dots"><span></span><span></span><span></span></div>
+                    <div class="browser-url"></div>
+                  </div>
+                  <div class="browser-screen-placeholder">
+                    <img src="images/lune-store-desktop.png" alt="LUNE concept store — desktop homepage" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                  </div>
+                </div>
+                <div class="phone-frame">
+                  <div class="phone-notch"><div class="phone-notch-dot"></div></div>
+                  <div class="phone-screen">
+                    <img src="images/lune-store-mobile.png" alt="LUNE on mobile — homepage" class="woofdog-mockup-mobile-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- #2 — CaloriEat (capstone team project, dashboards + Chart.js) -->
+      <div class="project-item reveal reveal-delay-1" onclick="toggleProject(this)">
+        <div class="project-header">
+          <div class="project-meta">
+            <span class="project-num" data-final="002">002</span>
             <h3 class="project-name">CaloriEat: Calorie Tracking App</h3>
           </div>
           <div style="display:flex;align-items:center;gap:16px;">
@@ -1481,11 +1538,65 @@
         </div>
       </div>
 
-      <!-- #2 — Animal Rescue Redesign (real-world UX, research-driven) -->
-      <div class="project-item reveal reveal-delay-1" onclick="toggleProject(this)">
+      <!-- #3 — This Portfolio (shows design + code together) -->
+      <div class="project-item reveal reveal-delay-2" onclick="toggleProject(this)">
         <div class="project-header">
           <div class="project-meta">
-            <span class="project-num" data-final="002">002</span>
+            <span class="project-num" data-final="003">003</span>
+            <h3 class="project-name">WoofDog: Dog Dating App</h3>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;">
+            <div class="project-tags"><span class="tag">Front-End</span><span class="tag">Bootstrap</span><span class="tag">JavaScript</span></div>
+            <span class="project-arrow">+</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-content">
+            <div class="project-text">
+              <h4>Problem</h4>
+              <p>Many dog owners want a fun, safe way to meet other dog owners for socializing, playdates, and community events. This concept app explores that space with a playful, engaging UI.</p>
+              <p><strong>Context:</strong> I learned this build through a <strong>Udemy</strong> course. The page uses <strong>Bootstrap</strong> for layout, grid, and components, with HTML, CSS, and JavaScript on top—so it’s clear which tools shaped this piece versus hand-rolled projects elsewhere on the site.</p>
+              <h4>My Role</h4>
+              <ul>
+                <li>Worked through the Udemy project end to end and kept Bootstrap in the stack for structure and styling.</li>
+                <li>Added swipe-style and other interactions in JavaScript (demo / prototype level).</li>
+                <li>Tuned responsive behavior using Bootstrap’s grid and utilities, then iterated in code until the UI felt fun and clear.</li>
+              </ul>
+              <h4>Outcome</h4>
+              <p>A playful live demo that shows I can follow a structured course, use Bootstrap in a real layout, and still ship something cohesive in the browser.</p>
+              <div class="project-links">
+                <a href="https://jpdm07.github.io/woofdog/" target="_blank" class="project-link">View Live App ↗</a>
+                <a href="https://github.com/jpdm07/woofdog" target="_blank" class="project-link">Source Code ↗</a>
+              </div>
+            </div>
+            <div class="project-mockup">
+              <div class="mockup-stack">
+                <div class="browser-frame">
+                  <div class="browser-bar">
+                    <div class="browser-dots"><span></span><span></span><span></span></div>
+                    <div class="browser-url"></div>
+                  </div>
+                  <div class="browser-screen-placeholder">
+                    <img src="images/woofdog-screenshot.png" alt="WoofDog App" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'">
+                  </div>
+                </div>
+                <div class="phone-frame">
+                  <div class="phone-notch"><div class="phone-notch-dot"></div></div>
+                  <div class="phone-screen">
+                    <img src="images/woofdog-screenshot-mobile.png" alt="WoofDog on mobile: hero and stacked download buttons" class="woofdog-mockup-mobile-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- #4 — Animal Rescue Redesign (real-world UX, research-driven) -->
+      <div class="project-item reveal reveal-delay-3" onclick="toggleProject(this)">
+        <div class="project-header">
+          <div class="project-meta">
+            <span class="project-num" data-final="004">004</span>
             <h3 class="project-name">Happy Tails Rescue Website</h3>
           </div>
           <div style="display:flex;align-items:center;gap:16px;">
@@ -1545,11 +1656,11 @@
         </div>
       </div>
 
-      <!-- #3 — This Portfolio (shows design + code together) -->
-      <div class="project-item reveal reveal-delay-2" onclick="toggleProject(this)">
+      <!-- #5 — Figma Hero Section (UI design skill) -->
+      <div class="project-item reveal reveal-delay-4" onclick="toggleProject(this)">
         <div class="project-header">
           <div class="project-meta">
-            <span class="project-num" data-final="003">003</span>
+            <span class="project-num" data-final="005">005</span>
             <h3 class="project-name">This Portfolio Website</h3>
           </div>
           <div style="display:flex;align-items:center;gap:16px;">
@@ -1638,11 +1749,11 @@
         </div>
       </div>
 
-      <!-- #4 — Figma Hero Section (UI design skill) -->
-      <div class="project-item reveal reveal-delay-3" onclick="toggleProject(this)">
+      <!-- #6 — WoofDog (Udemy + Bootstrap concept demo) -->
+      <div class="project-item reveal reveal-delay-5" onclick="toggleProject(this)">
         <div class="project-header">
           <div class="project-meta">
-            <span class="project-num" data-final="004">004</span>
+            <span class="project-num" data-final="006">006</span>
             <h3 class="project-name">Figma UI/UX Hero Section</h3>
           </div>
           <div style="display:flex;align-items:center;gap:16px;">
@@ -1684,116 +1795,6 @@
                   <div class="phone-notch"><div class="phone-notch-dot"></div></div>
                   <div class="phone-screen" style="background:#e8eaef;">
                     <img src="images/figma-hero.png" alt="" class="mockup-figma-mobile-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- #5 — WoofDog (Udemy + Bootstrap concept demo) -->
-      <div class="project-item reveal reveal-delay-4" onclick="toggleProject(this)">
-        <div class="project-header">
-          <div class="project-meta">
-            <span class="project-num" data-final="005">005</span>
-            <h3 class="project-name">WoofDog: Dog Dating App</h3>
-          </div>
-          <div style="display:flex;align-items:center;gap:16px;">
-            <div class="project-tags"><span class="tag">Front-End</span><span class="tag">Bootstrap</span><span class="tag">JavaScript</span></div>
-            <span class="project-arrow">+</span>
-          </div>
-        </div>
-        <div class="project-body">
-          <div class="project-content">
-            <div class="project-text">
-              <h4>Problem</h4>
-              <p>Many dog owners want a fun, safe way to meet other dog owners for socializing, playdates, and community events. This concept app explores that space with a playful, engaging UI.</p>
-              <p><strong>Context:</strong> I learned this build through a <strong>Udemy</strong> course. The page uses <strong>Bootstrap</strong> for layout, grid, and components, with HTML, CSS, and JavaScript on top—so it’s clear which tools shaped this piece versus hand-rolled projects elsewhere on the site.</p>
-              <h4>My Role</h4>
-              <ul>
-                <li>Worked through the Udemy project end to end and kept Bootstrap in the stack for structure and styling.</li>
-                <li>Added swipe-style and other interactions in JavaScript (demo / prototype level).</li>
-                <li>Tuned responsive behavior using Bootstrap’s grid and utilities, then iterated in code until the UI felt fun and clear.</li>
-              </ul>
-              <h4>Outcome</h4>
-              <p>A playful live demo that shows I can follow a structured course, use Bootstrap in a real layout, and still ship something cohesive in the browser.</p>
-              <div class="project-links">
-                <a href="https://jpdm07.github.io/woofdog/" target="_blank" class="project-link">View Live App ↗</a>
-                <a href="https://github.com/jpdm07/woofdog" target="_blank" class="project-link">Source Code ↗</a>
-              </div>
-            </div>
-            <div class="project-mockup">
-              <div class="mockup-stack">
-                <div class="browser-frame">
-                  <div class="browser-bar">
-                    <div class="browser-dots"><span></span><span></span><span></span></div>
-                    <div class="browser-url"></div>
-                  </div>
-                  <div class="browser-screen-placeholder">
-                    <img src="images/woofdog-screenshot.png" alt="WoofDog App" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'">
-                  </div>
-                </div>
-                <div class="phone-frame">
-                  <div class="phone-notch"><div class="phone-notch-dot"></div></div>
-                  <div class="phone-screen">
-                    <img src="images/woofdog-screenshot-mobile.png" alt="WoofDog on mobile: hero and stacked download buttons" class="woofdog-mockup-mobile-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- #6 — LUNE (React e-commerce concept) -->
-      <div class="project-item reveal reveal-delay-5" onclick="toggleProject(this)">
-        <div class="project-header">
-          <div class="project-meta">
-            <span class="project-num" data-final="006">006</span>
-            <h3 class="project-name">LUNE — Concept Home &amp; Lifestyle Store</h3>
-          </div>
-          <div style="display:flex;align-items:center;gap:16px;">
-            <div class="project-tags"><span class="tag">React</span><span class="tag">UX / UI</span><span class="tag">E‑commerce</span></div>
-            <span class="project-arrow">+</span>
-          </div>
-        </div>
-        <div class="project-body">
-          <div class="project-content">
-            <div class="project-text">
-              <h4>Problem</h4>
-              <p>I needed a single project that shows end-to-end shop UX—browse, product detail, cart, checkout, confirmation, policies, and a signed-in account area—implemented as a real SPA, not a static mock. The concept brand is LUNE: a calm, editorial <strong>slow-living home</strong> shop (everyday objects like textiles and ceramics), matching the live copy and catalog.</p>
-              <h4>What I built</h4>
-              <ul>
-                <li><strong>Storefront</strong> — Home, shop, collections, search overlay, cart drawer (desktop), and responsive product cards.</li>
-                <li><strong>Checkout</strong> — Shipping → payment → confirmation with state preserved across steps.</li>
-                <li><strong>Account</strong> — Protected routes for orders, returns, wishlist, addresses, profile, and password.</li>
-                <li><strong>Systems</strong> — CSS Modules + design tokens, Framer Motion page transitions, optional Supabase with a localStorage demo mode when env vars are unset.</li>
-                <li><strong>Deploy</strong> — Vite build to GitHub Pages with <code>base: /lune-store/</code> and <code>404.html</code> copied from <code>index.html</code> for SPA routing.</li>
-              </ul>
-              <h4>Outcome</h4>
-              <p>A portfolio-ready concept for a slow-living <strong>home and lifestyle</strong> brand, with a calm editorial UI and a codebase structured for extension. Case study walks through goals, Figma embed, live iframe, and technical notes.</p>
-              <div class="project-links">
-                <a href="https://jpdm07.github.io/lune-store/" target="_blank" rel="noopener noreferrer" class="project-link">Live store ↗</a>
-                <a href="https://github.com/jpdm07/lune-store" target="_blank" rel="noopener noreferrer" class="project-link">Source code ↗</a>
-                <a href="lune-case-study.html" class="project-link">Case study ↗</a>
-              </div>
-            </div>
-            <div class="project-mockup">
-              <div class="mockup-stack">
-                <div class="browser-frame">
-                  <div class="browser-bar">
-                    <div class="browser-dots"><span></span><span></span><span></span></div>
-                    <div class="browser-url"></div>
-                  </div>
-                  <div class="browser-screen-placeholder">
-                    <img src="images/lune-store-desktop.png" alt="LUNE concept store — desktop homepage" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;" loading="lazy" decoding="async" onerror="this.style.display='none'">
-                  </div>
-                </div>
-                <div class="phone-frame">
-                  <div class="phone-notch"><div class="phone-notch-dot"></div></div>
-                  <div class="phone-screen">
-                    <img src="images/lune-store-mobile.png" alt="LUNE on mobile — homepage" class="woofdog-mockup-mobile-img" loading="lazy" decoding="async" onerror="this.style.display='none'">
                   </div>
                 </div>
               </div>

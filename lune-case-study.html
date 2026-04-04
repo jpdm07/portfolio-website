@@ -447,8 +447,10 @@
     <div class="cs-section">
       <span class="cs-section-label">02 — Figma prototype</span>
       <h2>Editorial calm, not loud retail</h2>
-      <p>The UI uses a warm paper background, serif headlines, monospace labels, and a tight radius so the store feels like a quiet home and lifestyle label rather than a flash-sale template. Spacing and type ramp are CSS variables so every page stays in the same system.</p>
-      <p>I mapped navigation, checkout, and account IA in <strong>LUNE E‑Commerce</strong> in Figma, then rebuilt those flows in React. Below is one embedded prototype: there are <strong>five screens</strong> in the flow. Use the <strong>arrow controls under the preview</strong> to move between them (same as Present mode in Figma). For a larger view, open the file in Figma.</p>
+      <p>I didn’t open React first and “decorate” a template. The story started in Figma because I needed to decide how this brand should <em>feel</em> before I committed to components: a warm paper field, serif for editorial headlines, monospace in small caps for wayfinding, and almost no loud retail chrome—closer to a quiet home and lifestyle catalog than a flash-sale site. Those choices weren’t arbitrary; they match the product story (textiles, ceramics, everyday objects) and the pace I want a shopper to move at.</p>
+      <p>In <strong>LUNE E‑Commerce</strong> I mapped the same journeys I knew I’d have to ship: shop → product → cart → <strong>shipping</strong> → payment → confirmation, plus account and policy pages. The prototype was my contract with myself: if a step didn’t make sense in Figma, I wasn’t going to paper over it in code. When it did make sense, I treated each major frame as a future route and layout shell—so the live app’s stepper (“1 Shipping · 2 Payment · 3 Confirm”), the shipping method group, the order summary aside, and guest vs signed-in states all descend from that flow, not from a generic checkout starter.</p>
+      <p>Spacing, type sizes, and neutrals became design tokens in the React app (CSS variables and modules) so the implementation stays tied to what I locked in visually—same hierarchy, same restraint—instead of drifting once I was in Vite.</p>
+      <p>Below is the embedded prototype: <strong>five screens</strong> in the flow. Use the <strong>arrow controls under the preview</strong> (same as Figma Present). For full fidelity, open the file in Figma.</p>
 
       <div class="cs-embed-wrap cs-embed-wrap--figma" title="LUNE E-Commerce Figma prototype">
         <iframe
@@ -463,6 +465,7 @@
     <div class="cs-section">
       <span class="cs-section-label">03 — Live build</span>
       <h2>What shipped</h2>
+      <p>The Figma file answered “what should this flow feel like?” The repo answers “does it actually work?” Checkout is a concrete example: guest email and address fields, shipping method as a clear fieldset, continuation into payment, and draft state in context so nothing disappears between steps—that structure is the same story as the prototype, just expressed as <code>CheckoutShipping.jsx</code>, <code>CheckoutPayment.jsx</code>, and shared checkout context instead of static frames.</p>
       <p>The app is published from the <code>gh-pages</code> branch. GitHub Actions runs on every push to <code>main</code>; I can also deploy from my machine with <code>npm run deploy</code>. Vite uses <code>base: /lune-store/</code>, and the build copies <code>index.html</code> to <code>404.html</code> so client-side routes still work if someone refreshes on a deep link.</p>
       <p>You can use the live site at <a href="https://jpdm07.github.io/lune-store/" target="_blank" rel="noopener noreferrer">jpdm07.github.io/lune-store</a> the same way a shopper would—shop, cart, checkout, account, and policies.</p>
 
