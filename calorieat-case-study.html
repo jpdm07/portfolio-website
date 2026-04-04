@@ -290,6 +290,34 @@
       line-height: 1.8; margin: 0; font-style: italic;
     }
 
+    /* ── SDLC / process diagrams ── */
+    .cs-diagram-block { margin: 40px 0 12px; }
+    .cs-diagram-block:first-of-type { margin-top: 28px; }
+    .cs-diagram-title {
+      font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--text);
+      margin-bottom: 14px;
+    }
+    .cs-diagram-lead {
+      font-size: 0.92rem; color: var(--text-dim); line-height: 1.85;
+      margin-bottom: 22px;
+    }
+    .cs-diagram-frame {
+      border-radius: 10px; overflow: hidden;
+      border: 1px solid var(--border);
+      background: rgba(10, 10, 20, 0.92);
+      box-shadow: 0 20px 56px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03);
+      line-height: 0;
+    }
+    .cs-diagram-frame img {
+      width: 100%; height: auto; display: block;
+    }
+    .cs-diagram-note {
+      margin-top: 16px;
+      font-size: 0.82rem; color: var(--text-muted); line-height: 1.75;
+    }
+    .cs-diagram-note strong { color: var(--text-dim); font-weight: 500; }
+
     .cs-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
     .cs-pill {
       font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em;
@@ -452,6 +480,16 @@
         <li><strong>Help &amp; contact</strong> — In-app help sections and a contact form for authenticated users.</li>
         <li><strong>Persistence</strong> — Profiles, meals, goals, and weigh-ins stored in <code>localStorage</code> (client-only, privacy-friendly, no server required for the capstone build).</li>
       </ul>
+
+      <div class="cs-diagram-block">
+        <p class="cs-diagram-title">Capstone software lifecycle</p>
+        <p class="cs-diagram-lead">SWEN 6837 expected a full engineering story—not only working code. The diagram below is the SDLC frame Michael and I used from October through December 2025: how we moved from agreed requirements into design artifacts, time-boxed implementation, documented testing, and a graded handoff we could both defend.</p>
+        <div class="cs-diagram-frame">
+          <img src="images/calorieat/calorieat-capstone-process.png" alt="CaloriEat capstone SDLC: planning, analysis and design, implementation, testing, deployment, and maintenance phases for the UHCL software engineering course" loading="lazy" decoding="async"/>
+        </div>
+        <p class="cs-caption"><span>Process ↗</span>Grad school — course lifecycle through final submission</p>
+        <p class="cs-diagram-note"><strong>How to read it:</strong> Each stage fed concrete deliverables (models, manual, test evidence) before we treated the build as “done.” That order kept integration risk low and made the December snapshot reproducible—the same tree preserved today as <code>fb29950</code> on my fork.</p>
+      </div>
     </div>
 
     <div class="cs-section">
@@ -482,6 +520,17 @@
       <h2>Welcome-first flow and maintained demo</h2>
       <p>The canonical team repository remains <a href="https://github.com/Mchavez31/CaloriEat" target="_blank" rel="noopener noreferrer">Mchavez31/CaloriEat</a>. I work from my fork <a href="https://github.com/jpdm07/CaloriEat" target="_blank" rel="noopener noreferrer">jpdm07/CaloriEat</a> for GitHub Pages and post-grad changes, then open PRs so improvements land on the original repo too.</p>
       <p><strong>February 2026:</strong> Standard <code>index.html</code> entry for predictable Pages hosting.<br><strong>April 2026:</strong> Help and UI polish, insights and food search tweaks, footer refresh, and a <strong>welcome</strong> route so visitors who aren’t signed in don’t drop into the app shell cold.</p>
+
+      <div class="cs-diagram-block">
+        <p class="cs-diagram-title">Post‑graduation delivery loop</p>
+        <p class="cs-diagram-lead">After grades closed, the product still had real users (us, classmates, anyone hitting the Pages URL). I kept the same discipline in a lighter loop: small scope, explicit verification, and no “surprise” commits on the repo my teammate owns. The flow below is how I handled the February–April 2026 changes—fork, ship, review, merge—so the public demo and the canonical history stay aligned.</p>
+        <div class="cs-diagram-frame">
+          <img src="images/calorieat/calorieat-postgrad-process.png" alt="CaloriEat post-graduation process: fork, local development, testing, pull request, code review, and merge back to the team repository" loading="lazy" decoding="async"/>
+        </div>
+        <p class="cs-caption"><span>Process ↗</span>Current chapter — fork → PR → merge with shared ownership</p>
+        <p class="cs-diagram-note"><strong>Why it matters:</strong> Treating <code>jpdm07/CaloriEat</code> as a working branch and <code>Mchavez31/CaloriEat</code> as protected main mirrors professional practice: I can iterate quickly, but production lineage only moves when another engineer agrees. That is the same story the compare link at the bottom of this page tells in Git history.</p>
+      </div>
+
       <p>Below is the current welcome screen as deployed from my fork (same build is mirrored from the team account).</p>
 
       <div class="cs-monitor-wrap">
