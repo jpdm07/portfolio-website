@@ -56,7 +56,7 @@ Each project below includes a **live demo** link where there is one. The images 
 
 **Repos:** [My fork](https://github.com/jpdm07/CaloriEat) · [Team / canonical](https://github.com/Mchavez31/CaloriEat) (**post-grad work merged April 2026**). Future updates: fork → PR; **[open a PR (compare to team `main`)](https://github.com/Mchavez31/CaloriEat/compare/main...jpdm07:CaloriEat:main?expand=1)**.
 
-**Before vs after:** No separate hosted “before” site (Pages tracks `main`). Capstone-era tree: **[`fb29950`](https://github.com/jpdm07/CaloriEat/tree/fb29950)** · **[full diff vs `main`](https://github.com/jpdm07/CaloriEat/compare/fb29950...main)**. Portfolio mockups: add **`images/calorieat-before-desktop.png`** and **`calorieat-before-mobile.png`** for the “Then” pair.
+**Before vs after:** No separate hosted “before” site (Pages tracks `main`). Capstone-era tree: **[`fb29950`](https://github.com/jpdm07/CaloriEat/tree/fb29950)** · **[full diff vs `main`](https://github.com/jpdm07/CaloriEat/compare/fb29950...main)**. Portfolio mockups include **Then** captures (`calorieat-before-*.png`) from commit **`fb29950`** (`Index_Modular.html`).
 
 | Now — desktop | Now — mobile |
 |:-------------:|:------------:|
