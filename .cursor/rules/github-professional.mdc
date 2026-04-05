@@ -30,6 +30,7 @@ Anything that appears on GitHub (commits, PRs, Actions runs, deploy branch commi
 
 - Prefer clear workflow `name`, optional `run-name`, and per-step `name` values.
 - **Deploy titles (employer-facing):** Avoid a single generic label for every run (e.g. “Deploy site” repeated forever). Prefer `run-name` and publish-branch commit messages that reflect **what actually shipped**—typically the **subject line of the commit that triggered the deploy**, plus short context (SHA, ref, actor). On manual `workflow_dispatch`, say so explicitly (e.g. “manual run”) instead of pretending it was a code change.
+- **Accurate, per-deploy history:** Treat Actions runs and `gh-pages` (or similar) commits as a timeline recruiters may skim. Each deploy should map cleanly to **that** change set: write commit subjects (and merge/PR titles) so they **describe the real delta** going live (feature, fix, copy, config), not vague placeholders. If several commits ship in one deploy, either use one integrator commit whose subject summarizes the batch, or ensure the publish-step message lists what changed. Never reuse the same meaningless deploy title when the underlying work was different.
 - For deploy actions that commit (e.g. `gh-pages`), use a descriptive commit message when the action supports it so the branch history stays readable; tie the message to the source commit when possible.
 
 ## README and releases

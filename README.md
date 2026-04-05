@@ -12,7 +12,7 @@ Hand-coded portfolio on **GitHub Pages**: responsive layout, custom CSS and moti
 
 ## What this repo is
 
-A static site (HTML, CSS, JavaScript) that showcases selected work: a capstone app, WordPress nonprofit build, volunteer UX case study, Figma UI, and course-based demos. No React on this site—it's intentional, to show I can ship polished UI without a framework.
+A static site (HTML, CSS, JavaScript) that showcases selected work: a flagship React e-commerce concept ([LUNE](https://github.com/jpdm07/lune-store)), a capstone app, WordPress nonprofit build, volunteer UX case study, Figma UI, and course-based demos. No React in this repo on purpose, so the portfolio itself stays proof of hand-built HTML/CSS/JS; structured React work lives in project repos like LUNE.
 
 ---
 
@@ -47,6 +47,20 @@ Each project below includes a **live demo** link where there is one. The images 
 |:-------:|:------:|
 | [![Portfolio — desktop hero](./images/portfolio-current-desktop.png)](https://jpdm07.github.io/portfolio-website/) | [![Portfolio — mobile](./images/portfolio-current-mobile.png)](https://jpdm07.github.io/portfolio-website/) |
 | *Hero, crystal, and project grid* | *Narrow viewport* |
+
+---
+
+### LUNE - concept home & lifestyle store (React)
+
+**Live demo:** https://jpdm07.github.io/lune-store/  
+**Source:** https://github.com/jpdm07/lune-store  
+**Case study:** [LUNE case study](https://jpdm07.github.io/portfolio-website/lune-case-study.html)
+
+LUNE is a portfolio storefront for textiles, ceramics, and everyday goods: Figma-first editorial UI, then React (Vite, Router, CSS Modules, Framer Motion) with real cart and checkout state. It shows end-to-end e-commerce UX and SPA deployment on GitHub Pages (base path, 404 fallback), with Supabase optional so the live demo works without a backend.
+
+| Desktop | Mobile |
+|:-------:|:------:|
+| [![LUNE store - desktop](./images/lune-store-desktop.png)](https://jpdm07.github.io/lune-store/) | [![LUNE store - mobile](./images/lune-store-mobile.png)](https://jpdm07.github.io/lune-store/) |
 
 ---
 
