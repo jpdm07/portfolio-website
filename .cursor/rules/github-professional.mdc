@@ -1,0 +1,37 @@
+---
+description: Professional GitHub-visible habits for this repo and anyone reading your history
+alwaysApply: true
+---
+
+# Git and GitHub — professional presentation
+
+Anything that appears on GitHub (commits, PRs, Actions runs, deploy branch commits, releases, issues) should read clearly to collaborators, interviewers, and future you.
+
+## Commits
+
+- **Subject**: One imperative line, specific scope (e.g. `fix(nav): restore focus trap on mobile menu`). Never leave empty or use placeholders like `wip`, `fix`, or `updates` alone.
+- **Body**: After a blank line, add short bullets for non-trivial changes: what changed, why, and user-facing or deploy impact.
+- **Shape**: Prefer small, logical commits over one large unreadable push.
+
+## Branches
+
+- Use clear prefixes (`feat/…`, `fix/…`, `chore/…`, `docs/…`) so history and PR lists stay scannable.
+
+## Pull requests
+
+- **Title**: Describes the outcome, not only the filename.
+- **Description**: Scope, how to verify (commands or URLs), screenshots for UI when helpful, and links to issues or specs.
+
+## Issues
+
+- For bugs: environment, repro steps, expected vs actual, and what you already tried.
+
+## GitHub Actions
+
+- Prefer clear workflow `name`, optional `run-name`, and per-step `name` values.
+- For deploy actions that commit (e.g. `gh-pages`), use a descriptive commit message when the action supports it so the branch history stays readable.
+
+## README and releases
+
+- README: what the project is, how to run it, and how it is deployed or tested—written for a quick skim.
+- Meaningful tags/releases: short notes on what changed and any breaking changes.
