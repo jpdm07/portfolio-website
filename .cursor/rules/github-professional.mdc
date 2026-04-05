@@ -29,7 +29,8 @@ Anything that appears on GitHub (commits, PRs, Actions runs, deploy branch commi
 ## GitHub Actions
 
 - Prefer clear workflow `name`, optional `run-name`, and per-step `name` values.
-- For deploy actions that commit (e.g. `gh-pages`), use a descriptive commit message when the action supports it so the branch history stays readable.
+- **Deploy titles (employer-facing):** Avoid a single generic label for every run (e.g. “Deploy site” repeated forever). Prefer `run-name` and publish-branch commit messages that reflect **what actually shipped**—typically the **subject line of the commit that triggered the deploy**, plus short context (SHA, ref, actor). On manual `workflow_dispatch`, say so explicitly (e.g. “manual run”) instead of pretending it was a code change.
+- For deploy actions that commit (e.g. `gh-pages`), use a descriptive commit message when the action supports it so the branch history stays readable; tie the message to the source commit when possible.
 
 ## README and releases
 
